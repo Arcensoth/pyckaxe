@@ -10,7 +10,7 @@ class ClearCommand(CommandLiteral):
         return ClearTargetsItemMaxCountCommand(parent=self, args=(targets, item, max_count))
 
     def targets(self, targets: str) -> 'ClearTargetsCommand':
-        return ClearTargetsCommand(parent=self._parent, args=(targets,))
+        return ClearTargetsCommand(parent=self, args=(targets,))
 
 
 class ClearTargetsCommand(CommandArguments):
