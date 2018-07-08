@@ -1,7 +1,17 @@
 from pyckaxe.command.abc.command import Command, CommandArguments, CommandLiteral
 
 
-class TagTargetsCommandMixin:
+class TagCommand(CommandLiteral):
+    _LITERAL = 'tag'
+
+    def __call__(self, targets: str) -> 'TagTargetsCommand':
+        return TagTargetsCommand(parent=self, args=(targets,))
+
+    def targets(self, targets: str) -> 'TagTargetsCommand':
+        return TagTargetsCommand(parent=self, args=(targets,))
+
+
+class TagTargetsCommand(CommandArguments):
     @property
     def add(self: Command) -> 'TagTargetsAddCommand':
         return TagTargetsAddCommand(parent=self)
@@ -13,20 +23,6 @@ class TagTargetsCommandMixin:
     @property
     def list(self: Command) -> 'TagTargetsListCommand':
         return TagTargetsListCommand(parent=self)
-
-
-class TagCommand(CommandLiteral):
-    _LITERAL = 'tag'
-
-    def __call__(self, targets: str) -> 'TagTargetsCommand':
-        return TagTargetsCommand(parent=self, args=(targets,))
-
-    def targets(self, targets: str) -> 'TagTargetsCommand':
-        return TagTargetsCommand(parent=self, args=(targets,))
-
-
-class TagTargetsCommand(CommandArguments, TagTargetsCommandMixin):
-    pass
 
 
 class TagTargetsAddCommand(CommandLiteral):

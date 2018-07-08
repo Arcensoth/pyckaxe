@@ -1,7 +1,9 @@
 from pyckaxe.command.abc.command import Command, CommandArguments, CommandLiteral
 
 
-class TimeCommandMixin:
+class TimeCommand(CommandLiteral):
+    _LITERAL = 'time'
+
     @property
     def add(self: Command) -> 'TimeAddCommand':
         return TimeAddCommand(parent=self)
@@ -15,12 +17,23 @@ class TimeCommandMixin:
         return TimeSetCommand(parent=self)
 
 
-class TimeAddCommandMixin:
+class TimeAddCommand(CommandLiteral):
+    _LITERAL = 'add'
+
+    def __call__(self, time: int = None) -> 'TimeAddTimeCommand':
+        return TimeAddTimeCommand(parent=self, args=(time,))
+
     def time(self: Command, time: int) -> 'TimeAddTimeCommand':
         return TimeAddTimeCommand(parent=self, args=(time,))
 
 
-class TimeQueryCommandMixin:
+class TimeAddTimeCommand(CommandArguments):
+    pass
+
+
+class TimeQueryCommand(CommandLiteral):
+    _LITERAL = 'query'
+
     @property
     def day(self: Command) -> 'TimeQueryDayCommand':
         return TimeQueryDayCommand(parent=self)
@@ -34,7 +47,24 @@ class TimeQueryCommandMixin:
         return TimeQueryGametimeCommand(parent=self)
 
 
-class TimeSetCommandMixin:
+class TimeQueryDayCommand(CommandLiteral):
+    _LITERAL = 'day'
+
+
+class TimeQueryDaytimeCommand(CommandLiteral):
+    _LITERAL = 'daytime'
+
+
+class TimeQueryGametimeCommand(CommandLiteral):
+    _LITERAL = 'gametime'
+
+
+class TimeSetCommand(CommandLiteral):
+    _LITERAL = 'set'
+
+    def __call__(self, time: int = None) -> 'TimeSetTimeCommand':
+        return TimeSetTimeCommand(parent=self, args=(time,))
+
     def time(self: Command, time: int) -> 'TimeSetTimeCommand':
         return TimeSetTimeCommand(parent=self, args=(time,))
 
@@ -53,44 +83,6 @@ class TimeSetCommandMixin:
     @property
     def noon(self: Command) -> 'TimeSetNoonCommand':
         return TimeSetNoonCommand(parent=self)
-
-
-class TimeCommand(CommandLiteral, TimeCommandMixin):
-    _LITERAL = 'time'
-
-
-class TimeAddCommand(CommandLiteral, TimeAddCommandMixin):
-    _LITERAL = 'add'
-
-    def __call__(self, time: int = None) -> 'TimeAddTimeCommand':
-        return TimeAddTimeCommand(parent=self, args=(time,))
-
-
-class TimeAddTimeCommand(CommandArguments):
-    pass
-
-
-class TimeQueryCommand(CommandLiteral, TimeQueryCommandMixin):
-    _LITERAL = 'query'
-
-
-class TimeQueryDayCommand(CommandLiteral):
-    _LITERAL = 'day'
-
-
-class TimeQueryDaytimeCommand(CommandLiteral):
-    _LITERAL = 'daytime'
-
-
-class TimeQueryGametimeCommand(CommandLiteral):
-    _LITERAL = 'gametime'
-
-
-class TimeSetCommand(CommandLiteral, TimeSetCommandMixin):
-    _LITERAL = 'set'
-
-    def __call__(self, time: int = None) -> 'TimeSetTimeCommand':
-        return TimeSetTimeCommand(parent=self, args=(time,))
 
 
 class TimeSetTimeCommand(CommandArguments):
