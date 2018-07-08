@@ -79,9 +79,7 @@ class TimeSetCommand(CommandLiteral, TimeSetCommandMixin):
 
 
 class TimeSetTimeCommand(CommandArguments):
-    @property
-    def time(self) -> int:
-        return self._args[0]
+    pass
 
 
 class TimeSetDayCommand(CommandLiteral):
