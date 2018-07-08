@@ -14,6 +14,15 @@ class Positions:
     relative = '~ ~ ~'
 
 
+class Rotations:
+    relative = '~ ~ ~'
+
+
+class Anchors:
+    feet = 'feet'
+    eyes = 'eyes'
+
+
 class Blocks:
     dirt = 'minecraft:dirt'
     grass = 'minecraft:grass'
@@ -26,5 +35,7 @@ class Items:
 
 selectors = Selector
 positions = Positions
+rotations = Rotations
+anchors = Anchors
 blocks = Blocks
 items = Items
