@@ -21,15 +21,17 @@ class SetblockCommand(CommandLiteral):
     def __call__(self, position: str = None, block: str = None) -> 'SetblockPositionBlockCommand':
         return SetblockPositionBlockCommand(parent=self, args=(position, block))
 
+    def position(self, position: str) -> 'SetblockPositionCommand':
+        return SetblockPositionCommand(parent=self, args=(position,))
+
+
+class SetblockPositionCommand(CommandArguments):
+    def block(self, block: str) -> 'SetblockPositionBlockCommand':
+        return SetblockPositionBlockCommand(parent=self._parent, args=(*self._args, block))
+
 
 class SetblockPositionBlockCommand(CommandArguments, SetblockPositionBlockCommandMixin):
-    @property
-    def position(self) -> str:
-        return self._args[0]
-
-    @property
-    def block(self) -> str:
-        return self._args[1]
+    pass
 
 
 class SetblockPositionBlockDestroyCommand(CommandLiteral):

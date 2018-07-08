@@ -57,11 +57,12 @@ class ExecuteAtCommand(CommandLiteral):
     def __call__(self, targets: str = None) -> 'ExecuteAtTargetsCommand':
         return ExecuteAtTargetsCommand(parent=self, args=(targets,))
 
+    def targets(self, targets: str) -> 'ExecuteAtTargetsCommand':
+        return ExecuteAtTargetsCommand(parent=self, args=(targets,))
+
 
 class ExecuteAtTargetsCommand(CommandArguments, ExecuteCommandMixin):
-    @property
-    def targets(self) -> str:
-        return self._args[0]
+    pass
 
 
 class ExecuteIfCommand(CommandLiteral, ExecuteIfUnlessCommandMixin):
@@ -78,15 +79,17 @@ class ExecuteIfUnlessBlockCommand(CommandLiteral):
     def __call__(self, position: str = None, block: str = None) -> 'ExecuteIfUnlessBlockPositionBlockCommand':
         return ExecuteIfUnlessBlockPositionBlockCommand(parent=self, args=(position, block))
 
+    def position(self, position: str) -> 'ExecuteIfUnlessBlockPositionCommand':
+        return ExecuteIfUnlessBlockPositionCommand(parent=self, args=(position,))
+
+
+class ExecuteIfUnlessBlockPositionCommand(CommandArguments):
+    def block(self, block: str) -> 'ExecuteIfUnlessBlockPositionBlockCommand':
+        return ExecuteIfUnlessBlockPositionBlockCommand(parent=self._parent, args=(*self._args, block))
+
 
 class ExecuteIfUnlessBlockPositionBlockCommand(CommandArguments, ExecuteCommandMixin):
-    @property
-    def position(self) -> str:
-        return self._args[0]
-
-    @property
-    def block(self) -> str:
-        return self._args[1]
+    pass
 
 
 class ExecuteIfUnlessBlocksCommand(CommandLiteral):
