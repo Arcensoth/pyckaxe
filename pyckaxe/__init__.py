@@ -20,6 +20,11 @@ class Blocks:
     air = 'minecraft:air'
 
 
+class Items:
+    diamond = 'minecraft:diamond'
+
+
 selectors = Selector
 positions = Positions
 blocks = Blocks
+items = Items
