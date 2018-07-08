@@ -1,6 +1,14 @@
 from pyckaxe.command.abc.command import Command, CommandArguments, CommandLiteral
 
 
+class TagTargetsAddRemoveCommandMixin:
+    def __call__(self: Command, tag: str) -> 'TagTargetsAddRemoveTagCommand':
+        return TagTargetsAddRemoveTagCommand(parent=self, args=(tag,))
+
+    def tag(self: Command, tag: str) -> 'TagTargetsAddRemoveTagCommand':
+        return TagTargetsAddRemoveTagCommand(parent=self, args=(tag,))
+
+
 class TagCommand(CommandLiteral):
     _LITERAL = 'tag'
 
@@ -25,33 +33,17 @@ class TagTargetsCommand(CommandArguments):
         return TagTargetsListCommand(parent=self)
 
 
-class TagTargetsAddCommand(CommandLiteral):
+class TagTargetsAddCommand(CommandLiteral, TagTargetsAddRemoveCommandMixin):
     _LITERAL = 'add'
 
-    def __call__(self, tag: str) -> 'TagTargetsAddTagCommand':
-        return TagTargetsAddTagCommand(parent=self, args=(tag,))
 
-    def tag(self, tag: str) -> 'TagTargetsAddTagCommand':
-        return TagTargetsAddTagCommand(parent=self, args=(tag,))
-
-
-class TagTargetsRemoveCommand(CommandLiteral):
+class TagTargetsRemoveCommand(CommandLiteral, TagTargetsAddRemoveCommandMixin):
     _LITERAL = 'remove'
-
-    def __call__(self, tag: str) -> 'TagTargetsRemoveTagCommand':
-        return TagTargetsRemoveTagCommand(parent=self, args=(tag,))
-
-    def tag(self, tag: str) -> 'TagTargetsRemoveTagCommand':
-        return TagTargetsRemoveTagCommand(parent=self, args=(tag,))
 
 
 class TagTargetsListCommand(CommandLiteral):
     _LITERAL = 'list'
 
 
-class TagTargetsAddTagCommand(CommandArguments):
-    pass
-
-
-class TagTargetsRemoveTagCommand(CommandArguments):
+class TagTargetsAddRemoveTagCommand(CommandArguments):
     pass
