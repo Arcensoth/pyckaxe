@@ -15,35 +15,43 @@ class TimeCommandMixin:
         return TimeSetCommand(parent=self)
 
 
+class TimeAddCommandMixin:
+    def time(self: Command, time: int) -> 'TimeAddTimeCommand':
+        return TimeAddTimeCommand(parent=self, args=(time,))
+
+
 class TimeQueryCommandMixin:
     @property
-    def day(self: 'Command') -> 'TimeQueryDayCommand':
+    def day(self: Command) -> 'TimeQueryDayCommand':
         return TimeQueryDayCommand(parent=self)
 
     @property
-    def daytime(self: 'Command') -> 'TimeQueryDaytimeCommand':
+    def daytime(self: Command) -> 'TimeQueryDaytimeCommand':
         return TimeQueryDaytimeCommand(parent=self)
 
     @property
-    def gametime(self: 'Command') -> 'TimeQueryGametimeCommand':
+    def gametime(self: Command) -> 'TimeQueryGametimeCommand':
         return TimeQueryGametimeCommand(parent=self)
 
 
 class TimeSetCommandMixin:
+    def time(self: Command, time: int) -> 'TimeSetTimeCommand':
+        return TimeSetTimeCommand(parent=self, args=(time,))
+
     @property
-    def day(self: 'Command') -> 'TimeSetDayCommand':
+    def day(self: Command) -> 'TimeSetDayCommand':
         return TimeSetDayCommand(parent=self)
 
     @property
-    def midnight(self: 'Command') -> 'TimeSetMidnightCommand':
+    def midnight(self: Command) -> 'TimeSetMidnightCommand':
         return TimeSetMidnightCommand(parent=self)
 
     @property
-    def night(self: 'Command') -> 'TimeSetNightCommand':
+    def night(self: Command) -> 'TimeSetNightCommand':
         return TimeSetNightCommand(parent=self)
 
     @property
-    def noon(self: 'Command') -> 'TimeSetNoonCommand':
+    def noon(self: Command) -> 'TimeSetNoonCommand':
         return TimeSetNoonCommand(parent=self)
 
 
@@ -51,8 +59,15 @@ class TimeCommand(CommandLiteral, TimeCommandMixin):
     _LITERAL = 'time'
 
 
-class TimeAddCommand(CommandLiteral):
+class TimeAddCommand(CommandLiteral, TimeAddCommandMixin):
     _LITERAL = 'add'
+
+    def __call__(self, time: int = None) -> 'TimeAddTimeCommand':
+        return TimeAddTimeCommand(parent=self, args=(time,))
+
+
+class TimeAddTimeCommand(CommandArguments):
+    pass
 
 
 class TimeQueryCommand(CommandLiteral, TimeQueryCommandMixin):
