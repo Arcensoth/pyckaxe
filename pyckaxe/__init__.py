@@ -15,7 +15,7 @@ class Positions:
 
 
 class Rotations:
-    relative = '~ ~ ~'
+    relative = '~ ~'
 
 
 class Anchors:
