@@ -9,7 +9,7 @@ class Command(abc.ABC):
         self._parent = parent
 
     def __str__(self):
-        return ' '.join(str(token) for token in self._tokens())
+        return ' '.join(str(token) for token in self._tokens() if token is not None)
 
     @abc.abstractmethod
     def _tokens(self) -> typing.Iterable[typing.Any]: ...
