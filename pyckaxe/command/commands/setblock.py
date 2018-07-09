@@ -4,7 +4,7 @@ from pyckaxe.command.abc.command import Command, CommandArguments, CommandLitera
 class SetblockCommand(CommandLiteral):
     _LITERAL = 'setblock'
 
-    def __call__(self, position: str = None, block: str = None) -> 'SetblockPositionBlockCommand':
+    def __call__(self, position: str, block: str) -> 'SetblockPositionBlockCommand':
         return SetblockPositionBlockCommand(parent=self, args=(position, block))
 
     def position(self, position: str) -> 'SetblockPositionCommand':

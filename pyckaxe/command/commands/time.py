@@ -20,7 +20,7 @@ class TimeCommand(CommandLiteral):
 class TimeAddCommand(CommandLiteral):
     _LITERAL = 'add'
 
-    def __call__(self, time: int = None) -> 'TimeAddTimeCommand':
+    def __call__(self, time: int) -> 'TimeAddTimeCommand':
         return TimeAddTimeCommand(parent=self, args=(time,))
 
     def time(self: Command, time: int) -> 'TimeAddTimeCommand':
@@ -62,7 +62,7 @@ class TimeQueryGametimeCommand(CommandLiteral):
 class TimeSetCommand(CommandLiteral):
     _LITERAL = 'set'
 
-    def __call__(self, time: int = None) -> 'TimeSetTimeCommand':
+    def __call__(self, time: int) -> 'TimeSetTimeCommand':
         return TimeSetTimeCommand(parent=self, args=(time,))
 
     def time(self: Command, time: int) -> 'TimeSetTimeCommand':

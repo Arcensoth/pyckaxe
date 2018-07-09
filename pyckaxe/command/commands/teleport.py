@@ -4,7 +4,7 @@ from pyckaxe.command.abc.command import CommandArguments, CommandLiteral
 class TeleportCommand(CommandLiteral):
     _LITERAL = 'teleport'
 
-    def __call__(self, targets: str = None, location: str = None) -> 'TeleportTargetsLocationCommand':
+    def __call__(self, targets: str, location: str) -> 'TeleportTargetsLocationCommand':
         return TeleportTargetsLocationCommand(parent=self, args=(targets, location))
 
     def destination(self, destination: str):
@@ -38,7 +38,7 @@ class TeleportTargetsDestinationCommand(CommandArguments):
 
 
 class TeleportTargetsLocationCommand(CommandArguments):
-    def __call__(self, rotation: str = None) -> 'TeleportTargetsLocationRotationCommand':
+    def __call__(self, rotation: str) -> 'TeleportTargetsLocationRotationCommand':
         return TeleportTargetsLocationRotationCommand(parent=self, args=(rotation,))
 
     @property
@@ -56,7 +56,7 @@ class TeleportTargetsLocationRotationCommand(CommandArguments):
 class TeleportTargetsLocationFacingCommand(CommandLiteral):
     _LITERAL = 'facing'
 
-    def __call__(self, location: str = None) -> 'TeleportTargetsLocationFacingLocationCommand':
+    def __call__(self, location: str) -> 'TeleportTargetsLocationFacingLocationCommand':
         return TeleportTargetsLocationFacingLocationCommand(parent=self, args=(location,))
 
     @property
@@ -74,9 +74,7 @@ class TeleportTargetsLocationFacingLocationCommand(CommandArguments):
 class TeleportTargetsLocationFacingEntityCommand(CommandLiteral):
     _LITERAL = 'entity'
 
-    def __call__(
-            self, entity: str = None, anchor: str = None
-    ) -> 'TeleportTargetsLocationFacingEntityEntityAnchorCommand':
+    def __call__(self, entity: str, anchor: str = None) -> 'TeleportTargetsLocationFacingEntityEntityAnchorCommand':
         return TeleportTargetsLocationFacingEntityEntityAnchorCommand(parent=self, args=(entity, anchor))
 
     def entity(self, entity: str) -> 'TeleportTargetsLocationFacingEntityEntityCommand':
