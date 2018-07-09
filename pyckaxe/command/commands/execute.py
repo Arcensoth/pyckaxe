@@ -47,18 +47,28 @@ class ExecuteCommand(CommandLiteral, ExecuteCommandMixin):
     _LITERAL = 'execute'
 
 
-class ExecuteAsCommand(CommandLiteral, ExecuteCommandMixin):
+class ExecuteAsCommand(CommandLiteral):
     _LITERAL = 'as'
+
+    def __call__(self, targets: str) -> 'ExecuteAsTargetsCommand':
+        return ExecuteAsTargetsCommand(parent=self, args=(targets,))
+
+    def targets(self, targets: str) -> 'ExecuteAsTargetsCommand':
+        return ExecuteAsTargetsCommand(parent=self, args=(targets,))
 
 
 class ExecuteAtCommand(CommandLiteral):
     _LITERAL = 'at'
 
-    def __call__(self, targets: str = None) -> 'ExecuteAtTargetsCommand':
+    def __call__(self, targets: str) -> 'ExecuteAtTargetsCommand':
         return ExecuteAtTargetsCommand(parent=self, args=(targets,))
 
     def targets(self, targets: str) -> 'ExecuteAtTargetsCommand':
         return ExecuteAtTargetsCommand(parent=self, args=(targets,))
+
+
+class ExecuteAsTargetsCommand(CommandArguments, ExecuteCommandMixin):
+    pass
 
 
 class ExecuteAtTargetsCommand(CommandArguments, ExecuteCommandMixin):
