@@ -76,7 +76,7 @@ class ExecuteUnlessCommand(CommandLiteral, ExecuteIfUnlessCommandMixin):
 class ExecuteIfUnlessBlockCommand(CommandLiteral):
     _LITERAL = 'block'
 
-    def __call__(self, position: str = None, block: str = None) -> 'ExecuteIfUnlessBlockPositionBlockCommand':
+    def __call__(self, position: str, block: str) -> 'ExecuteIfUnlessBlockPositionBlockCommand':
         return ExecuteIfUnlessBlockPositionBlockCommand(parent=self, args=(position, block))
 
     def position(self, position: str) -> 'ExecuteIfUnlessBlockPositionCommand':
