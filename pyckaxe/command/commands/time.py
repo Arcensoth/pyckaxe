@@ -13,7 +13,7 @@ class TimeCommand(CommandLiteral):
         return TimeQueryCommand(self)
 
     @property
-    def set_(self) -> 'TimeSetCommand':
+    def set(self) -> 'TimeSetCommand':
         return TimeSetCommand(self)
 
 
