@@ -101,7 +101,7 @@ The goal of `pyckaxe` is to provide a flexible suite of development tools for te
 - [x] time
 - [ ] title
 - [x] tp
-- [ ] trigger
+- [x] trigger
 - [ ] w
 - [ ] weather
 - [ ] whitelist

@@ -9,6 +9,7 @@ from pyckaxe.command.commands.tag import TagCommand
 from pyckaxe.command.commands.teleport import TeleportCommand
 from pyckaxe.command.commands.time import TimeCommand
 from pyckaxe.command.commands.tp import TpCommand
+from pyckaxe.command.commands.trigger import TriggerCommand
 
 
 class RootCommandMixin:
@@ -43,6 +44,10 @@ class RootCommandMixin:
     @property
     def tp(self: CommandNode) -> TpCommand:
         return TpCommand(self)
+
+    @property
+    def trigger(self: CommandNode) -> TriggerCommand:
+        return TriggerCommand(self)
 
 
 class RootCommand(CommandNode, RootCommandMixin):
