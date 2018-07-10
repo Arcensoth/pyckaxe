@@ -3,6 +3,12 @@
 # pyckaxe
 An expressive Minecraft utility library revolving around data manipulation and generation.
 
+[![build-badge-master]](https://travis-ci.org/Arcensoth/pyckaxe)
+[![quality-badge-master]](https://app.codacy.com/project/Arcensoth/pyckaxe/dashboard)
+[![coverage-badge-master]](https://codecov.io/gh/Arcensoth/pyckaxe/branch/master)
+[![package-badge]](https://pypi.python.org/pypi/pyckaxe/)
+[![version-badge]](https://pypi.python.org/pypi/pyckaxe/)
+
 You maybe be interested in `pyckaxe` if:
 
 - You are a technical/creative player.
