@@ -1,4 +1,4 @@
-![!logo](./assets/logo.png)
+![logo]
 
 # pyckaxe
 An expressive Minecraft utility library revolving around data manipulation and generation.
@@ -108,6 +108,7 @@ The goal of `pyckaxe` is to provide a flexible suite of development tools for te
 - [ ] worldborder
 - [ ] xp
 
+[logo]: https://i.imgur.com/FkxD7fJ.png
 [build-badge-master]: https://img.shields.io/travis/Arcensoth/pyckaxe/master.svg?label=build
 [quality-badge-master]: https://img.shields.io/codacy/grade/a01ea39de1ed48319c18365ad5545f65/master.svg?label=quality
 [coverage-badge-master]: https://img.shields.io/codecov/c/github/Arcensoth/pyckaxe/master.svg?label=coverage
