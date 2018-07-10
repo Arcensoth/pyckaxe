@@ -15,6 +15,8 @@ class Command(abc.ABC):
     def _convert(token) -> str:
         if isinstance(token, bool):
             return 'true' if token else 'false'
+        elif token is None:
+            raise ValueError('Cannot stringify None into a command token')
         return str(token)
 
     @abc.abstractmethod
