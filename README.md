@@ -40,7 +40,7 @@ The goal of `pyckaxe` is to provide a flexible suite of development tools for te
 - [ ] defaultgamemode
 - [ ] deop
 - [ ] difficulty
-- [ ] effect
+- [x] effect
 - [ ] enchant
 - [ ] execute
     - [ ] align

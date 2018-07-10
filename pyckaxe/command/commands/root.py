@@ -2,6 +2,7 @@ import typing
 
 from pyckaxe.command.abc.command import CommandNode
 from pyckaxe.command.commands.clear import ClearCommand
+from pyckaxe.command.commands.effect import EffectCommand
 from pyckaxe.command.commands.execute import ExecuteCommand
 from pyckaxe.command.commands.say import SayCommand
 from pyckaxe.command.commands.setblock import SetblockCommand
@@ -16,6 +17,10 @@ class RootCommandMixin:
     @property
     def clear(self: CommandNode) -> ClearCommand:
         return ClearCommand(self)
+
+    @property
+    def effect(self: CommandNode) -> EffectCommand:
+        return EffectCommand(self)
 
     @property
     def execute(self: CommandNode) -> ExecuteCommand:

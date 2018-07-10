@@ -33,9 +33,14 @@ class Items:
     diamond = 'minecraft:diamond'
 
 
+class Effects:
+    slowness = 'minecraft:slowness'
+
+
 selectors = Selector
 positions = Positions
 rotations = Rotations
 anchors = Anchors
 blocks = Blocks
 items = Items
+effects = Effects
