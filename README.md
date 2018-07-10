@@ -107,3 +107,9 @@ The goal of `pyckaxe` is to provide a flexible suite of development tools for te
 - [ ] whitelist
 - [ ] worldborder
 - [ ] xp
+
+[build-badge-master]: https://img.shields.io/travis/Arcensoth/pyckaxe/master.svg?label=build
+[quality-badge-master]: https://img.shields.io/codacy/grade/a01ea39de1ed48319c18365ad5545f65/master.svg?label=quality
+[coverage-badge-master]: https://img.shields.io/codecov/c/github/Arcensoth/pyckaxe/master.svg?label=coverage
+[package-badge]: https://img.shields.io/pypi/v/pyckaxe.svg
+[version-badge]: https://img.shields.io/pypi/pyversions/pyckaxe.svg
