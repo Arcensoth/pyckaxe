@@ -39,7 +39,7 @@ class TeleportTargetsDestinationCommand(CommandArgument):
 
 class TeleportTargetsLocationCommand(CommandArgument):
     def __call__(self, rotation: str) -> 'TeleportTargetsLocationRotationCommand':
-        return TeleportTargetsLocationRotationCommand(self, rotation)
+        return self.rotation(rotation)
 
     @property
     def facing(self) -> 'TeleportTargetsLocationFacingCommand':
@@ -57,7 +57,7 @@ class TeleportTargetsLocationFacingCommand(CommandLiteral):
     _LITERAL = 'facing'
 
     def __call__(self, location: str) -> 'TeleportTargetsLocationFacingLocationCommand':
-        return TeleportTargetsLocationFacingLocationCommand(self, location)
+        return self.location(location)
 
     @property
     def entity(self) -> 'TeleportTargetsLocationFacingEntityCommand':

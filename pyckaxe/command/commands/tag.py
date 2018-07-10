@@ -2,8 +2,8 @@ from pyckaxe.command.abc.command import CommandArgument, CommandLiteral, Command
 
 
 class TagTargetsAddRemoveCommandMixin:
-    def __call__(self: CommandNode, tag: str) -> 'TagTargetsAddRemoveTagCommand':
-        return TagTargetsAddRemoveTagCommand(self, tag)
+    def __call__(self, tag: str) -> 'TagTargetsAddRemoveTagCommand':
+        return self.tag(tag)
 
     def tag(self: CommandNode, tag: str) -> 'TagTargetsAddRemoveTagCommand':
         return TagTargetsAddRemoveTagCommand(self, tag)
@@ -13,7 +13,7 @@ class TagCommand(CommandLiteral):
     _LITERAL = 'tag'
 
     def __call__(self, targets: str) -> 'TagTargetsCommand':
-        return TagTargetsCommand(self, targets)
+        return self.targets(targets)
 
     def targets(self, targets: str) -> 'TagTargetsCommand':
         return TagTargetsCommand(self, targets)

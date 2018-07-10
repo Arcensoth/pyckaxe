@@ -51,7 +51,7 @@ class ExecuteAsCommand(CommandLiteral):
     _LITERAL = 'as'
 
     def __call__(self, targets: str) -> 'ExecuteAsTargetsCommand':
-        return ExecuteAsTargetsCommand(self, targets)
+        return self.targets(targets)
 
     def targets(self, targets: str) -> 'ExecuteAsTargetsCommand':
         return ExecuteAsTargetsCommand(self, targets)
@@ -61,7 +61,7 @@ class ExecuteAtCommand(CommandLiteral):
     _LITERAL = 'at'
 
     def __call__(self, targets: str) -> 'ExecuteAtTargetsCommand':
-        return ExecuteAtTargetsCommand(self, targets)
+        return self.targets(targets)
 
     def targets(self, targets: str) -> 'ExecuteAtTargetsCommand':
         return ExecuteAtTargetsCommand(self, targets)

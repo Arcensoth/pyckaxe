@@ -21,7 +21,7 @@ class TimeAddCommand(CommandLiteral):
     _LITERAL = 'add'
 
     def __call__(self, time: int) -> 'TimeAddTimeCommand':
-        return TimeAddTimeCommand(self, time)
+        return self.time(time)
 
     def time(self, time: int) -> 'TimeAddTimeCommand':
         return TimeAddTimeCommand(self, time)
@@ -63,7 +63,7 @@ class TimeSetCommand(CommandLiteral):
     _LITERAL = 'set'
 
     def __call__(self, time: int) -> 'TimeSetTimeCommand':
-        return TimeSetTimeCommand(self, time)
+        return self.time(time)
 
     def time(self, time: int) -> 'TimeSetTimeCommand':
         return TimeSetTimeCommand(self, time)
