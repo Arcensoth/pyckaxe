@@ -16,7 +16,7 @@ setup(
     author_email='arcensoth@gmail.com',
     url='https://github.com/Arcensoth/pyckaxe',
     license='MIT',
-    description='An expressive utility library revolving around data manipulation and generation.',
+    description='An expressive Minecraft utility library revolving around data manipulation and generation.',
     long_description_content_type='text/markdown',
     long_description=readme,
     packages=find_packages(),
