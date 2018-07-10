@@ -6,10 +6,16 @@ class Command(abc.ABC):
     """ A printable command that can be iterated over to retrieve its space-delimited tokens. """
 
     def __str__(self):
-        return ' '.join(str(token) for token in self)
+        return ' '.join(self._convert(token) for token in self)
 
     def __iter__(self):
         return self._tokens()
+
+    @staticmethod
+    def _convert(token) -> str:
+        if isinstance(token, bool):
+            return 'true' if token else 'false'
+        return str(token)
 
     @abc.abstractmethod
     def _tokens(self) -> typing.Iterable[typing.Any]: ...
