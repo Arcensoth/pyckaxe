@@ -1,25 +1,25 @@
-from pyckaxe.command.abc.command import CommandArguments, CommandLiteral
+from pyckaxe.command.abc.command import CommandArgument, CommandLiteral
 
 
 class ClearCommand(CommandLiteral):
     _LITERAL = 'clear'
 
     def __call__(self, targets: str, item: str, max_count: int) -> 'ClearTargetsItemMaxCountCommand':
-        return ClearTargetsItemMaxCountCommand(parent=self, args=(targets, item, max_count))
+        return self.targets(targets).item(item).max_count(max_count)
 
     def targets(self, targets: str) -> 'ClearTargetsCommand':
-        return ClearTargetsCommand(parent=self, args=(targets,))
+        return ClearTargetsCommand(self, targets)
 
 
-class ClearTargetsCommand(CommandArguments):
+class ClearTargetsCommand(CommandArgument):
     def item(self, item: str) -> 'ClearTargetsItemCommand':
-        return ClearTargetsItemCommand(parent=self._parent, args=(*self._args, item))
+        return ClearTargetsItemCommand(self, item)
 
 
-class ClearTargetsItemCommand(CommandArguments):
-    def max_count(self, max_count: str) -> 'ClearTargetsItemMaxCountCommand':
-        return ClearTargetsItemMaxCountCommand(parent=self._parent, args=(*self._args, max_count))
+class ClearTargetsItemCommand(CommandArgument):
+    def max_count(self, max_count: int) -> 'ClearTargetsItemMaxCountCommand':
+        return ClearTargetsItemMaxCountCommand(self, max_count)
 
 
-class ClearTargetsItemMaxCountCommand(CommandArguments):
+class ClearTargetsItemMaxCountCommand(CommandArgument):
     pass

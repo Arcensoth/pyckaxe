@@ -1,6 +1,6 @@
 import typing
 
-from pyckaxe.command.abc.command import Command
+from pyckaxe.command.abc.command import CommandNode
 from pyckaxe.command.commands.clear import ClearCommand
 from pyckaxe.command.commands.execute import ExecuteCommand
 from pyckaxe.command.commands.say import SayCommand
@@ -13,38 +13,41 @@ from pyckaxe.command.commands.tp import TpCommand
 
 class RootCommandMixin:
     @property
-    def clear(self: Command) -> ClearCommand:
-        return ClearCommand(parent=self)
+    def clear(self: CommandNode) -> ClearCommand:
+        return ClearCommand(self)
 
     @property
-    def execute(self: Command) -> ExecuteCommand:
-        return ExecuteCommand(parent=self)
+    def execute(self: CommandNode) -> ExecuteCommand:
+        return ExecuteCommand(self)
 
     @property
-    def say(self: Command) -> SayCommand:
-        return SayCommand(parent=self)
+    def say(self: CommandNode) -> SayCommand:
+        return SayCommand(self)
 
     @property
-    def setblock(self: Command) -> SetblockCommand:
-        return SetblockCommand(parent=self)
+    def setblock(self: CommandNode) -> SetblockCommand:
+        return SetblockCommand(self)
 
     @property
-    def tag(self: Command) -> TagCommand:
-        return TagCommand(parent=self)
+    def tag(self: CommandNode) -> TagCommand:
+        return TagCommand(self)
 
     @property
-    def teleport(self: Command) -> TeleportCommand:
-        return TeleportCommand(parent=self)
+    def teleport(self: CommandNode) -> TeleportCommand:
+        return TeleportCommand(self)
 
     @property
-    def time(self: Command) -> TimeCommand:
-        return TimeCommand(parent=self)
+    def time(self: CommandNode) -> TimeCommand:
+        return TimeCommand(self)
 
     @property
-    def tp(self: Command) -> TpCommand:
-        return TpCommand(parent=self)
+    def tp(self: CommandNode) -> TpCommand:
+        return TpCommand(self)
 
 
-class RootCommand(Command, RootCommandMixin):
+class RootCommand(CommandNode, RootCommandMixin):
+    def __init__(self):
+        super().__init__(None, None)
+
     def _tokens(self) -> typing.Iterable[typing.Any]:
         yield from ()

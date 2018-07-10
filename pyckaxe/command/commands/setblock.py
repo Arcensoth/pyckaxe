@@ -1,33 +1,33 @@
-from pyckaxe.command.abc.command import Command, CommandArguments, CommandLiteral
+from pyckaxe.command.abc.command import CommandArgument, CommandLiteral
 
 
 class SetblockCommand(CommandLiteral):
     _LITERAL = 'setblock'
 
     def __call__(self, position: str, block: str) -> 'SetblockPositionBlockCommand':
-        return SetblockPositionBlockCommand(parent=self, args=(position, block))
+        return self.position(position).block(block)
 
     def position(self, position: str) -> 'SetblockPositionCommand':
-        return SetblockPositionCommand(parent=self, args=(position,))
+        return SetblockPositionCommand(self, position)
 
 
-class SetblockPositionCommand(CommandArguments):
+class SetblockPositionCommand(CommandArgument):
     def block(self, block: str) -> 'SetblockPositionBlockCommand':
-        return SetblockPositionBlockCommand(parent=self._parent, args=(*self._args, block))
+        return SetblockPositionBlockCommand(self, block)
 
 
-class SetblockPositionBlockCommand(CommandArguments):
+class SetblockPositionBlockCommand(CommandArgument):
     @property
-    def destroy(self: Command) -> 'SetblockPositionBlockDestroyCommand':
-        return SetblockPositionBlockDestroyCommand(parent=self)
-
-    @property
-    def keep(self: Command) -> 'SetblockPositionBlockKeepCommand':
-        return SetblockPositionBlockKeepCommand(parent=self)
+    def destroy(self) -> 'SetblockPositionBlockDestroyCommand':
+        return SetblockPositionBlockDestroyCommand(self)
 
     @property
-    def replace(self: Command) -> 'SetblockPositionBlockReplaceCommand':
-        return SetblockPositionBlockReplaceCommand(parent=self)
+    def keep(self) -> 'SetblockPositionBlockKeepCommand':
+        return SetblockPositionBlockKeepCommand(self)
+
+    @property
+    def replace(self) -> 'SetblockPositionBlockReplaceCommand':
+        return SetblockPositionBlockReplaceCommand(self)
 
 
 class SetblockPositionBlockDestroyCommand(CommandLiteral):

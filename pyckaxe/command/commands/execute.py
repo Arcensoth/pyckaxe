@@ -1,46 +1,46 @@
-from pyckaxe.command.abc.command import Command, CommandArguments, CommandLiteral
+from pyckaxe.command.abc.command import CommandArgument, CommandLiteral, CommandNode
 
 
 class ExecuteCommandMixin:
     @property
-    def as_(self: Command) -> 'ExecuteAsCommand':
-        return ExecuteAsCommand(parent=self)
+    def as_(self: CommandNode) -> 'ExecuteAsCommand':
+        return ExecuteAsCommand(self)
 
     @property
-    def at(self: Command) -> 'ExecuteAtCommand':
-        return ExecuteAtCommand(parent=self)
+    def at(self: CommandNode) -> 'ExecuteAtCommand':
+        return ExecuteAtCommand(self)
 
     @property
-    def if_(self: Command) -> 'ExecuteIfCommand':
-        return ExecuteIfCommand(parent=self)
+    def if_(self: CommandNode) -> 'ExecuteIfCommand':
+        return ExecuteIfCommand(self)
 
     @property
-    def unless(self: Command) -> 'ExecuteUnlessCommand':
-        return ExecuteUnlessCommand(parent=self)
+    def unless(self: CommandNode) -> 'ExecuteUnlessCommand':
+        return ExecuteUnlessCommand(self)
 
     @property
-    def run(self: Command) -> 'ExecuteRunCommand':
+    def run(self: CommandNode) -> 'ExecuteRunCommand':
         # TODO Can we make circular redirects work without this hack?
         from pyckaxe.command.commands.execute_run import ExecuteRunCommand
-        return ExecuteRunCommand(parent=self)
+        return ExecuteRunCommand(self)
 
 
 class ExecuteIfUnlessCommandMixin:
     @property
-    def block(self: Command) -> 'ExecuteIfUnlessBlockCommand':
-        return ExecuteIfUnlessBlockCommand(parent=self)
+    def block(self: CommandNode) -> 'ExecuteIfUnlessBlockCommand':
+        return ExecuteIfUnlessBlockCommand(self)
 
     @property
-    def blocks(self: Command) -> 'ExecuteIfUnlessBlocksCommand':
-        return ExecuteIfUnlessBlocksCommand(parent=self)
+    def blocks(self: CommandNode) -> 'ExecuteIfUnlessBlocksCommand':
+        return ExecuteIfUnlessBlocksCommand(self)
 
     @property
-    def entity(self: Command) -> 'ExecuteIfUnlessEntityCommand':
-        return ExecuteIfUnlessEntityCommand(parent=self)
+    def entity(self: CommandNode) -> 'ExecuteIfUnlessEntityCommand':
+        return ExecuteIfUnlessEntityCommand(self)
 
     @property
-    def score(self: Command) -> 'ExecuteIfUnlessScoreCommand':
-        return ExecuteIfUnlessScoreCommand(parent=self)
+    def score(self: CommandNode) -> 'ExecuteIfUnlessScoreCommand':
+        return ExecuteIfUnlessScoreCommand(self)
 
 
 class ExecuteCommand(CommandLiteral, ExecuteCommandMixin):
@@ -51,27 +51,27 @@ class ExecuteAsCommand(CommandLiteral):
     _LITERAL = 'as'
 
     def __call__(self, targets: str) -> 'ExecuteAsTargetsCommand':
-        return ExecuteAsTargetsCommand(parent=self, args=(targets,))
+        return ExecuteAsTargetsCommand(self, targets)
 
     def targets(self, targets: str) -> 'ExecuteAsTargetsCommand':
-        return ExecuteAsTargetsCommand(parent=self, args=(targets,))
+        return ExecuteAsTargetsCommand(self, targets)
 
 
 class ExecuteAtCommand(CommandLiteral):
     _LITERAL = 'at'
 
     def __call__(self, targets: str) -> 'ExecuteAtTargetsCommand':
-        return ExecuteAtTargetsCommand(parent=self, args=(targets,))
+        return ExecuteAtTargetsCommand(self, targets)
 
     def targets(self, targets: str) -> 'ExecuteAtTargetsCommand':
-        return ExecuteAtTargetsCommand(parent=self, args=(targets,))
+        return ExecuteAtTargetsCommand(self, targets)
 
 
-class ExecuteAsTargetsCommand(CommandArguments, ExecuteCommandMixin):
+class ExecuteAsTargetsCommand(CommandArgument, ExecuteCommandMixin):
     pass
 
 
-class ExecuteAtTargetsCommand(CommandArguments, ExecuteCommandMixin):
+class ExecuteAtTargetsCommand(CommandArgument, ExecuteCommandMixin):
     pass
 
 
@@ -87,18 +87,18 @@ class ExecuteIfUnlessBlockCommand(CommandLiteral):
     _LITERAL = 'block'
 
     def __call__(self, position: str, block: str) -> 'ExecuteIfUnlessBlockPositionBlockCommand':
-        return ExecuteIfUnlessBlockPositionBlockCommand(parent=self, args=(position, block))
+        return self.position(position).block(block)
 
     def position(self, position: str) -> 'ExecuteIfUnlessBlockPositionCommand':
-        return ExecuteIfUnlessBlockPositionCommand(parent=self, args=(position,))
+        return ExecuteIfUnlessBlockPositionCommand(self, position)
 
 
-class ExecuteIfUnlessBlockPositionCommand(CommandArguments):
+class ExecuteIfUnlessBlockPositionCommand(CommandArgument):
     def block(self, block: str) -> 'ExecuteIfUnlessBlockPositionBlockCommand':
-        return ExecuteIfUnlessBlockPositionBlockCommand(parent=self._parent, args=(*self._args, block))
+        return ExecuteIfUnlessBlockPositionBlockCommand(self, block)
 
 
-class ExecuteIfUnlessBlockPositionBlockCommand(CommandArguments, ExecuteCommandMixin):
+class ExecuteIfUnlessBlockPositionBlockCommand(CommandArgument, ExecuteCommandMixin):
     pass
 
 

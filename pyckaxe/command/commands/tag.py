@@ -1,36 +1,36 @@
-from pyckaxe.command.abc.command import Command, CommandArguments, CommandLiteral
+from pyckaxe.command.abc.command import CommandArgument, CommandLiteral, CommandNode
 
 
 class TagTargetsAddRemoveCommandMixin:
-    def __call__(self: Command, tag: str) -> 'TagTargetsAddRemoveTagCommand':
-        return TagTargetsAddRemoveTagCommand(parent=self, args=(tag,))
+    def __call__(self: CommandNode, tag: str) -> 'TagTargetsAddRemoveTagCommand':
+        return TagTargetsAddRemoveTagCommand(self, tag)
 
-    def tag(self: Command, tag: str) -> 'TagTargetsAddRemoveTagCommand':
-        return TagTargetsAddRemoveTagCommand(parent=self, args=(tag,))
+    def tag(self: CommandNode, tag: str) -> 'TagTargetsAddRemoveTagCommand':
+        return TagTargetsAddRemoveTagCommand(self, tag)
 
 
 class TagCommand(CommandLiteral):
     _LITERAL = 'tag'
 
     def __call__(self, targets: str) -> 'TagTargetsCommand':
-        return TagTargetsCommand(parent=self, args=(targets,))
+        return TagTargetsCommand(self, targets)
 
     def targets(self, targets: str) -> 'TagTargetsCommand':
-        return TagTargetsCommand(parent=self, args=(targets,))
+        return TagTargetsCommand(self, targets)
 
 
-class TagTargetsCommand(CommandArguments):
+class TagTargetsCommand(CommandArgument):
     @property
-    def add(self: Command) -> 'TagTargetsAddCommand':
-        return TagTargetsAddCommand(parent=self)
-
-    @property
-    def remove(self: Command) -> 'TagTargetsRemoveCommand':
-        return TagTargetsRemoveCommand(parent=self)
+    def add(self) -> 'TagTargetsAddCommand':
+        return TagTargetsAddCommand(self)
 
     @property
-    def list(self: Command) -> 'TagTargetsListCommand':
-        return TagTargetsListCommand(parent=self)
+    def remove(self) -> 'TagTargetsRemoveCommand':
+        return TagTargetsRemoveCommand(self)
+
+    @property
+    def list(self) -> 'TagTargetsListCommand':
+        return TagTargetsListCommand(self)
 
 
 class TagTargetsAddCommand(CommandLiteral, TagTargetsAddRemoveCommandMixin):
@@ -45,5 +45,5 @@ class TagTargetsListCommand(CommandLiteral):
     _LITERAL = 'list'
 
 
-class TagTargetsAddRemoveTagCommand(CommandArguments):
+class TagTargetsAddRemoveTagCommand(CommandArgument):
     pass
