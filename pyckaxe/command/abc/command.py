@@ -26,12 +26,12 @@ class Command(abc.ABC):
 class CommandNode(Command):
     """ A single node in the parent-child command hierarchy. """
 
-    def __init__(self, parent: 'CommandNode', token: typing.Any):
+    def __init__(self, parent: 'CommandNode' = None, token: typing.Any = None):
         self._parent = parent
         self._token = token
 
     def _tokens(self) -> typing.Iterable[typing.Any]:
-        yield from self._parent
+        yield from self._parent or ()
         yield self._token
 
 
