@@ -1,3 +1,5 @@
+![!logo](./assets/logo.png)
+
 # pyckaxe
 An expressive Minecraft utility library revolving around data manipulation and generation.
 
