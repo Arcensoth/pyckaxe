@@ -18,7 +18,7 @@ script:
 after_success:
   # rerun tests with coverage
   - pip install coverage
-  - coverage run --source pymcutil -m pytest tests/
+  - coverage run --source pyckaxe -m pytest tests/
   # upload to codecov
   - pip install codecov
   - codecov
