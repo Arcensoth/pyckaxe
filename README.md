@@ -9,14 +9,14 @@ An expressive Minecraft utility library revolving around data manipulation and g
 [![package-badge]](https://pypi.python.org/pypi/pyckaxe/)
 [![version-badge]](https://pypi.python.org/pypi/pyckaxe/)
 
-You maybe be interested in `pyckaxe` if:
+You may be interested in `pyckaxe` if you:
 
-- You are a technical/creative player.
-- You make adventure maps or minigames.
-- You use command/data generators.
-- You write your own generators.
-- You work on large/complex projects.
-- You already know you're interested.
+- are a technical/creative player, or
+- make adventure maps or minigames, or
+- use command/data generators, or
+- write your own generators, or
+- work on large/complex projects, or
+- just want to over-engineer something.
 
 The goal of `pyckaxe` is to provide a flexible suite of development tools for technical Minecraft players:
 
