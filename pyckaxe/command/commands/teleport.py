@@ -74,7 +74,7 @@ class TeleportTargetsLocationFacingLocationCommand(CommandArguments):
 class TeleportTargetsLocationFacingEntityCommand(CommandLiteral):
     _LITERAL = 'entity'
 
-    def __call__(self, entity: str, anchor: str = None) -> 'TeleportTargetsLocationFacingEntityEntityAnchorCommand':
+    def __call__(self, entity: str, anchor: str) -> 'TeleportTargetsLocationFacingEntityEntityAnchorCommand':
         return TeleportTargetsLocationFacingEntityEntityAnchorCommand(parent=self, args=(entity, anchor))
 
     def entity(self, entity: str) -> 'TeleportTargetsLocationFacingEntityEntityCommand':

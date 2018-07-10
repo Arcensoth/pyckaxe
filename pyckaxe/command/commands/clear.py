@@ -4,7 +4,7 @@ from pyckaxe.command.abc.command import CommandArguments, CommandLiteral
 class ClearCommand(CommandLiteral):
     _LITERAL = 'clear'
 
-    def __call__(self, targets: str, item: str = None, max_count: int = None) -> 'ClearTargetsItemMaxCountCommand':
+    def __call__(self, targets: str, item: str, max_count: int) -> 'ClearTargetsItemMaxCountCommand':
         return ClearTargetsItemMaxCountCommand(parent=self, args=(targets, item, max_count))
 
     def targets(self, targets: str) -> 'ClearTargetsCommand':
