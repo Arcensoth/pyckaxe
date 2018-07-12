@@ -29,6 +29,10 @@ class Blocks:
     air = 'minecraft:air'
 
 
+class Entities:
+    area_effect_cloud = 'minecraft:area_effect_cloud'
+
+
 class Items:
     diamond = 'minecraft:diamond'
 
@@ -42,5 +46,6 @@ positions = Positions
 rotations = Rotations
 anchors = Anchors
 blocks = Blocks
+entities = Entities
 items = Items
 effects = Effects
