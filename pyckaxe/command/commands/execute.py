@@ -1,4 +1,5 @@
 from pyckaxe.command.abc.command import CommandArgument, CommandLiteral, CommandNode
+from pyckaxe.types import Block, CommandTarget, Position
 
 
 class ExecuteCommandMixin:
@@ -50,20 +51,20 @@ class ExecuteCommand(CommandLiteral, ExecuteCommandMixin):
 class ExecuteAsCommand(CommandLiteral):
     _LITERAL = 'as'
 
-    def __call__(self, targets: str) -> 'ExecuteAsTargetsCommand':
+    def __call__(self, targets: CommandTarget) -> 'ExecuteAsTargetsCommand':
         return self.targets(targets)
 
-    def targets(self, targets: str) -> 'ExecuteAsTargetsCommand':
+    def targets(self, targets: CommandTarget) -> 'ExecuteAsTargetsCommand':
         return ExecuteAsTargetsCommand(self, targets)
 
 
 class ExecuteAtCommand(CommandLiteral):
     _LITERAL = 'at'
 
-    def __call__(self, targets: str) -> 'ExecuteAtTargetsCommand':
+    def __call__(self, targets: CommandTarget) -> 'ExecuteAtTargetsCommand':
         return self.targets(targets)
 
-    def targets(self, targets: str) -> 'ExecuteAtTargetsCommand':
+    def targets(self, targets: CommandTarget) -> 'ExecuteAtTargetsCommand':
         return ExecuteAtTargetsCommand(self, targets)
 
 
@@ -86,15 +87,15 @@ class ExecuteUnlessCommand(CommandLiteral, ExecuteIfUnlessCommandMixin):
 class ExecuteIfUnlessBlockCommand(CommandLiteral):
     _LITERAL = 'block'
 
-    def __call__(self, position: str, block: str) -> 'ExecuteIfUnlessBlockPositionBlockCommand':
+    def __call__(self, position: Position, block: Block) -> 'ExecuteIfUnlessBlockPositionBlockCommand':
         return self.position(position).block(block)
 
-    def position(self, position: str) -> 'ExecuteIfUnlessBlockPositionCommand':
+    def position(self, position: Position) -> 'ExecuteIfUnlessBlockPositionCommand':
         return ExecuteIfUnlessBlockPositionCommand(self, position)
 
 
 class ExecuteIfUnlessBlockPositionCommand(CommandArgument):
-    def block(self, block: str) -> 'ExecuteIfUnlessBlockPositionBlockCommand':
+    def block(self, block: Block) -> 'ExecuteIfUnlessBlockPositionBlockCommand':
         return ExecuteIfUnlessBlockPositionBlockCommand(self, block)
 
 

@@ -1,14 +1,14 @@
 from pyckaxe.command.abc.command import CommandArgument, CommandLiteral
-from pyckaxe.types import TextComponent
+from pyckaxe.types import CommandTarget, TextComponent
 
 
 class TellrawCommand(CommandLiteral):
     _LITERAL = 'tellraw'
 
-    def __call__(self, targets: str, message: TextComponent) -> 'TellrawTargetsMessageCommand':
+    def __call__(self, targets: CommandTarget, message: TextComponent) -> 'TellrawTargetsMessageCommand':
         return self.targets(targets).message(message)
 
-    def targets(self, targets: str) -> 'TellrawTargetsCommand':
+    def targets(self, targets: CommandTarget) -> 'TellrawTargetsCommand':
         return TellrawTargetsCommand(self, targets)
 
 

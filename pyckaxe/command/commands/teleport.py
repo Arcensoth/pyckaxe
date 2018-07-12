@@ -1,19 +1,20 @@
 from pyckaxe.command.abc.command import CommandArgument, CommandLiteral
+from pyckaxe.types import CommandTarget, EntityAnchor, Position, Rotation, UniqueCommandTarget
 
 
 class TeleportCommand(CommandLiteral):
     _LITERAL = 'teleport'
 
-    def __call__(self, targets: str, location: str) -> 'TeleportTargetsLocationCommand':
+    def __call__(self, targets: CommandTarget, location: Position) -> 'TeleportTargetsLocationCommand':
         return self.targets(targets).location(location)
 
-    def destination(self, destination: str) -> 'TeleportDestinationCommand':
+    def destination(self, destination: UniqueCommandTarget) -> 'TeleportDestinationCommand':
         return TeleportDestinationCommand(self, destination)
 
-    def location(self, location: str) -> 'TeleportLocationCommand':
+    def location(self, location: Position) -> 'TeleportLocationCommand':
         return TeleportLocationCommand(self, location)
 
-    def targets(self, targets: str) -> 'TeleportTargetsCommand':
+    def targets(self, targets: CommandTarget) -> 'TeleportTargetsCommand':
         return TeleportTargetsCommand(self, targets)
 
 
@@ -26,10 +27,10 @@ class TeleportLocationCommand(CommandArgument):
 
 
 class TeleportTargetsCommand(CommandArgument):
-    def destination(self, destination: str) -> 'TeleportTargetsDestinationCommand':
+    def destination(self, destination: UniqueCommandTarget) -> 'TeleportTargetsDestinationCommand':
         return TeleportTargetsDestinationCommand(self, destination)
 
-    def location(self, location: str) -> 'TeleportTargetsLocationCommand':
+    def location(self, location: Position) -> 'TeleportTargetsLocationCommand':
         return TeleportTargetsLocationCommand(self, location)
 
 
@@ -38,14 +39,14 @@ class TeleportTargetsDestinationCommand(CommandArgument):
 
 
 class TeleportTargetsLocationCommand(CommandArgument):
-    def __call__(self, rotation: str) -> 'TeleportTargetsLocationRotationCommand':
+    def __call__(self, rotation: Rotation) -> 'TeleportTargetsLocationRotationCommand':
         return self.rotation(rotation)
 
     @property
     def facing(self) -> 'TeleportTargetsLocationFacingCommand':
         return TeleportTargetsLocationFacingCommand(self)
 
-    def rotation(self, rotation: str) -> 'TeleportTargetsLocationRotationCommand':
+    def rotation(self, rotation: Rotation) -> 'TeleportTargetsLocationRotationCommand':
         return TeleportTargetsLocationRotationCommand(self, rotation)
 
 
@@ -56,14 +57,14 @@ class TeleportTargetsLocationRotationCommand(CommandArgument):
 class TeleportTargetsLocationFacingCommand(CommandLiteral):
     _LITERAL = 'facing'
 
-    def __call__(self, location: str) -> 'TeleportTargetsLocationFacingLocationCommand':
+    def __call__(self, location: Position) -> 'TeleportTargetsLocationFacingLocationCommand':
         return self.location(location)
 
     @property
     def entity(self) -> 'TeleportTargetsLocationFacingEntityCommand':
         return TeleportTargetsLocationFacingEntityCommand(self)
 
-    def location(self, location: str) -> 'TeleportTargetsLocationFacingLocationCommand':
+    def location(self, location: Position) -> 'TeleportTargetsLocationFacingLocationCommand':
         return TeleportTargetsLocationFacingLocationCommand(self, location)
 
 
@@ -74,15 +75,17 @@ class TeleportTargetsLocationFacingLocationCommand(CommandArgument):
 class TeleportTargetsLocationFacingEntityCommand(CommandLiteral):
     _LITERAL = 'entity'
 
-    def __call__(self, entity: str, anchor: str) -> 'TeleportTargetsLocationFacingEntityEntityAnchorCommand':
+    def __call__(
+            self, entity: CommandTarget, anchor: EntityAnchor
+    ) -> 'TeleportTargetsLocationFacingEntityEntityAnchorCommand':
         return self.entity(entity).anchor(anchor)
 
-    def entity(self, entity: str) -> 'TeleportTargetsLocationFacingEntityEntityCommand':
+    def entity(self, entity: CommandTarget) -> 'TeleportTargetsLocationFacingEntityEntityCommand':
         return TeleportTargetsLocationFacingEntityEntityCommand(self, entity)
 
 
 class TeleportTargetsLocationFacingEntityEntityCommand(CommandArgument):
-    def anchor(self, anchor: str) -> 'TeleportTargetsLocationFacingEntityEntityAnchorCommand':
+    def anchor(self, anchor: EntityAnchor) -> 'TeleportTargetsLocationFacingEntityEntityAnchorCommand':
         return TeleportTargetsLocationFacingEntityEntityAnchorCommand(self, anchor)
 
 

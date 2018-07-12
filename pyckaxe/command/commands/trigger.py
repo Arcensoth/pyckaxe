@@ -1,4 +1,5 @@
 from pyckaxe.command.abc.command import CommandArgument, CommandLiteral, CommandNode
+from pyckaxe.types import ScoreboardObjective
 
 
 class TriggerObjectiveAddSetValueCommandMixin:
@@ -12,10 +13,10 @@ class TriggerObjectiveAddSetValueCommandMixin:
 class TriggerCommand(CommandLiteral):
     _LITERAL = 'trigger'
 
-    def __call__(self, objective: str) -> 'TriggerObjectiveCommand':
+    def __call__(self, objective: ScoreboardObjective) -> 'TriggerObjectiveCommand':
         return self.objective(objective)
 
-    def objective(self, objective: str) -> 'TriggerObjectiveCommand':
+    def objective(self, objective: ScoreboardObjective) -> 'TriggerObjectiveCommand':
         return TriggerObjectiveCommand(self, objective)
 
 

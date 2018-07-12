@@ -1,4 +1,5 @@
 from pyckaxe.command.abc.command import CommandArgument, CommandLiteral
+from pyckaxe.types import CommandTarget, Effect
 
 
 class EffectCommand(CommandLiteral):
@@ -16,15 +17,15 @@ class EffectCommand(CommandLiteral):
 class EffectClearCommand(CommandLiteral):
     _LITERAL = 'clear'
 
-    def __call__(self, targets: str, effect: str) -> 'EffectClearTargetsEffectCommand':
+    def __call__(self, targets: CommandTarget, effect: Effect) -> 'EffectClearTargetsEffectCommand':
         return self.targets(targets).effect(effect)
 
-    def targets(self, targets: str) -> 'EffectClearTargetsCommand':
+    def targets(self, targets: CommandTarget) -> 'EffectClearTargetsCommand':
         return EffectClearTargetsCommand(self, targets)
 
 
 class EffectClearTargetsCommand(CommandArgument):
-    def effect(self, effect: str) -> 'EffectClearTargetsEffectCommand':
+    def effect(self, effect: Effect) -> 'EffectClearTargetsEffectCommand':
         return EffectClearTargetsEffectCommand(self, effect)
 
 
@@ -36,16 +37,16 @@ class EffectGiveCommand(CommandLiteral):
     _LITERAL = 'give'
 
     def __call__(
-            self, targets: str, effect: str, seconds: int, amplifier: int, hide_particles: bool
+            self, targets: CommandTarget, effect: Effect, seconds: int, amplifier: int, hide_particles: bool
     ) -> 'EffectGiveTargetsEffectSecondsAmplifierHideParticlesCommand':
         return self.targets(targets).effect(effect).seconds(seconds).amplifier(amplifier).hide_particles(hide_particles)
 
-    def targets(self, targets: str) -> 'EffectGiveTargetsCommand':
+    def targets(self, targets: CommandTarget) -> 'EffectGiveTargetsCommand':
         return EffectGiveTargetsCommand(self, targets)
 
 
 class EffectGiveTargetsCommand(CommandArgument):
-    def effect(self, effect: str) -> 'EffectGiveTargetsEffectCommand':
+    def effect(self, effect: Effect) -> 'EffectGiveTargetsEffectCommand':
         return EffectGiveTargetsEffectCommand(self, effect)
 
 
