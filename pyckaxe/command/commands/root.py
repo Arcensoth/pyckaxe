@@ -8,6 +8,7 @@ from pyckaxe.command.commands.function import FunctionCommand
 from pyckaxe.command.commands.kill import KillCommand
 from pyckaxe.command.commands.say import SayCommand
 from pyckaxe.command.commands.setblock import SetblockCommand
+from pyckaxe.command.commands.summon import SummonCommand
 from pyckaxe.command.commands.tag import TagCommand
 from pyckaxe.command.commands.teleport import TeleportCommand
 from pyckaxe.command.commands.time import TimeCommand
@@ -43,6 +44,10 @@ class RootCommandMixin:
     @property
     def setblock(self: CommandNode) -> SetblockCommand:
         return SetblockCommand(self)
+
+    @property
+    def summon(self: CommandNode) -> SummonCommand:
+        return SummonCommand(self)
 
     @property
     def tag(self: CommandNode) -> TagCommand:
