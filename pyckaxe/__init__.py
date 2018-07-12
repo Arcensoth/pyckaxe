@@ -41,6 +41,19 @@ class Effects:
     slowness = 'minecraft:slowness'
 
 
+class SoundSources:
+    ambient = 'ambient'
+    block = 'block'
+    hostile = 'hostile'
+    master = 'master'
+    music = 'music'
+    neutral = 'neutral'
+    player = 'player'
+    record = 'record'
+    voice = 'voice'
+    weather = 'weather'
+
+
 selectors = Selector
 positions = Positions
 rotations = Rotations
@@ -49,3 +62,4 @@ blocks = Blocks
 entities = Entities
 items = Items
 effects = Effects
+sound_sources = SoundSources
