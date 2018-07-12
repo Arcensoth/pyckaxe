@@ -26,5 +26,5 @@ def test_tellraw_targets_message_with_str():
 
 
 def test_tellraw_call():
-    assert 'tellraw @a [{"text": "hello"}]' == str(
+    assert 'tellraw @a {"text": "hello"}' == str(
         commands.tellraw(selectors.all_players, '{"text": "hello"}'))
