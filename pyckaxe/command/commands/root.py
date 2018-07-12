@@ -4,6 +4,7 @@ from pyckaxe.command.abc.command import CommandNode
 from pyckaxe.command.commands.clear import ClearCommand
 from pyckaxe.command.commands.effect import EffectCommand
 from pyckaxe.command.commands.execute import ExecuteCommand
+from pyckaxe.command.commands.function import FunctionCommand
 from pyckaxe.command.commands.say import SayCommand
 from pyckaxe.command.commands.setblock import SetblockCommand
 from pyckaxe.command.commands.tag import TagCommand
@@ -25,6 +26,10 @@ class RootCommandMixin:
     @property
     def execute(self: CommandNode) -> ExecuteCommand:
         return ExecuteCommand(self)
+
+    @property
+    def function(self: CommandNode) -> FunctionCommand:
+        return FunctionCommand(self)
 
     @property
     def say(self: CommandNode) -> SayCommand:
