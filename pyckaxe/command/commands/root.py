@@ -11,6 +11,7 @@ from pyckaxe.command.commands.setblock import SetblockCommand
 from pyckaxe.command.commands.summon import SummonCommand
 from pyckaxe.command.commands.tag import TagCommand
 from pyckaxe.command.commands.teleport import TeleportCommand
+from pyckaxe.command.commands.tellraw import TellrawCommand
 from pyckaxe.command.commands.time import TimeCommand
 from pyckaxe.command.commands.tp import TpCommand
 from pyckaxe.command.commands.trigger import TriggerCommand
@@ -56,6 +57,10 @@ class RootCommandMixin:
     @property
     def teleport(self: CommandNode) -> TeleportCommand:
         return TeleportCommand(self)
+
+    @property
+    def tellraw(self: CommandNode) -> TellrawCommand:
+        return TellrawCommand(self)
 
     @property
     def time(self: CommandNode) -> TimeCommand:
