@@ -20,6 +20,10 @@ class ExecuteCommandMixin:
         return ExecuteUnlessCommand(self)
 
     @property
+    def in_(self: CommandNode) -> 'ExecuteInCommand':
+        return ExecuteInCommand(self)
+
+    @property
     def run(self: CommandNode) -> 'ExecuteRunCommand':
         # TODO Can we make circular redirects work without this hack?
         from pyckaxe.command.commands.execute_run import ExecuteRunCommand
@@ -106,10 +110,44 @@ class ExecuteIfUnlessBlockPositionBlockCommand(CommandArgument, ExecuteCommandMi
 class ExecuteIfUnlessBlocksCommand(CommandLiteral):
     _LITERAL = 'blocks'
 
+    # TODO finish execute if/unless blocks
+
 
 class ExecuteIfUnlessEntityCommand(CommandLiteral):
     _LITERAL = 'entity'
 
+    # TODO finish execute if/unless entity
+
 
 class ExecuteIfUnlessScoreCommand(CommandLiteral):
     _LITERAL = 'score'
+
+    # TODO finish execute if/unless score
+
+
+class ExecuteInCommand(CommandLiteral):
+    _LITERAL = 'in'
+
+    @property
+    def overworld(self) -> 'ExecuteInOverworldCommand':
+        return ExecuteInOverworldCommand(self)
+
+    @property
+    def the_end(self) -> 'ExecuteInTheEndCommand':
+        return ExecuteInTheEndCommand(self)
+
+    @property
+    def the_nether(self) -> 'ExecuteInTheNetherCommand':
+        return ExecuteInTheNetherCommand(self)
+
+
+class ExecuteInOverworldCommand(CommandLiteral, ExecuteCommandMixin):
+    _LITERAL = 'overworld'
+
+
+class ExecuteInTheEndCommand(CommandLiteral, ExecuteCommandMixin):
+    _LITERAL = 'the_end'
+
+
+class ExecuteInTheNetherCommand(CommandLiteral, ExecuteCommandMixin):
+    _LITERAL = 'the_nether'
