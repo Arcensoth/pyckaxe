@@ -1,5 +1,6 @@
 from pyckaxe.command.abc.command import CommandArgument, CommandLiteral, CommandNode
-from pyckaxe.types import ScoreHolder, ScoreboardCriteria, ScoreboardObjective, ScoreboardOperation, ScoreboardSlot
+from pyckaxe.types import ScoreHolder, ScoreboardCriteria, ScoreboardObjective, ScoreboardOperation, ScoreboardSlot, \
+    TextComponent
 
 
 class ScoreboardPlayersARSMixin:
@@ -65,7 +66,7 @@ class ScoreboardObjectivesAddCommand(CommandLiteral):
     _LITERAL = 'add'
 
     def __call__(
-            self, objective: ScoreboardObjective, criteria: ScoreboardCriteria, display_name: str
+            self, objective: ScoreboardObjective, criteria: ScoreboardCriteria, display_name: TextComponent
     ) -> 'ScoreboardObjectivesAddObjectiveCriteriaDisplayNameCommand':
         return self.objective(objective).criteria(criteria).display_name(display_name)
 
@@ -79,7 +80,9 @@ class ScoreboardObjectivesAddObjectiveCommand(CommandArgument):
 
 
 class ScoreboardObjectivesAddObjectiveCriteriaCommand(CommandArgument):
-    def display_name(self, display_name: str) -> 'ScoreboardObjectivesAddObjectiveCriteriaDisplayNameCommand':
+    def display_name(
+            self, display_name: TextComponent
+    ) -> 'ScoreboardObjectivesAddObjectiveCriteriaDisplayNameCommand':
         return ScoreboardObjectivesAddObjectiveCriteriaDisplayNameCommand(self, display_name)
 
 
@@ -110,10 +113,14 @@ class ScoreboardObjectivesModifyObjectiveCommand(CommandArgument):
 class ScoreboardObjectivesModifyObjectiveDisplaynameCommand(CommandLiteral):
     _LITERAL = 'displayname'
 
-    def __call__(self, display_name: str) -> 'ScoreboardObjectivesModifyObjectiveDisplaynameDisplayNameCommand':
+    def __call__(
+            self, display_name: TextComponent
+    ) -> 'ScoreboardObjectivesModifyObjectiveDisplaynameDisplayNameCommand':
         return self.display_name(display_name)
 
-    def display_name(self, display_name: str) -> 'ScoreboardObjectivesModifyObjectiveDisplaynameDisplayNameCommand':
+    def display_name(
+            self, display_name: TextComponent
+    ) -> 'ScoreboardObjectivesModifyObjectiveDisplaynameDisplayNameCommand':
         return ScoreboardObjectivesModifyObjectiveDisplaynameDisplayNameCommand(self, display_name)
 
 

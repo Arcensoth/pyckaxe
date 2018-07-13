@@ -22,13 +22,14 @@ def test_scoreboard_objectives_add_objective_criteria():
 
 
 def test_scoreboard_objectives_add_objective_criteria_display_name():
-    assert 'scoreboard objectives add myobj dummy My Objective' == str(
-        commands.scoreboard.objectives.add.objective('myobj').criteria('dummy').display_name('My Objective'))
+    assert 'scoreboard objectives add myobj dummy {"text": "My Objective"}' == str(
+        commands.scoreboard.objectives.add.objective('myobj').criteria('dummy')
+            .display_name('{"text": "My Objective"}'))
 
 
 def test_scoreboard_objectives_add_call():
-    assert 'scoreboard objectives add myobj dummy My Objective' == str(
-        commands.scoreboard.objectives.add('myobj', 'dummy', 'My Objective'))
+    assert 'scoreboard objectives add myobj dummy {"text": "My Objective"}' == str(
+        commands.scoreboard.objectives.add('myobj', 'dummy', '{"text": "My Objective"}'))
 
 
 # scoreboard objectives list
@@ -59,13 +60,13 @@ def test_scoreboard_objectives_modify_call_displayname():
 
 
 def test_scoreboard_objectives_modify_call_displayname_display_name():
-    assert 'scoreboard objectives modify myobj displayname anotherobj' == str(
-        commands.scoreboard.objectives.modify('myobj').displayname.display_name('anotherobj'))
+    assert 'scoreboard objectives modify myobj displayname {"text": "Another Objective"}' == str(
+        commands.scoreboard.objectives.modify('myobj').displayname.display_name('{"text": "Another Objective"}'))
 
 
 def test_scoreboard_objectives_modify_call_displayname_call():
-    assert 'scoreboard objectives modify myobj displayname anotherobj' == str(
-        commands.scoreboard.objectives.modify('myobj').displayname('anotherobj'))
+    assert 'scoreboard objectives modify myobj displayname {"text": "Another Objective"}' == str(
+        commands.scoreboard.objectives.modify('myobj').displayname('{"text": "Another Objective"}'))
 
 
 # scoreboard objectives remove
