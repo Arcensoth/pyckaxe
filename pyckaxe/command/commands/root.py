@@ -6,6 +6,7 @@ from pyckaxe.command.commands.effect import EffectCommand
 from pyckaxe.command.commands.execute import ExecuteCommand
 from pyckaxe.command.commands.function import FunctionCommand
 from pyckaxe.command.commands.kill import KillCommand
+from pyckaxe.command.commands.playsound import PlaysoundCommand
 from pyckaxe.command.commands.say import SayCommand
 from pyckaxe.command.commands.setblock import SetblockCommand
 from pyckaxe.command.commands.summon import SummonCommand
@@ -37,6 +38,10 @@ class RootCommandMixin:
     @property
     def kill(self: CommandNode) -> KillCommand:
         return KillCommand(self)
+
+    @property
+    def playsound(self: CommandNode) -> PlaysoundCommand:
+        return PlaysoundCommand(self)
 
     @property
     def say(self: CommandNode) -> SayCommand:

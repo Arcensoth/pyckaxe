@@ -12,5 +12,7 @@ Item = str
 Position = str
 Rotation = str
 ScoreboardObjective = str
+Sound = str
+SoundSource = str
 TextComponent = str
 UniqueCommandTarget = str
