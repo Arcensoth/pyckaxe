@@ -8,6 +8,7 @@ from pyckaxe.command.commands.function import FunctionCommand
 from pyckaxe.command.commands.kill import KillCommand
 from pyckaxe.command.commands.playsound import PlaysoundCommand
 from pyckaxe.command.commands.say import SayCommand
+from pyckaxe.command.commands.scoreboard import ScoreboardCommand
 from pyckaxe.command.commands.setblock import SetblockCommand
 from pyckaxe.command.commands.summon import SummonCommand
 from pyckaxe.command.commands.tag import TagCommand
@@ -46,6 +47,10 @@ class RootCommandMixin:
     @property
     def say(self: CommandNode) -> SayCommand:
         return SayCommand(self)
+
+    @property
+    def scoreboard(self: CommandNode) -> ScoreboardCommand:
+        return ScoreboardCommand(self)
 
     @property
     def setblock(self: CommandNode) -> SetblockCommand:
