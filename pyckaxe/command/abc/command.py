@@ -20,8 +20,7 @@ class Command(abc.ABC):
         return str(token)
 
     @abc.abstractmethod
-    def _tokens(self) -> typing.Iterable[typing.Any]:
-        ...
+    def _tokens(self) -> typing.Iterable[typing.Any]: ...
 
 
 class CommandNode(Command):
