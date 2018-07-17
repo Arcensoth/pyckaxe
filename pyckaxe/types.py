@@ -2,6 +2,7 @@
 Block = str
 CommandTarget = str
 CompoundDataTag = str
+DataPath = str
 Effect = str
 Entity = str
 EntityAnchor = str
