@@ -1,6 +1,7 @@
 import pytest
 
 from pyckaxe.command.abc.command import CommandNode
+from pyckaxe.command.raw_command import RawCommand
 
 
 def test_command_convert_str():
@@ -38,3 +39,7 @@ def test_command_convert_bool_false():
 def test_command_convert_none():
     with pytest.raises(ValueError):
         str(CommandNode(None, None))
+
+
+def test_raw_command():
+    assert 'this is not a real command' == str(RawCommand('this is not a real command'))
