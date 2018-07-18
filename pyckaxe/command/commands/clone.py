@@ -1,18 +1,18 @@
-from pyckaxe.command.abc.command import Command, CommandArgument, CommandLiteral
+from pyckaxe.command.abc.command import CommandArgument, CommandLiteral, CommandNode
 from pyckaxe.types import Block, Position
 
 
-class CloneBeginEndDestinationFMRMixin:
+class CloneBeginEndDestinationFMRCommandMixin:
     @property
-    def force(self: Command) -> 'CloneBeginEndDestinationFMRForceCommand':
+    def force(self: CommandNode) -> 'CloneBeginEndDestinationFMRForceCommand':
         return CloneBeginEndDestinationFMRForceCommand(self)
 
     @property
-    def move(self: Command) -> 'CloneBeginEndDestinationFMRMoveCommand':
+    def move(self: CommandNode) -> 'CloneBeginEndDestinationFMRMoveCommand':
         return CloneBeginEndDestinationFMRMoveCommand(self)
 
     @property
-    def normal(self: Command) -> 'CloneBeginEndDestinationFMRNormalCommand':
+    def normal(self: CommandNode) -> 'CloneBeginEndDestinationFMRNormalCommand':
         return CloneBeginEndDestinationFMRNormalCommand(self)
 
 
@@ -60,15 +60,15 @@ class CloneBeginEndDestinationFilteredCommand(CommandLiteral):
         return CloneBeginEndDestinationFilteredFilterCommand(self, filter)
 
 
-class CloneBeginEndDestinationFilteredFilterCommand(CommandArgument, CloneBeginEndDestinationFMRMixin):
+class CloneBeginEndDestinationFilteredFilterCommand(CommandArgument, CloneBeginEndDestinationFMRCommandMixin):
     pass
 
 
-class CloneBeginEndDestinationMaskedCommand(CommandLiteral, CloneBeginEndDestinationFMRMixin):
+class CloneBeginEndDestinationMaskedCommand(CommandLiteral, CloneBeginEndDestinationFMRCommandMixin):
     _LITERAL = 'masked'
 
 
-class CloneBeginEndDestinationReplaceCommand(CommandLiteral, CloneBeginEndDestinationFMRMixin):
+class CloneBeginEndDestinationReplaceCommand(CommandLiteral, CloneBeginEndDestinationFMRCommandMixin):
     _LITERAL = 'replace'
 
 
