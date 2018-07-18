@@ -37,6 +37,16 @@ class Items:
     diamond = 'minecraft:diamond'
 
 
+class ItemSlots:
+    slot_armor_chest = 'slot.armor.chest'
+    slot_armor_feet = 'slot.armor.feet'
+    slot_armor_head = 'slot.armor.head'
+    slot_armor_legs = 'slot.armor.legs'
+    slot_weapon_mainhand = 'slot.weapon.mainhand'
+    slot_weapon_offhand = 'slot.weapon.offhand'
+    slot_container_13 = 'slot.container.13'
+
+
 class Effects:
     slowness = 'minecraft:slowness'
 
@@ -95,6 +105,7 @@ anchors = Anchors
 blocks = Blocks
 entities = Entities
 items = Items
+item_slots = ItemSlots
 effects = Effects
 sound_sources = SoundSources
 scoreboard_operations = ScoreboardOperations
