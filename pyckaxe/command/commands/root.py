@@ -1,6 +1,7 @@
 import typing
 
 from pyckaxe.command.abc.command import CommandNode
+from pyckaxe.command.commands.advancement import AdvancementCommand
 from pyckaxe.command.commands.clear import ClearCommand
 from pyckaxe.command.commands.clone import CloneCommand
 from pyckaxe.command.commands.data import DataCommand
@@ -22,6 +23,10 @@ from pyckaxe.command.commands.trigger import TriggerCommand
 
 
 class RootCommandMixin:
+    @property
+    def advancement(self: CommandNode) -> AdvancementCommand:
+        return AdvancementCommand(self)
+
     @property
     def clear(self: CommandNode) -> ClearCommand:
         return ClearCommand(self)
