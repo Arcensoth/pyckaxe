@@ -1,5 +1,5 @@
 from pyckaxe.command.abc.command import CommandArgument, CommandLiteral, CommandNode
-from pyckaxe.types import Block, Position
+from pyckaxe.types import BlockPredicate, Position
 
 
 class CloneBeginEndDestinationFMRCommandMixin:
@@ -53,10 +53,10 @@ class CloneBeginEndDestinationCommand(CommandArgument):
 class CloneBeginEndDestinationFilteredCommand(CommandLiteral):
     _LITERAL = 'filtered'
 
-    def __call__(self, filter: Block) -> 'CloneBeginEndDestinationFilteredFilterCommand':
+    def __call__(self, filter: BlockPredicate) -> 'CloneBeginEndDestinationFilteredFilterCommand':
         return self.filter(filter)
 
-    def filter(self, filter: Block) -> 'CloneBeginEndDestinationFilteredFilterCommand':
+    def filter(self, filter: BlockPredicate) -> 'CloneBeginEndDestinationFilteredFilterCommand':
         return CloneBeginEndDestinationFilteredFilterCommand(self, filter)
 
 

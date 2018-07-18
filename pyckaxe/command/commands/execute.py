@@ -1,5 +1,5 @@
 from pyckaxe.command.abc.command import CommandArgument, CommandLiteral, CommandNode
-from pyckaxe.types import Block, CommandTarget, Position
+from pyckaxe.types import BlockPredicate, CommandTarget, Position
 
 
 class ExecuteCommandMixin:
@@ -91,7 +91,7 @@ class ExecuteUnlessCommand(CommandLiteral, ExecuteIfUnlessCommandMixin):
 class ExecuteIfUnlessBlockCommand(CommandLiteral):
     _LITERAL = 'block'
 
-    def __call__(self, position: Position, block: Block) -> 'ExecuteIfUnlessBlockPositionBlockCommand':
+    def __call__(self, position: Position, block: BlockPredicate) -> 'ExecuteIfUnlessBlockPositionBlockCommand':
         return self.position(position).block(block)
 
     def position(self, position: Position) -> 'ExecuteIfUnlessBlockPositionCommand':
@@ -99,7 +99,7 @@ class ExecuteIfUnlessBlockCommand(CommandLiteral):
 
 
 class ExecuteIfUnlessBlockPositionCommand(CommandArgument):
-    def block(self, block: Block) -> 'ExecuteIfUnlessBlockPositionBlockCommand':
+    def block(self, block: BlockPredicate) -> 'ExecuteIfUnlessBlockPositionBlockCommand':
         return ExecuteIfUnlessBlockPositionBlockCommand(self, block)
 
 
