@@ -2,6 +2,7 @@ import typing
 
 from pyckaxe.command.abc.command import CommandNode
 from pyckaxe.command.commands.clear import ClearCommand
+from pyckaxe.command.commands.clone import CloneCommand
 from pyckaxe.command.commands.data import DataCommand
 from pyckaxe.command.commands.effect import EffectCommand
 from pyckaxe.command.commands.execute import ExecuteCommand
@@ -24,6 +25,10 @@ class RootCommandMixin:
     @property
     def clear(self: CommandNode) -> ClearCommand:
         return ClearCommand(self)
+
+    @property
+    def clone(self: CommandNode) -> CloneCommand:
+        return CloneCommand(self)
 
     @property
     def data(self: CommandNode) -> DataCommand:
