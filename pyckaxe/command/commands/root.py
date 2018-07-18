@@ -12,6 +12,7 @@ from pyckaxe.command.commands.function import FunctionCommand
 from pyckaxe.command.commands.give import GiveCommand
 from pyckaxe.command.commands.kill import KillCommand
 from pyckaxe.command.commands.playsound import PlaysoundCommand
+from pyckaxe.command.commands.replaceitem import ReplaceitemCommand
 from pyckaxe.command.commands.say import SayCommand
 from pyckaxe.command.commands.scoreboard import ScoreboardCommand
 from pyckaxe.command.commands.setblock import SetblockCommand
@@ -68,6 +69,10 @@ class RootCommandMixin:
     @property
     def playsound(self: CommandNode) -> PlaysoundCommand:
         return PlaysoundCommand(self)
+
+    @property
+    def replaceitem(self: CommandNode) -> ReplaceitemCommand:
+        return ReplaceitemCommand(self)
 
     @property
     def say(self: CommandNode) -> SayCommand:

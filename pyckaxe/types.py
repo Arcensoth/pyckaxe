@@ -11,6 +11,7 @@ EntityAnchor = str
 EntityTag = str
 GreedyString = str
 Item = str
+ItemSlot = str
 Position = str
 Rotation = str
 ScoreboardCriteria = str
