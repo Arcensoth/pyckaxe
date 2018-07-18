@@ -9,6 +9,7 @@ from pyckaxe.command.commands.effect import EffectCommand
 from pyckaxe.command.commands.execute import ExecuteCommand
 from pyckaxe.command.commands.fill import FillCommand
 from pyckaxe.command.commands.function import FunctionCommand
+from pyckaxe.command.commands.give import GiveCommand
 from pyckaxe.command.commands.kill import KillCommand
 from pyckaxe.command.commands.playsound import PlaysoundCommand
 from pyckaxe.command.commands.say import SayCommand
@@ -55,6 +56,10 @@ class RootCommandMixin:
     @property
     def function(self: CommandNode) -> FunctionCommand:
         return FunctionCommand(self)
+
+    @property
+    def give(self: CommandNode) -> GiveCommand:
+        return GiveCommand(self)
 
     @property
     def kill(self: CommandNode) -> KillCommand:
