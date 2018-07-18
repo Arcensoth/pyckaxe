@@ -1,6 +1,7 @@
 # TODO implement type generics and implicit conversions for all types
 AdvancementCriteria = str
 Block = str
+BlockPredicate = Block
 CommandTarget = str
 CompoundDataTag = str
 DataPath = str
