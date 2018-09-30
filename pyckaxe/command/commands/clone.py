@@ -56,14 +56,14 @@ class CloneBeginEndDestinationFilteredCommand(CommandLiteral):
     _LITERAL = "filtered"
 
     def __call__(
-        self, filter: BlockPredicate
+        self, filter_: BlockPredicate
     ) -> "CloneBeginEndDestinationFilteredFilterCommand":
-        return self.filter(filter)
+        return self.filter(filter_)
 
     def filter(
-        self, filter: BlockPredicate
+        self, filter_: BlockPredicate
     ) -> "CloneBeginEndDestinationFilteredFilterCommand":
-        return CloneBeginEndDestinationFilteredFilterCommand(self, filter)
+        return CloneBeginEndDestinationFilteredFilterCommand(self, filter_)
 
 
 class CloneBeginEndDestinationFilteredFilterCommand(
