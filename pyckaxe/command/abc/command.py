@@ -21,7 +21,7 @@ class Command(abc.ABC):
 
     @abc.abstractmethod
     def _tokens(self) -> typing.Iterable[typing.Any]:
-        ...
+        """ Yield command tokens as literals or arguments. """
 
 
 class CommandNode(Command):
