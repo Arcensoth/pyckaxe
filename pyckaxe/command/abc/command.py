@@ -6,7 +6,7 @@ class Command(abc.ABC):
     """ A printable command that can be iterated over to retrieve its space-delimited tokens. """
 
     def __str__(self):
-        return ' '.join(self._convert(token) for token in self)
+        return " ".join(self._convert(token) for token in self)
 
     def __iter__(self):
         return self._tokens()
@@ -14,19 +14,20 @@ class Command(abc.ABC):
     @staticmethod
     def _convert(token) -> str:
         if isinstance(token, bool):
-            return 'true' if token else 'false'
+            return "true" if token else "false"
         elif token is None:
-            raise ValueError('Cannot stringify None into a command token')
+            raise ValueError("Cannot stringify None into a command token")
         return str(token)
 
     @abc.abstractmethod
-    def _tokens(self) -> typing.Iterable[typing.Any]: ...
+    def _tokens(self) -> typing.Iterable[typing.Any]:
+        ...
 
 
 class CommandNode(Command):
     """ A single node in the parent-child command hierarchy. """
 
-    def __init__(self, parent: 'CommandNode' = None, token: typing.Any = None):
+    def __init__(self, parent: "CommandNode" = None, token: typing.Any = None):
         self._parent = parent
         self._token = token
 

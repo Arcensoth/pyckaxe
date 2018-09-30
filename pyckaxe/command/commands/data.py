@@ -3,18 +3,18 @@ from pyckaxe.types import CompoundDataTag, DataPath, Position, UniqueCommandTarg
 
 
 class DataCommand(CommandLiteral):
-    _LITERAL = 'data'
+    _LITERAL = "data"
 
     @property
-    def get(self) -> 'DataGetCommand':
+    def get(self) -> "DataGetCommand":
         return DataGetCommand(self)
 
     @property
-    def merge(self) -> 'DataMergeCommand':
+    def merge(self) -> "DataMergeCommand":
         return DataMergeCommand(self)
 
     @property
-    def remove(self) -> 'DataRemoveCommand':
+    def remove(self) -> "DataRemoveCommand":
         return DataRemoveCommand(self)
 
 
@@ -22,36 +22,36 @@ class DataCommand(CommandLiteral):
 
 
 class DataGetCommand(CommandLiteral):
-    _LITERAL = 'get'
+    _LITERAL = "get"
 
     @property
-    def block(self) -> 'DataGetBlockCommand':
+    def block(self) -> "DataGetBlockCommand":
         return DataGetBlockCommand(self)
 
     @property
-    def entity(self) -> 'DataGetEntityCommand':
+    def entity(self) -> "DataGetEntityCommand":
         return DataGetEntityCommand(self)
 
 
 class DataGetBlockCommand(CommandLiteral):
-    _LITERAL = 'block'
+    _LITERAL = "block"
 
     def __call__(
-            self, position: Position, path: DataPath, scale: float
-    ) -> 'DataGetBlockPositionPathScaleCommand':
+        self, position: Position, path: DataPath, scale: float
+    ) -> "DataGetBlockPositionPathScaleCommand":
         return self.position(position).path(path).scale(scale)
 
-    def position(self, position: Position) -> 'DataGetBlockPositionCommand':
+    def position(self, position: Position) -> "DataGetBlockPositionCommand":
         return DataGetBlockPositionCommand(self, position)
 
 
 class DataGetBlockPositionCommand(CommandArgument):
-    def path(self, path: DataPath) -> 'DataGetBlockPositionPathCommand':
+    def path(self, path: DataPath) -> "DataGetBlockPositionPathCommand":
         return DataGetBlockPositionPathCommand(self, path)
 
 
 class DataGetBlockPositionPathCommand(CommandArgument):
-    def scale(self, scale: float) -> 'DataGetBlockPositionPathScaleCommand':
+    def scale(self, scale: float) -> "DataGetBlockPositionPathScaleCommand":
         return DataGetBlockPositionPathScaleCommand(self, scale)
 
 
@@ -60,24 +60,24 @@ class DataGetBlockPositionPathScaleCommand(CommandArgument):
 
 
 class DataGetEntityCommand(CommandLiteral):
-    _LITERAL = 'entity'
+    _LITERAL = "entity"
 
     def __call__(
-            self, target: UniqueCommandTarget, path: DataPath, scale: float
-    ) -> 'DataGetEntityTargetPathScaleCommand':
+        self, target: UniqueCommandTarget, path: DataPath, scale: float
+    ) -> "DataGetEntityTargetPathScaleCommand":
         return self.target(target).path(path).scale(scale)
 
-    def target(self, target: UniqueCommandTarget) -> 'DataGetEntityTargetCommand':
+    def target(self, target: UniqueCommandTarget) -> "DataGetEntityTargetCommand":
         return DataGetEntityTargetCommand(self, target)
 
 
 class DataGetEntityTargetCommand(CommandArgument):
-    def path(self, path: DataPath) -> 'DataGetEntityTargetPathCommand':
+    def path(self, path: DataPath) -> "DataGetEntityTargetPathCommand":
         return DataGetEntityTargetPathCommand(self, path)
 
 
 class DataGetEntityTargetPathCommand(CommandArgument):
-    def scale(self, scale: float) -> 'DataGetEntityTargetPathScaleCommand':
+    def scale(self, scale: float) -> "DataGetEntityTargetPathScaleCommand":
         return DataGetEntityTargetPathScaleCommand(self, scale)
 
 
@@ -89,29 +89,31 @@ class DataGetEntityTargetPathScaleCommand(CommandArgument):
 
 
 class DataMergeCommand(CommandLiteral):
-    _LITERAL = 'merge'
+    _LITERAL = "merge"
 
     @property
-    def block(self) -> 'DataMergeBlockCommand':
+    def block(self) -> "DataMergeBlockCommand":
         return DataMergeBlockCommand(self)
 
     @property
-    def entity(self) -> 'DataMergeEntityCommand':
+    def entity(self) -> "DataMergeEntityCommand":
         return DataMergeEntityCommand(self)
 
 
 class DataMergeBlockCommand(CommandLiteral):
-    _LITERAL = 'block'
+    _LITERAL = "block"
 
-    def __call__(self, position: Position, nbt: CompoundDataTag) -> 'DataMergeBlockPositionNbtCommand':
+    def __call__(
+        self, position: Position, nbt: CompoundDataTag
+    ) -> "DataMergeBlockPositionNbtCommand":
         return self.position(position).nbt(nbt)
 
-    def position(self, position: Position) -> 'DataMergeBlockPositionCommand':
+    def position(self, position: Position) -> "DataMergeBlockPositionCommand":
         return DataMergeBlockPositionCommand(self, position)
 
 
 class DataMergeBlockPositionCommand(CommandArgument):
-    def nbt(self, nbt: CompoundDataTag) -> 'DataMergeBlockPositionNbtCommand':
+    def nbt(self, nbt: CompoundDataTag) -> "DataMergeBlockPositionNbtCommand":
         return DataMergeBlockPositionNbtCommand(self, nbt)
 
 
@@ -120,17 +122,19 @@ class DataMergeBlockPositionNbtCommand(CommandArgument):
 
 
 class DataMergeEntityCommand(CommandLiteral):
-    _LITERAL = 'entity'
+    _LITERAL = "entity"
 
-    def __call__(self, target: UniqueCommandTarget, nbt: CompoundDataTag) -> 'DataMergeEntityTargetNbtCommand':
+    def __call__(
+        self, target: UniqueCommandTarget, nbt: CompoundDataTag
+    ) -> "DataMergeEntityTargetNbtCommand":
         return self.target(target).nbt(nbt)
 
-    def target(self, target: UniqueCommandTarget) -> 'DataMergeEntityTargetCommand':
+    def target(self, target: UniqueCommandTarget) -> "DataMergeEntityTargetCommand":
         return DataMergeEntityTargetCommand(self, target)
 
 
 class DataMergeEntityTargetCommand(CommandArgument):
-    def nbt(self, nbt: CompoundDataTag) -> 'DataMergeEntityTargetNbtCommand':
+    def nbt(self, nbt: CompoundDataTag) -> "DataMergeEntityTargetNbtCommand":
         return DataMergeEntityTargetNbtCommand(self, nbt)
 
 
@@ -142,29 +146,31 @@ class DataMergeEntityTargetNbtCommand(CommandArgument):
 
 
 class DataRemoveCommand(CommandLiteral):
-    _LITERAL = 'remove'
+    _LITERAL = "remove"
 
     @property
-    def block(self) -> 'DataRemoveBlockCommand':
+    def block(self) -> "DataRemoveBlockCommand":
         return DataRemoveBlockCommand(self)
 
     @property
-    def entity(self) -> 'DataRemoveEntityCommand':
+    def entity(self) -> "DataRemoveEntityCommand":
         return DataRemoveEntityCommand(self)
 
 
 class DataRemoveBlockCommand(CommandLiteral):
-    _LITERAL = 'block'
+    _LITERAL = "block"
 
-    def __call__(self, position: Position, path: DataPath) -> 'DataRemoveBlockPositionPathCommand':
+    def __call__(
+        self, position: Position, path: DataPath
+    ) -> "DataRemoveBlockPositionPathCommand":
         return self.position(position).path(path)
 
-    def position(self, position: Position) -> 'DataRemoveBlockPositionCommand':
+    def position(self, position: Position) -> "DataRemoveBlockPositionCommand":
         return DataRemoveBlockPositionCommand(self, position)
 
 
 class DataRemoveBlockPositionCommand(CommandArgument):
-    def path(self, path: DataPath) -> 'DataRemoveBlockPositionPathCommand':
+    def path(self, path: DataPath) -> "DataRemoveBlockPositionPathCommand":
         return DataRemoveBlockPositionPathCommand(self, path)
 
 
@@ -173,17 +179,19 @@ class DataRemoveBlockPositionPathCommand(CommandArgument):
 
 
 class DataRemoveEntityCommand(CommandLiteral):
-    _LITERAL = 'entity'
+    _LITERAL = "entity"
 
-    def __call__(self, target: UniqueCommandTarget, path: DataPath) -> 'DataRemoveEntityTargetPathCommand':
+    def __call__(
+        self, target: UniqueCommandTarget, path: DataPath
+    ) -> "DataRemoveEntityTargetPathCommand":
         return self.target(target).path(path)
 
-    def target(self, target: UniqueCommandTarget) -> 'DataRemoveEntityTargetCommand':
+    def target(self, target: UniqueCommandTarget) -> "DataRemoveEntityTargetCommand":
         return DataRemoveEntityTargetCommand(self, target)
 
 
 class DataRemoveEntityTargetCommand(CommandArgument):
-    def path(self, path: DataPath) -> 'DataRemoveEntityTargetPathCommand':
+    def path(self, path: DataPath) -> "DataRemoveEntityTargetPathCommand":
         return DataRemoveEntityTargetPathCommand(self, path)
 
 

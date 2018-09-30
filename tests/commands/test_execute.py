@@ -2,12 +2,12 @@ from pyckaxe import commands
 
 
 def test_execute():
-    assert 'execute' == str(commands.execute)
+    assert "execute" == str(commands.execute)
 
 
 def test_execute_if():
-    assert 'execute if' == str(commands.execute.if_)
+    assert "execute if" == str(commands.execute.if_)
 
 
 def test_execute_unless():
-    assert 'execute unless' == str(commands.execute.unless)
+    assert "execute unless" == str(commands.execute.unless)

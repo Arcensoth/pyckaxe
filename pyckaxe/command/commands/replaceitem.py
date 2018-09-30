@@ -3,31 +3,31 @@ from pyckaxe.types import CommandTarget, Item, ItemSlot, Position
 
 
 class ReplaceitemBECommandMixin:
-    def slot(self: CommandNode, slot: ItemSlot) -> 'ReplaceitemBESlotCommand':
+    def slot(self: CommandNode, slot: ItemSlot) -> "ReplaceitemBESlotCommand":
         return ReplaceitemBESlotCommand(self, slot)
 
 
 class ReplaceitemCommand(CommandLiteral):
-    _LITERAL = 'replaceitem'
+    _LITERAL = "replaceitem"
 
     @property
-    def block(self) -> 'ReplaceitemBlockCommand':
+    def block(self) -> "ReplaceitemBlockCommand":
         return ReplaceitemBlockCommand(self)
 
     @property
-    def entity(self) -> 'ReplaceitemEntityCommand':
+    def entity(self) -> "ReplaceitemEntityCommand":
         return ReplaceitemEntityCommand(self)
 
 
 class ReplaceitemBlockCommand(CommandLiteral):
-    _LITERAL = 'block'
+    _LITERAL = "block"
 
     def __call__(
-            self, position: Position, slot: ItemSlot, item: Item, count: int
-    ) -> 'ReplaceitemBESlotItemCountCommand':
+        self, position: Position, slot: ItemSlot, item: Item, count: int
+    ) -> "ReplaceitemBESlotItemCountCommand":
         return self.position(position).slot(slot).item(item).count(count)
 
-    def position(self, position: Position) -> 'ReplaceitemBlockPositionCommand':
+    def position(self, position: Position) -> "ReplaceitemBlockPositionCommand":
         return ReplaceitemBlockPositionCommand(self, position)
 
 
@@ -36,14 +36,14 @@ class ReplaceitemBlockPositionCommand(CommandArgument, ReplaceitemBECommandMixin
 
 
 class ReplaceitemEntityCommand(CommandLiteral):
-    _LITERAL = 'entity'
+    _LITERAL = "entity"
 
     def __call__(
-            self, targets: CommandTarget, slot: ItemSlot, item: Item, count: int
-    ) -> 'ReplaceitemBESlotItemCountCommand':
+        self, targets: CommandTarget, slot: ItemSlot, item: Item, count: int
+    ) -> "ReplaceitemBESlotItemCountCommand":
         return self.targets(targets).slot(slot).item(item).count(count)
 
-    def targets(self, targets: CommandTarget) -> 'ReplaceitemEntityTargetsCommand':
+    def targets(self, targets: CommandTarget) -> "ReplaceitemEntityTargetsCommand":
         return ReplaceitemEntityTargetsCommand(self, targets)
 
 
@@ -52,12 +52,12 @@ class ReplaceitemEntityTargetsCommand(CommandArgument, ReplaceitemBECommandMixin
 
 
 class ReplaceitemBESlotCommand(CommandArgument):
-    def item(self, item: Item) -> 'ReplaceitemBESlotItemCommand':
+    def item(self, item: Item) -> "ReplaceitemBESlotItemCommand":
         return ReplaceitemBESlotItemCommand(self, item)
 
 
 class ReplaceitemBESlotItemCommand(CommandArgument):
-    def count(self, count: int) -> 'ReplaceitemBESlotItemCountCommand':
+    def count(self, count: int) -> "ReplaceitemBESlotItemCountCommand":
         return ReplaceitemBESlotItemCountCommand(self, count)
 
 

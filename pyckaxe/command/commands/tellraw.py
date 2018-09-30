@@ -3,17 +3,19 @@ from pyckaxe.types import CommandTarget, TextComponent
 
 
 class TellrawCommand(CommandLiteral):
-    _LITERAL = 'tellraw'
+    _LITERAL = "tellraw"
 
-    def __call__(self, targets: CommandTarget, message: TextComponent) -> 'TellrawTargetsMessageCommand':
+    def __call__(
+        self, targets: CommandTarget, message: TextComponent
+    ) -> "TellrawTargetsMessageCommand":
         return self.targets(targets).message(message)
 
-    def targets(self, targets: CommandTarget) -> 'TellrawTargetsCommand':
+    def targets(self, targets: CommandTarget) -> "TellrawTargetsCommand":
         return TellrawTargetsCommand(self, targets)
 
 
 class TellrawTargetsCommand(CommandArgument):
-    def message(self, message: TextComponent) -> 'TellrawTargetsMessageCommand':
+    def message(self, message: TextComponent) -> "TellrawTargetsMessageCommand":
         return TellrawTargetsMessageCommand(self, message)
 
 

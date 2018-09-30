@@ -8,6 +8,7 @@ An expressive Minecraft utility library revolving around data manipulation and g
 [![coverage-badge-master]](https://codecov.io/gh/Arcensoth/pyckaxe/branch/master)
 [![package-badge]](https://pypi.python.org/pypi/pyckaxe/)
 [![version-badge]](https://pypi.python.org/pypi/pyckaxe/)
+[![style-badge]](https://github.com/ambv/black)
 
 You may be interested in `pyckaxe` if you:
 
@@ -31,3 +32,4 @@ The goal of `pyckaxe` is to provide a flexible suite of development tools for te
 [coverage-badge-master]: https://img.shields.io/codecov/c/github/Arcensoth/pyckaxe/master.svg?label=coverage
 [package-badge]: https://img.shields.io/pypi/v/pyckaxe.svg
 [version-badge]: https://img.shields.io/pypi/pyversions/pyckaxe.svg
+[style-badge]: https://img.shields.io/badge/code%20style-black-000000.svg

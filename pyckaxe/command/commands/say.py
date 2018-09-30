@@ -3,12 +3,12 @@ from pyckaxe.types import GreedyString
 
 
 class SayCommand(CommandLiteral):
-    _LITERAL = 'say'
+    _LITERAL = "say"
 
-    def __call__(self, message: GreedyString) -> 'SayMessageCommand':
+    def __call__(self, message: GreedyString) -> "SayMessageCommand":
         return self.message(message)
 
-    def message(self, message: GreedyString) -> 'SayMessageCommand':
+    def message(self, message: GreedyString) -> "SayMessageCommand":
         return SayMessageCommand(self, message)
 
 

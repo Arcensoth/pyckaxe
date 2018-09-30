@@ -3,12 +3,12 @@ from pyckaxe.types import CommandTarget
 
 
 class KillCommand(CommandLiteral):
-    _LITERAL = 'kill'
+    _LITERAL = "kill"
 
-    def __call__(self, targets: CommandTarget) -> 'KillTargetsCommand':
+    def __call__(self, targets: CommandTarget) -> "KillTargetsCommand":
         return self.targets(targets)
 
-    def targets(self, targets: CommandTarget) -> 'KillTargetsCommand':
+    def targets(self, targets: CommandTarget) -> "KillTargetsCommand":
         return KillTargetsCommand(self, targets)
 
 

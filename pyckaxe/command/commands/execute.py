@@ -4,71 +4,72 @@ from pyckaxe.types import BlockPredicate, CommandTarget, Position
 
 class ExecuteCommandMixin:
     @property
-    def as_(self: CommandNode) -> 'ExecuteAsCommand':
+    def as_(self: CommandNode) -> "ExecuteAsCommand":
         return ExecuteAsCommand(self)
 
     @property
-    def at(self: CommandNode) -> 'ExecuteAtCommand':
+    def at(self: CommandNode) -> "ExecuteAtCommand":
         return ExecuteAtCommand(self)
 
     @property
-    def if_(self: CommandNode) -> 'ExecuteIfCommand':
+    def if_(self: CommandNode) -> "ExecuteIfCommand":
         return ExecuteIfCommand(self)
 
     @property
-    def unless(self: CommandNode) -> 'ExecuteUnlessCommand':
+    def unless(self: CommandNode) -> "ExecuteUnlessCommand":
         return ExecuteUnlessCommand(self)
 
     @property
-    def in_(self: CommandNode) -> 'ExecuteInCommand':
+    def in_(self: CommandNode) -> "ExecuteInCommand":
         return ExecuteInCommand(self)
 
     @property
-    def run(self: CommandNode) -> 'ExecuteRunCommand':
+    def run(self: CommandNode) -> "ExecuteRunCommand":
         # TODO Can we make circular redirects work without this hack?
         from pyckaxe.command.commands.execute_run import ExecuteRunCommand
+
         return ExecuteRunCommand(self)
 
 
 class ExecuteIfUnlessCommandMixin:
     @property
-    def block(self: CommandNode) -> 'ExecuteIfUnlessBlockCommand':
+    def block(self: CommandNode) -> "ExecuteIfUnlessBlockCommand":
         return ExecuteIfUnlessBlockCommand(self)
 
     @property
-    def blocks(self: CommandNode) -> 'ExecuteIfUnlessBlocksCommand':
+    def blocks(self: CommandNode) -> "ExecuteIfUnlessBlocksCommand":
         return ExecuteIfUnlessBlocksCommand(self)
 
     @property
-    def entity(self: CommandNode) -> 'ExecuteIfUnlessEntityCommand':
+    def entity(self: CommandNode) -> "ExecuteIfUnlessEntityCommand":
         return ExecuteIfUnlessEntityCommand(self)
 
     @property
-    def score(self: CommandNode) -> 'ExecuteIfUnlessScoreCommand':
+    def score(self: CommandNode) -> "ExecuteIfUnlessScoreCommand":
         return ExecuteIfUnlessScoreCommand(self)
 
 
 class ExecuteCommand(CommandLiteral, ExecuteCommandMixin):
-    _LITERAL = 'execute'
+    _LITERAL = "execute"
 
 
 class ExecuteAsCommand(CommandLiteral):
-    _LITERAL = 'as'
+    _LITERAL = "as"
 
-    def __call__(self, targets: CommandTarget) -> 'ExecuteAsTargetsCommand':
+    def __call__(self, targets: CommandTarget) -> "ExecuteAsTargetsCommand":
         return self.targets(targets)
 
-    def targets(self, targets: CommandTarget) -> 'ExecuteAsTargetsCommand':
+    def targets(self, targets: CommandTarget) -> "ExecuteAsTargetsCommand":
         return ExecuteAsTargetsCommand(self, targets)
 
 
 class ExecuteAtCommand(CommandLiteral):
-    _LITERAL = 'at'
+    _LITERAL = "at"
 
-    def __call__(self, targets: CommandTarget) -> 'ExecuteAtTargetsCommand':
+    def __call__(self, targets: CommandTarget) -> "ExecuteAtTargetsCommand":
         return self.targets(targets)
 
-    def targets(self, targets: CommandTarget) -> 'ExecuteAtTargetsCommand':
+    def targets(self, targets: CommandTarget) -> "ExecuteAtTargetsCommand":
         return ExecuteAtTargetsCommand(self, targets)
 
 
@@ -81,25 +82,29 @@ class ExecuteAtTargetsCommand(CommandArgument, ExecuteCommandMixin):
 
 
 class ExecuteIfCommand(CommandLiteral, ExecuteIfUnlessCommandMixin):
-    _LITERAL = 'if'
+    _LITERAL = "if"
 
 
 class ExecuteUnlessCommand(CommandLiteral, ExecuteIfUnlessCommandMixin):
-    _LITERAL = 'unless'
+    _LITERAL = "unless"
 
 
 class ExecuteIfUnlessBlockCommand(CommandLiteral):
-    _LITERAL = 'block'
+    _LITERAL = "block"
 
-    def __call__(self, position: Position, block: BlockPredicate) -> 'ExecuteIfUnlessBlockPositionBlockCommand':
+    def __call__(
+        self, position: Position, block: BlockPredicate
+    ) -> "ExecuteIfUnlessBlockPositionBlockCommand":
         return self.position(position).block(block)
 
-    def position(self, position: Position) -> 'ExecuteIfUnlessBlockPositionCommand':
+    def position(self, position: Position) -> "ExecuteIfUnlessBlockPositionCommand":
         return ExecuteIfUnlessBlockPositionCommand(self, position)
 
 
 class ExecuteIfUnlessBlockPositionCommand(CommandArgument):
-    def block(self, block: BlockPredicate) -> 'ExecuteIfUnlessBlockPositionBlockCommand':
+    def block(
+        self, block: BlockPredicate
+    ) -> "ExecuteIfUnlessBlockPositionBlockCommand":
         return ExecuteIfUnlessBlockPositionBlockCommand(self, block)
 
 
@@ -108,46 +113,46 @@ class ExecuteIfUnlessBlockPositionBlockCommand(CommandArgument, ExecuteCommandMi
 
 
 class ExecuteIfUnlessBlocksCommand(CommandLiteral):
-    _LITERAL = 'blocks'
+    _LITERAL = "blocks"
 
     # TODO finish execute if/unless blocks
 
 
 class ExecuteIfUnlessEntityCommand(CommandLiteral):
-    _LITERAL = 'entity'
+    _LITERAL = "entity"
 
     # TODO finish execute if/unless entity
 
 
 class ExecuteIfUnlessScoreCommand(CommandLiteral):
-    _LITERAL = 'score'
+    _LITERAL = "score"
 
     # TODO finish execute if/unless score
 
 
 class ExecuteInCommand(CommandLiteral):
-    _LITERAL = 'in'
+    _LITERAL = "in"
 
     @property
-    def overworld(self) -> 'ExecuteInOverworldCommand':
+    def overworld(self) -> "ExecuteInOverworldCommand":
         return ExecuteInOverworldCommand(self)
 
     @property
-    def the_end(self) -> 'ExecuteInTheEndCommand':
+    def the_end(self) -> "ExecuteInTheEndCommand":
         return ExecuteInTheEndCommand(self)
 
     @property
-    def the_nether(self) -> 'ExecuteInTheNetherCommand':
+    def the_nether(self) -> "ExecuteInTheNetherCommand":
         return ExecuteInTheNetherCommand(self)
 
 
 class ExecuteInOverworldCommand(CommandLiteral, ExecuteCommandMixin):
-    _LITERAL = 'overworld'
+    _LITERAL = "overworld"
 
 
 class ExecuteInTheEndCommand(CommandLiteral, ExecuteCommandMixin):
-    _LITERAL = 'the_end'
+    _LITERAL = "the_end"
 
 
 class ExecuteInTheNetherCommand(CommandLiteral, ExecuteCommandMixin):
-    _LITERAL = 'the_nether'
+    _LITERAL = "the_nether"

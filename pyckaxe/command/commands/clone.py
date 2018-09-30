@@ -4,81 +4,93 @@ from pyckaxe.types import BlockPredicate, Position
 
 class CloneBeginEndDestinationFMRCommandMixin:
     @property
-    def force(self: CommandNode) -> 'CloneBeginEndDestinationFMRForceCommand':
+    def force(self: CommandNode) -> "CloneBeginEndDestinationFMRForceCommand":
         return CloneBeginEndDestinationFMRForceCommand(self)
 
     @property
-    def move(self: CommandNode) -> 'CloneBeginEndDestinationFMRMoveCommand':
+    def move(self: CommandNode) -> "CloneBeginEndDestinationFMRMoveCommand":
         return CloneBeginEndDestinationFMRMoveCommand(self)
 
     @property
-    def normal(self: CommandNode) -> 'CloneBeginEndDestinationFMRNormalCommand':
+    def normal(self: CommandNode) -> "CloneBeginEndDestinationFMRNormalCommand":
         return CloneBeginEndDestinationFMRNormalCommand(self)
 
 
 class CloneCommand(CommandLiteral):
-    _LITERAL = 'clone'
+    _LITERAL = "clone"
 
-    def __call__(self, begin: Position, end: Position, destination: Position) -> 'CloneBeginEndDestinationCommand':
+    def __call__(
+        self, begin: Position, end: Position, destination: Position
+    ) -> "CloneBeginEndDestinationCommand":
         return self.begin(begin).end(end).destination(destination)
 
-    def begin(self, begin: Position) -> 'CloneBeginCommand':
+    def begin(self, begin: Position) -> "CloneBeginCommand":
         return CloneBeginCommand(self, begin)
 
 
 class CloneBeginCommand(CommandArgument):
-    def end(self, end: Position) -> 'CloneBeginEndCommand':
+    def end(self, end: Position) -> "CloneBeginEndCommand":
         return CloneBeginEndCommand(self, end)
 
 
 class CloneBeginEndCommand(CommandArgument):
-    def destination(self, destination: Position) -> 'CloneBeginEndDestinationCommand':
+    def destination(self, destination: Position) -> "CloneBeginEndDestinationCommand":
         return CloneBeginEndDestinationCommand(self, destination)
 
 
 class CloneBeginEndDestinationCommand(CommandArgument):
     @property
-    def filtered(self) -> 'CloneBeginEndDestinationFilteredCommand':
+    def filtered(self) -> "CloneBeginEndDestinationFilteredCommand":
         return CloneBeginEndDestinationFilteredCommand(self)
 
     @property
-    def masked(self) -> 'CloneBeginEndDestinationMaskedCommand':
+    def masked(self) -> "CloneBeginEndDestinationMaskedCommand":
         return CloneBeginEndDestinationMaskedCommand(self)
 
     @property
-    def replace(self) -> 'CloneBeginEndDestinationReplaceCommand':
+    def replace(self) -> "CloneBeginEndDestinationReplaceCommand":
         return CloneBeginEndDestinationReplaceCommand(self)
 
 
 class CloneBeginEndDestinationFilteredCommand(CommandLiteral):
-    _LITERAL = 'filtered'
+    _LITERAL = "filtered"
 
-    def __call__(self, filter: BlockPredicate) -> 'CloneBeginEndDestinationFilteredFilterCommand':
+    def __call__(
+        self, filter: BlockPredicate
+    ) -> "CloneBeginEndDestinationFilteredFilterCommand":
         return self.filter(filter)
 
-    def filter(self, filter: BlockPredicate) -> 'CloneBeginEndDestinationFilteredFilterCommand':
+    def filter(
+        self, filter: BlockPredicate
+    ) -> "CloneBeginEndDestinationFilteredFilterCommand":
         return CloneBeginEndDestinationFilteredFilterCommand(self, filter)
 
 
-class CloneBeginEndDestinationFilteredFilterCommand(CommandArgument, CloneBeginEndDestinationFMRCommandMixin):
+class CloneBeginEndDestinationFilteredFilterCommand(
+    CommandArgument, CloneBeginEndDestinationFMRCommandMixin
+):
     pass
 
 
-class CloneBeginEndDestinationMaskedCommand(CommandLiteral, CloneBeginEndDestinationFMRCommandMixin):
-    _LITERAL = 'masked'
+class CloneBeginEndDestinationMaskedCommand(
+    CommandLiteral, CloneBeginEndDestinationFMRCommandMixin
+):
+    _LITERAL = "masked"
 
 
-class CloneBeginEndDestinationReplaceCommand(CommandLiteral, CloneBeginEndDestinationFMRCommandMixin):
-    _LITERAL = 'replace'
+class CloneBeginEndDestinationReplaceCommand(
+    CommandLiteral, CloneBeginEndDestinationFMRCommandMixin
+):
+    _LITERAL = "replace"
 
 
 class CloneBeginEndDestinationFMRForceCommand(CommandLiteral):
-    _LITERAL = 'force'
+    _LITERAL = "force"
 
 
 class CloneBeginEndDestinationFMRMoveCommand(CommandLiteral):
-    _LITERAL = 'move'
+    _LITERAL = "move"
 
 
 class CloneBeginEndDestinationFMRNormalCommand(CommandLiteral):
-    _LITERAL = 'normal'
+    _LITERAL = "normal"

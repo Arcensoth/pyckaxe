@@ -3,4 +3,4 @@ from pyckaxe.command.commands.root import RootCommandMixin
 
 
 class ExecuteRunCommand(CommandLiteral, RootCommandMixin):
-    _LITERAL = 'run'
+    _LITERAL = "run"

@@ -3,12 +3,12 @@ from pyckaxe.types import FunctionResourceLocation
 
 
 class FunctionCommand(CommandLiteral):
-    _LITERAL = 'function'
+    _LITERAL = "function"
 
-    def __call__(self, name: FunctionResourceLocation) -> 'FunctionNameCommand':
+    def __call__(self, name: FunctionResourceLocation) -> "FunctionNameCommand":
         return self.name(name)
 
-    def name(self, name: FunctionResourceLocation) -> 'FunctionNameCommand':
+    def name(self, name: FunctionResourceLocation) -> "FunctionNameCommand":
         return FunctionNameCommand(self, name)
 
 
