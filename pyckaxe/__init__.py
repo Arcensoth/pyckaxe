@@ -1,4 +1,4 @@
-from pyckaxe.command.commands.root import RootCommand
+from pyckaxe.command.commands._root.root_command import RootCommand
 
 commands = RootCommand()
 
