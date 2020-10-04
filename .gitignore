@@ -1,9 +1,6 @@
-__pycache__
-build
-dist
-*.egg-info/
-.idea
-venv
-.pytest_cache
-.coverage
-.vscode
+.pytest_cache/**
+**/__pycache__
+venv/**
+*.egg-info/**
+
+.vscode/**
