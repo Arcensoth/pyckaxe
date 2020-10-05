@@ -1,17 +1,15 @@
 language: python
 
 python:
-  - "3.6"
-  - "3.6-dev"
-  - "3.7-dev"
+  - "3.8"
   - "nightly"
 
 install:
-  - pip install -r requirements.txt
+  - pip install poetry
+  - python -m poetry install
 
 # just run the tests first
 script:
-  - pip install pytest
   - python -m pytest tests/
 
 # if the tests succeed, then run full coverage reports
