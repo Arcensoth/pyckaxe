@@ -5,6 +5,7 @@ from pyckaxe.pack.pack_context import PackContext
 
 class Namespace:
     def __init__(self, name: str):
+        assert isinstance(name, str)
         self.name: str = name
 
     def __str__(self) -> str:

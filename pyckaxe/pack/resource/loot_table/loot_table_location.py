@@ -1,5 +1,5 @@
 from pyckaxe.pack.resource.abc.resource_location import ResourceLocation
-from pyckaxe.pack.resource.loot_table import LootTable
+from pyckaxe.pack.resource.loot_table.loot_table import LootTable
 
 
 class LootTableLocation(ResourceLocation[LootTable]):

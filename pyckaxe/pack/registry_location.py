@@ -7,6 +7,8 @@ from pyckaxe.pack.pack_context import PackContext
 
 class RegistryLocation:
     def __init__(self, namespace: Namespace, parts: Tuple[str]):
+        assert isinstance(namespace, Namespace)
+        assert isinstance(parts, tuple)
         self.namespace: Namespace = namespace
         self.parts: Tuple[str] = parts
 

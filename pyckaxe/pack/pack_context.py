@@ -3,6 +3,7 @@ from pathlib import Path
 
 class PackContext:
     def __init__(self, path: Path):
+        assert isinstance(path, Path)
         self.path: Path = path
 
     def __str__(self) -> str:
@@ -28,3 +29,7 @@ class PackContext:
     @property
     def data_path(self) -> Path:
         return self.path / "data"
+
+    @property
+    def assets_path(self) -> Path:
+        return self.path / "assets"

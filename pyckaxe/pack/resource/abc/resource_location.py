@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Generic, Tuple, Type, TypeVar
 
-from pyckaxe import CommandToken
+from pyckaxe.command.abc.command_token import CommandToken
 from pyckaxe.pack.namespace import Namespace
 from pyckaxe.pack.pack_context import PackContext
 from pyckaxe.pack.registry_location import RegistryLocation
@@ -28,6 +28,8 @@ class ResourceLocation(CommandToken, Generic[ResourceType]):
         return cls.from_string(name)
 
     def __init__(self, namespace: Namespace, parts: Tuple[str]):
+        assert isinstance(namespace, Namespace)
+        assert isinstance(parts, tuple)
         self.registry_location: RegistryLocation = RegistryLocation(namespace, self.registry_parts)
         self.parts: Tuple[str] = parts
 
