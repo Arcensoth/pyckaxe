@@ -1,7 +1,5 @@
 # TODO implement type generics and implicit conversions for all types
 AdvancementCriteria = str
-Block = str
-BlockPredicate = Block
 CommandTarget = str
 CompoundDataTag = str
 DataPath = str
@@ -12,7 +10,6 @@ EntityTag = str
 GreedyString = str
 Item = str
 ItemSlot = str
-Position = str
 Rotation = str
 ScoreboardCriteria = str
 ScoreboardObjective = str

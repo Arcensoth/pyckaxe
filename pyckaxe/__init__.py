@@ -1,6 +1,5 @@
-from pyckaxe.command.commands._root.root_command import RootCommand
-
-commands = RootCommand()
+from pyckaxe.coordinate import Coordinate
+from pyckaxe.position import Position
 
 
 class Selector:

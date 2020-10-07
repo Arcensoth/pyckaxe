@@ -1,0 +1,8 @@
+from pyckaxe.command.abc.command import CommandNode
+from pyckaxe.commands.v1_16.execute_run import ExecuteRunCommand
+
+
+class ExecuteCommandMixin:
+    @property
+    def run(self: CommandNode) -> ExecuteRunCommand:
+        ...
