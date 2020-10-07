@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyckaxe"
-version = "0.0.4-alpha.0"
+version = "0.1.0-alpha.0"
 description = "An expressive Minecraft utility library revolving around data manipulation and generation."
 authors = ["Arcensoth <arcensoth@gmail.com>"]
 license = "MIT"
