@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Generic, Type, TypeVar
 
-from pyckaxe.utils.resources import load_dict_resource, load_raw_resource
+from pyckaxe.utils.resources import ResourceError, load_dict_resource, load_raw_resource
 
 ResourceType = TypeVar("ResourceType", bound="Resource")
 RawType = TypeVar("RawType")
@@ -21,8 +21,13 @@ class Resource(ABC, Generic[RawType]):
 
     @classmethod
     async def from_path(cls: Type[ResourceType], path: Path) -> ResourceType:
-        raw = await cls.load_raw(path)
-        return await cls.from_raw(raw)
+        try:
+            raw = await cls.load_raw(path)
+            return await cls.from_raw(raw)
+        except ResourceError:
+            raise
+        except Exception as ex:
+            raise ResourceError(path) from ex
 
 
 class RawResource(Resource[str]):
