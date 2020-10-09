@@ -24,5 +24,5 @@ class ReadablePack:
 
     async def get_meta(self) -> PackMeta:
         meta_path = self.context.pack_meta_path
-        meta = await PackMeta.from_path(meta_path)
+        meta = await PackMeta.load(meta_path)
         return meta

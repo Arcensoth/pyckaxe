@@ -38,5 +38,5 @@ class ReadableResourceRegistry(ReadableRegistryNode, Generic[ResourceType, Resou
                     self.registry_location.namespace, parts_without_ext
                 )
                 partial_path = path.with_suffix("")
-                resource = await self.resource_class.from_path(partial_path)
+                resource = await self.resource_class.load(partial_path)
                 yield resource, resource_location, path

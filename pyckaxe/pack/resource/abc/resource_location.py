@@ -55,7 +55,7 @@ class ResourceLocation(CommandToken, Generic[ResourceType]):
 
     async def resolve(self, pack_context: PackContext) -> ResourceType:
         resource_path = self.locate(pack_context)
-        resource = await self.resource_class.from_path(resource_path)
+        resource = await self.resource_class.load(resource_path)
         return resource
 
     # @implements CommandToken

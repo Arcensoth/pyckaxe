@@ -19,7 +19,7 @@ class PackMeta:
     description: TextComponent
 
     @staticmethod
-    async def from_path(path: Path) -> "PackMeta":
+    async def load(path: Path) -> "PackMeta":
         with open(path, "r") as fp:
             raw = json.load(fp)
         try:

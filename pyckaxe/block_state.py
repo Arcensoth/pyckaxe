@@ -1,15 +1,12 @@
 from collections.abc import MutableMapping
 from dataclasses import dataclass
-from typing import Any, Union
 
+from pyckaxe.abc.serializable import Serializable
 from pyckaxe.command.abc.command_token import CommandToken
-
-# KeyType = Any
-# ValueType = Union[str, float, int, bool]
 
 
 @dataclass
-class BlockState(MutableMapping, CommandToken):
+class BlockState(MutableMapping, CommandToken, Serializable):
     _value: dict
 
     # @implements MutableMapping
@@ -35,6 +32,10 @@ class BlockState(MutableMapping, CommandToken):
     # @implements MutableMapping
     def __iter__(self):
         return self._value.__iter__()
+
+    # @implements Serializable
+    def serialize(self) -> dict:
+        return self._value
 
     # @implements CommandToken
     def command_stringify(self) -> str:
