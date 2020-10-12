@@ -17,6 +17,9 @@ class Coordinate(CommandToken):
             return AbsoluteCoordinate(float(value))
         raise ValueError(f"Value cannot be converted to coordinate: {value}")
 
+    def __bool__(self) -> bool:
+        return bool(self.value)
+
     def __invert__(self) -> "Coordinate":
         return RelativeCoordinate(self.value)
 

@@ -19,6 +19,9 @@ class Position(CommandToken):
         position = Position(*raw_position)
         return position
 
+    def __bool__(self) -> bool:
+        return bool(self.x) or bool(self.y) or bool(self.z)
+
     def __invert__(self) -> "Position":
         rx = ~self.x
         ry = ~self.y
