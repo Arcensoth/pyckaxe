@@ -43,7 +43,7 @@ class Resource(AsyncSerializable, Generic[RawType]):
         except ResourceError:
             raise
         except Exception as ex:
-            raise ResourceError(partial_path) from ex
+            raise ResourceError(partial_path, f"Resource error: {partial_path}") from ex
 
     async def dump(self, partial_path: Path) -> ResourceType:
         raw = await self.serialize()
