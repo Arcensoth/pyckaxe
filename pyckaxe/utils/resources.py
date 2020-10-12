@@ -79,3 +79,9 @@ async def load_dict_resource(partial_path: Path) -> dict:
             raise YamlNotInstalledError(path)
     else:
         raise UnsupportedResourceExtensionError(path)
+
+
+async def load_nbt_resource(partial_path: Path) -> bytes:
+    path = await get_resource_path(partial_path)
+    with open(path, "rb") as fp:
+        return fp.read()

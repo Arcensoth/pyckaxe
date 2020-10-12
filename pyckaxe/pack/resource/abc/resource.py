@@ -4,7 +4,12 @@ from pathlib import Path
 from typing import Generic, Type, TypeVar
 
 from pyckaxe.abc.serializable import AsyncSerializable
-from pyckaxe.utils.resources import ResourceError, load_dict_resource, load_raw_resource
+from pyckaxe.utils.resources import (
+    ResourceError,
+    load_dict_resource,
+    load_nbt_resource,
+    load_raw_resource,
+)
 
 ResourceType = TypeVar("ResourceType", bound="Resource")
 RawType = TypeVar("RawType")
@@ -56,7 +61,7 @@ class RawResource(Resource[str]):
 
     # @implements Resource
     @classmethod
-    async def _dump_raw(cls, raw: dict, partial_path: Path):
+    async def _dump_raw(cls, raw: str, partial_path: Path):
         with open(partial_path.with_suffix(cls._file_suffix), "w") as fp:
             fp.write(raw)
 
@@ -74,3 +79,18 @@ class DictResource(Resource[dict]):
     async def _dump_raw(cls, raw: dict, partial_path: Path):
         with open(partial_path.with_suffix(cls._file_suffix), "w") as fp:
             json.dump(raw, fp)
+
+
+class NbtResource(Resource[bytes]):
+    _file_suffix = ".nbt"
+
+    # @implements Resource
+    @classmethod
+    async def _load_raw(cls, partial_path: Path) -> bytes:
+        return await load_nbt_resource(partial_path)
+
+    # @implements Resource
+    @classmethod
+    async def _dump_raw(cls, raw: bytes, partial_path: Path):
+        with open(partial_path.with_suffix(cls._file_suffix), "wb") as fp:
+            fp.write(raw)
