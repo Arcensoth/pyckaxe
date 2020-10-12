@@ -1,4 +1,4 @@
-from typing import Callable, Type, TypeVar
+from typing import Any, Callable, Type, TypeVar
 
 
 class MissingRequiredFieldError(Exception):
@@ -27,17 +27,23 @@ class MalformedFieldError(Exception):
 
 FieldType = TypeVar("FieldType")
 
+DEFAULT = object()
+
 
 def get_field(
-    raw: dict, field: str, type: Type[FieldType] = None, check: Callable[[FieldType], bool] = None
+    raw: dict,
+    field: str,
+    type: Type[FieldType] = None,
+    check: Callable[[FieldType], bool] = None,
+    default: Any = DEFAULT,
 ) -> FieldType:
     value = raw.get(field)
-    if type is not None:
-        if value is None:
-            raise MissingRequiredFieldError(raw, field)
-        if not isinstance(value, type):
-            raise InvalidFieldTypeError(raw, field, type)
-    if check is not None:
-        if not check(value):
-            raise MalformedFieldError(raw, field)
+    if value is None:
+        if default is not DEFAULT:
+            return default
+        raise MissingRequiredFieldError(raw, field)
+    if (type is not None) and (not isinstance(value, type)):
+        raise InvalidFieldTypeError(raw, field, type)
+    if (check is not None) and (not check(value)):
+        raise MalformedFieldError(raw, field)
     return value
