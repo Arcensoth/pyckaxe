@@ -2,7 +2,7 @@ from typing import Any
 
 from pyckaxe.command.abc.command_token import CommandToken
 from pyckaxe.coordinate import Coordinate
-from pyckaxe.utils.fields import get_field
+from pyckaxe.utils.fields import DEFAULT, get_field
 
 
 class Position(CommandToken):
@@ -12,9 +12,12 @@ class Position(CommandToken):
         self.z: Coordinate = Coordinate.from_any(z)
 
     @staticmethod
-    def from_field(raw: dict, name: str) -> "Position":
-        raw_pos = get_field(raw, name, type=list, check=lambda obj: len(obj) == 3)
-        return Position(*raw_pos)
+    def from_field(raw: dict, field: str, default=DEFAULT) -> "Position":
+        raw_position = get_field(
+            raw, field, type=list, check=lambda obj: len(obj) == 3, default=default
+        )
+        position = Position(*raw_position)
+        return position
 
     def __invert__(self) -> "Position":
         rx = ~self.x

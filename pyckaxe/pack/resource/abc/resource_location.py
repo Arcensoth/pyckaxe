@@ -6,7 +6,7 @@ from pyckaxe.pack.namespace import Namespace
 from pyckaxe.pack.pack_context import PackContext
 from pyckaxe.pack.registry_location import RegistryLocation
 from pyckaxe.pack.resource.abc.resource import Resource
-from pyckaxe.utils.fields import get_field
+from pyckaxe.utils.fields import DEFAULT, get_field
 
 ResourceLocationType = TypeVar("ResourceLocationType", bound="ResourceLocation")
 ResourceType = TypeVar("ResourceType", bound=Resource)
@@ -23,9 +23,12 @@ class ResourceLocation(CommandToken, Generic[ResourceType]):
         return cls(namespace, parts)
 
     @classmethod
-    def from_field(cls: Type[ResourceLocationType], raw: dict, name: str) -> ResourceLocationType:
-        name = get_field(raw, name, type=str)
-        return cls.from_string(name)
+    def from_field(
+        cls: Type[ResourceLocationType], raw: dict, field: str, default=DEFAULT
+    ) -> ResourceLocationType:
+        raw_resource_location = get_field(raw, field, type=str, default=default)
+        resource_location = cls.from_string(raw_resource_location)
+        return resource_location
 
     def __init__(self, namespace: Namespace, parts: Tuple[str]):
         assert isinstance(namespace, Namespace)
