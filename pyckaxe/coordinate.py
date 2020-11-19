@@ -15,7 +15,7 @@ class Coordinate(CommandToken):
             return AbsoluteCoordinate(value)
         if isinstance(value, int):
             return AbsoluteCoordinate(float(value))
-        raise ValueError(f"Value cannot be converted to coordinate: {value}")
+        raise ValueError(f"Value cannot be converted to {Coordinate.__name__}: {value}")
 
     def __bool__(self) -> bool:
         return bool(self.value)
@@ -25,18 +25,30 @@ class Coordinate(CommandToken):
 
 
 class AbsoluteCoordinate(Coordinate):
+    def __add__(self, other: Any) -> "AbsoluteCoordinate":
+        c = Coordinate.from_any(other)
+        return AbsoluteCoordinate(self.value + c.value)
+
     # @implements CommandToken
     def command_stringify(self) -> str:
         return f"{self.value:g}"
 
 
 class RelativeCoordinate(Coordinate):
+    def __add__(self, other: Any) -> "RelativeCoordinate":
+        c = Coordinate.from_any(other)
+        return RelativeCoordinate(self.value + c.value)
+
     # @implements CommandToken
     def command_stringify(self) -> str:
         return f"~{self.value:g}"
 
 
 class LocalCoordinate(Coordinate):
+    def __add__(self, other: Any) -> "LocalCoordinate":
+        c = Coordinate.from_any(other)
+        return LocalCoordinate(self.value + c.value)
+
     # @implements CommandToken
     def command_stringify(self) -> str:
         return f"^{self.value:g}"
