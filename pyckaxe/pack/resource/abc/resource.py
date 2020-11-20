@@ -3,6 +3,7 @@ from abc import abstractmethod
 from pathlib import Path
 from typing import Generic, Type, TypeVar
 
+import nbtlib
 from pyckaxe.abc.serializable import AsyncSerializable
 from pyckaxe.utils.resources import (
     ResourceError,
@@ -81,16 +82,17 @@ class DictResource(Resource[dict]):
             json.dump(raw, fp)
 
 
-class NbtResource(Resource[bytes]):
+class NbtResource(Resource[nbtlib.Compound]):
     _file_suffix = ".nbt"
 
     # @implements Resource
     @classmethod
-    async def _load_raw(cls, partial_path: Path) -> bytes:
+    async def _load_raw(cls, partial_path: Path) -> nbtlib.Compound:
         return await load_nbt_resource(partial_path)
 
     # @implements Resource
     @classmethod
-    async def _dump_raw(cls, raw: bytes, partial_path: Path):
-        with open(partial_path.with_suffix(cls._file_suffix), "wb") as fp:
-            fp.write(raw)
+    async def _dump_raw(cls, raw: nbtlib.Compound, partial_path: Path):
+        filename = partial_path.with_suffix(cls._file_suffix)
+        nbtfile = nbtlib.File({"": raw}, gzipped=True)
+        nbtfile.save(filename)
