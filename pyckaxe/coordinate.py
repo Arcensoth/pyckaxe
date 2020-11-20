@@ -20,6 +20,9 @@ class Coordinate(CommandToken):
     def __bool__(self) -> bool:
         return bool(self.value)
 
+    def __int__(self) -> int:
+        return int(self.value)
+
     def __invert__(self) -> "Coordinate":
         return RelativeCoordinate(self.value)
 
