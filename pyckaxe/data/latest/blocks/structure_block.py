@@ -11,7 +11,7 @@ from pyckaxe.safe_enum import SafeEnum
 
 @dataclass
 class StructureBlock(BlockBase):
-    NAME = "structure_block"
+    NAME = "minecraft:structure_block"
 
     class Mode(SafeEnum):
         SAVE = "save"
