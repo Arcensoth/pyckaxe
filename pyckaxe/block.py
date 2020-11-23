@@ -9,8 +9,8 @@ from pyckaxe.data_tag import CompoundDataTag
 @dataclass
 class Block(CommandToken):
     name: str
-    state: Optional[BlockState]
-    data: Optional[CompoundDataTag]
+    state: Optional[BlockState] = None
+    data: Optional[CompoundDataTag] = None
 
     def _command_stringify(self) -> Iterable[str]:
         yield self.name
