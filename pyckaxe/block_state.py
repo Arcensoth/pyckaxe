@@ -1,6 +1,9 @@
 from collections.abc import MutableMapping
 from dataclasses import dataclass
 
+from nbtlib import tag
+
+from pyckaxe.abc.nbt_serializable import NbtSerializable
 from pyckaxe.abc.serializable import Serializable
 from pyckaxe.command.abc.command_token import CommandToken
 
@@ -36,6 +39,20 @@ class BlockState(MutableMapping, CommandToken, Serializable):
     # @implements Serializable
     def serialize(self) -> dict:
         return self._value
+
+    # @implements NbtSerializable
+    def to_nbt(self) -> tag.Compound:
+        # NOTE All block state property values are encoded as strings in NBT.
+        c = tag.Compound()
+        for k, v in self.items():
+            if isinstance(v, bool):
+                v = "true" if v else "false"
+            elif isinstance(v, (int, float, str)):
+                v = str(v)
+            else:
+                raise ValueError(f"Invalid block state value: {v}")
+            c[k] = tag.String(v)
+        return c
 
     # @implements CommandToken
     def command_stringify(self) -> str:
