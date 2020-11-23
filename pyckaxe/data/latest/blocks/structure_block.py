@@ -5,24 +5,8 @@ from nbtlib import tag
 from nbtlib.schema import CompoundSchema
 from pyckaxe.data.abc.block_base import BlockBase
 from pyckaxe.data.abc.block_data_base import BlockDataBase
-from pyckaxe.data.abc.block_state_base import BlockStateBase
 from pyckaxe.position import Position
 from pyckaxe.safe_enum import SafeEnum
-
-
-@dataclass
-class StructureBlockState(BlockStateBase):
-    class Mode(SafeEnum):
-        SAVE = "save"
-        LOAD = "load"
-        CORNER = "corner"
-        DATA = "data"
-
-    mode: Optional[Mode] = None
-
-    # @implements BlockStateBase
-    def _items(self) -> Iterable[Tuple[str, Any]]:
-        yield "mode", self.mode.value
 
 
 @dataclass
@@ -112,5 +96,16 @@ class StructureBlockData(BlockDataBase):
 class StructureBlock(BlockBase):
     NAME = "structure_block"
 
-    state: Optional[StructureBlockState]
-    data: Optional[StructureBlockData]
+    class Mode(SafeEnum):
+        SAVE = "save"
+        LOAD = "load"
+        CORNER = "corner"
+        DATA = "data"
+
+    mode: Optional[Mode] = None
+
+    data: Optional[StructureBlockData] = None
+
+    # @implements BlockBase
+    def _properties(self) -> Iterable[Tuple[str, Any]]:
+        yield "mode", self.mode.value
