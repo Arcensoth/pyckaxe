@@ -9,7 +9,7 @@ from pyckaxe.command.abc.command_token import CommandToken
 
 
 @dataclass
-class BlockState(MutableMapping, CommandToken, Serializable):
+class BlockState(MutableMapping, CommandToken, Serializable, NbtSerializable):
     _value: dict
 
     # @implements MutableMapping
