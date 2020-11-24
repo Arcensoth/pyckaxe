@@ -1,6 +1,7 @@
+from nbtlib import tag
 from pyckaxe.command.abc.command import CommandArgument, CommandLiteral
 from pyckaxe.position import Position
-from pyckaxe.types import CompoundDataTag, DataPath, UniqueCommandTarget
+from pyckaxe.types import DataPath, UniqueCommandTarget
 
 
 class DataCommand(CommandLiteral):
@@ -104,9 +105,7 @@ class DataMergeCommand(CommandLiteral):
 class DataMergeBlockCommand(CommandLiteral):
     _LITERAL = "block"
 
-    def __call__(
-        self, position: Position, nbt: CompoundDataTag
-    ) -> "DataMergeBlockPositionNbtCommand":
+    def __call__(self, position: Position, nbt: tag.Compound) -> "DataMergeBlockPositionNbtCommand":
         return self.position(position).nbt(nbt)
 
     def position(self, position: Position) -> "DataMergeBlockPositionCommand":
@@ -114,7 +113,7 @@ class DataMergeBlockCommand(CommandLiteral):
 
 
 class DataMergeBlockPositionCommand(CommandArgument):
-    def nbt(self, nbt: CompoundDataTag) -> "DataMergeBlockPositionNbtCommand":
+    def nbt(self, nbt: tag.Compound) -> "DataMergeBlockPositionNbtCommand":
         return DataMergeBlockPositionNbtCommand(self, nbt)
 
 
@@ -126,7 +125,7 @@ class DataMergeEntityCommand(CommandLiteral):
     _LITERAL = "entity"
 
     def __call__(
-        self, target: UniqueCommandTarget, nbt: CompoundDataTag
+        self, target: UniqueCommandTarget, nbt: tag.Compound
     ) -> "DataMergeEntityTargetNbtCommand":
         return self.target(target).nbt(nbt)
 
@@ -135,7 +134,7 @@ class DataMergeEntityCommand(CommandLiteral):
 
 
 class DataMergeEntityTargetCommand(CommandArgument):
-    def nbt(self, nbt: CompoundDataTag) -> "DataMergeEntityTargetNbtCommand":
+    def nbt(self, nbt: tag.Compound) -> "DataMergeEntityTargetNbtCommand":
         return DataMergeEntityTargetNbtCommand(self, nbt)
 
 

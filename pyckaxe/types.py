@@ -1,7 +1,6 @@
 # TODO implement type generics and implicit conversions for all types
 AdvancementCriteria = str
 CommandTarget = str
-CompoundDataTag = str
 DataPath = str
 Effect = str
 Entity = str

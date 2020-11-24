@@ -1,13 +1,14 @@
+from nbtlib import tag
 from pyckaxe.command.abc.command import CommandArgument, CommandLiteral
 from pyckaxe.position import Position
-from pyckaxe.types import CompoundDataTag, Entity
+from pyckaxe.types import Entity
 
 
 class SummonCommand(CommandLiteral):
     _LITERAL = "summon"
 
     def __call__(
-        self, entity: Entity, position: Position, nbt: CompoundDataTag
+        self, entity: Entity, position: Position, nbt: tag.Compound
     ) -> "SummonEntityPositionNbtCommand":
         return self.entity(entity).position(position).nbt(nbt)
 
@@ -21,7 +22,7 @@ class SummonEntityCommand(CommandArgument):
 
 
 class SummonEntityPositionCommand(CommandArgument):
-    def nbt(self, nbt: CompoundDataTag) -> "SummonEntityPositionNbtCommand":
+    def nbt(self, nbt: tag.Compound) -> "SummonEntityPositionNbtCommand":
         return SummonEntityPositionNbtCommand(self, nbt)
 
 
