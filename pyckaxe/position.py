@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Tuple
 
 from pyckaxe.command.abc.command_token import CommandToken
 from pyckaxe.coordinate import Coordinate
@@ -34,6 +34,9 @@ class Position(CommandToken):
         if isinstance(other, (tuple, list)) and len(other) == 3:
             return Position(self.x + other[0], self.y + other[1], self.z + other[2])
         raise ValueError(f"Value cannot be added with {Position.__name__}: {other}")
+
+    def unpack(self) -> Tuple[Coordinate, Coordinate, Coordinate]:
+        return self.x, self.y, self.z
 
     # @implements CommandToken
     def command_stringify(self) -> str:
