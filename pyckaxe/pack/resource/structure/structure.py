@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List
 
 import nbtlib
@@ -13,9 +13,9 @@ DATA_VERSION = 2682  # 20w46a
 @dataclass
 class Structure(NbtResource):
     size: Position
-    palette: List[dict]
-    blocks: List[dict]
-    entities: List[dict]
+    palette: List[dict] = field(default_factory=list)
+    blocks: List[dict] = field(default_factory=list)
+    entities: List[dict] = field(default_factory=list)
     data_version: int = DATA_VERSION
 
     # @implements Resource
