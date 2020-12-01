@@ -3,11 +3,11 @@ from typing import Any
 
 from nbtlib import tag
 
-BYTE_PATTERN = re.compile(r"^(-?\d)[bB]$")
-SHORT_PATTERN = re.compile(r"^(-?\d)[sS]$")
-LONG_PATTERN = re.compile(r"^(-?\d)[lL]$")
-FLOAT_PATTERN = re.compile(r"^(-?\d)[fF]$")
-DOUBLE_PATTERN = re.compile(r"^(-?\d)[dD]$")
+BYTE_PATTERN = re.compile(r"^(-?\d+)[bB]$")
+SHORT_PATTERN = re.compile(r"^(-?\d+)[sS]$")
+LONG_PATTERN = re.compile(r"^(-?\d+)[lL]$")
+FLOAT_PATTERN = re.compile(r"^(-?\d+)[fF]$")
+DOUBLE_PATTERN = re.compile(r"^(-?\d+)[dD]$")
 
 
 def to_nbt(value: Any):
