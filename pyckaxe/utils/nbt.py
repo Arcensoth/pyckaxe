@@ -23,6 +23,8 @@ def to_nbt(value: Any):
         if (match := DOUBLE_PATTERN.match(value)) :
             return tag.Double(float(match.groups()[0]))
         return tag.String(value)
+    if isinstance(value, bool):
+        return tag.Byte(value)
     if isinstance(value, int):
         return tag.Int(value)
     if isinstance(value, float):
