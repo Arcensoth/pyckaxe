@@ -69,6 +69,7 @@ class RawResource(Resource[str]):
 
 class DictResource(Resource[dict]):
     _file_suffix = ".json"
+    _dump_indent = 2
 
     # @implements Resource
     @classmethod
@@ -79,7 +80,7 @@ class DictResource(Resource[dict]):
     @classmethod
     async def _dump_raw(cls, raw: dict, partial_path: Path):
         with open(partial_path.with_suffix(cls._file_suffix), "w") as fp:
-            json.dump(raw, fp)
+            json.dump(raw, fp, indent=cls._dump_indent)
 
 
 class NbtResource(Resource[nbtlib.Compound]):
