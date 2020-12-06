@@ -49,20 +49,20 @@ class ResourceLocation(CommandToken, Generic[ResourceType]):
         return isinstance(o, ResourceLocation) and self.name == o.name
 
     def __call__(self, pack_context: PackContext) -> Coroutine[Any, Any, ResourceType]:
-        return self.resolve(pack_context)
+        return self.resolve_resource(pack_context)
 
     def extend(self, *parts: str) -> "ResourceLocation":
         resource_cls = self.__class__
         resource = resource_cls(self.namespace, (*self.parts, *parts))
         return resource
 
-    def locate(self, pack_context: PackContext) -> Path:
-        registry_path = self.registry_location.locate(pack_context)
+    def resolve_path(self, pack_context: PackContext) -> Path:
+        registry_path = self.registry_location.resolve_path(pack_context)
         resource_path = Path(registry_path.joinpath(*self.parts))
         return resource_path
 
-    async def resolve(self, pack_context: PackContext) -> ResourceType:
-        resource_path = self.locate(pack_context)
+    async def resolve_resource(self, pack_context: PackContext) -> ResourceType:
+        resource_path = self.resolve_path(pack_context)
         resource = await self.resource_class.load(resource_path)
         return resource
 

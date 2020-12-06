@@ -20,5 +20,5 @@ class Namespace:
     def __eq__(self, o: object) -> bool:
         return isinstance(o, Namespace) and self.name == o.name
 
-    def locate(self, pack_context: PackContext) -> Path:
+    def resolve_path(self, pack_context: PackContext) -> Path:
         return Path(pack_context.data_path / self.name)

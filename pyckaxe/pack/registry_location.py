@@ -24,8 +24,8 @@ class RegistryLocation:
     def __eq__(self, o: object) -> bool:
         return isinstance(o, RegistryLocation) and self.name == o.name
 
-    def locate(self, pack_context: PackContext) -> Path:
-        namespace_path = self.namespace.locate(pack_context)
+    def resolve_path(self, pack_context: PackContext) -> Path:
+        namespace_path = self.namespace.resolve_path(pack_context)
         return Path(namespace_path.joinpath(*self.parts))
 
     @property
