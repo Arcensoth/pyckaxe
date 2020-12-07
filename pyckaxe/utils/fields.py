@@ -36,6 +36,7 @@ def get_field(
     type: Type[FieldType] = None,
     check: Callable[[FieldType], bool] = None,
     default: Any = DEFAULT,
+    convert: type = None,
 ) -> FieldType:
     value = raw.get(field)
     if value is None:
@@ -46,4 +47,6 @@ def get_field(
         raise InvalidFieldTypeError(raw, field, type)
     if (check is not None) and (not check(value)):
         raise MalformedFieldError(raw, field)
+    if convert is not None:
+        return convert(value)
     return value
