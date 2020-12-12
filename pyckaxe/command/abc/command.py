@@ -45,12 +45,12 @@ class CommandLiteral(CommandNode):
 
     _LITERAL = None
 
-    def __init__(self, parent: CommandNode, literal: str = None):
+    def __init__(self, parent: CommandNode = None, literal: str = None):
         super().__init__(parent, literal or self._LITERAL)
 
 
 class CommandArgument(CommandNode):
     """ A node in the command hierarchy that resolves to the given argument. """
 
-    def __init__(self, parent: CommandNode, argument: Any):
+    def __init__(self, parent: CommandNode = None, argument: Any = None):
         super().__init__(parent, argument)

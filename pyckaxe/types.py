@@ -9,6 +9,7 @@ EntityTag = str
 GreedyString = str
 Item = str
 ItemSlot = str
+NbtPath = str
 Rotation = str
 ScoreboardCriteria = str
 ScoreboardObjective = str
@@ -20,7 +21,10 @@ SoundSource = str
 TextComponent = str
 UniqueCommandTarget = str
 
+BossbarID = str
+
 # Resource location
 ResourceLocation = str
 AdvancementResourceLocation = ResourceLocation
 FunctionResourceLocation = ResourceLocation
+StorageResourceLocation = ResourceLocation
