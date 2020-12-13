@@ -84,7 +84,7 @@ class RelativeCoordinate(Coordinate):
 
     # @implements CommandToken
     def command_stringify(self) -> str:
-        return f"~{self.value:g}"
+        return f"~" if self.value == 0 else f"~{self.value:g}"
 
 
 class LocalCoordinate(Coordinate):
@@ -105,4 +105,4 @@ class LocalCoordinate(Coordinate):
 
     # @implements CommandToken
     def command_stringify(self) -> str:
-        return f"^{self.value:g}"
+        return f"^" if self.value == 0 else f"^{self.value:g}"
