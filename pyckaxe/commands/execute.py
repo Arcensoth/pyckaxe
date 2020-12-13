@@ -18,103 +18,103 @@ if TYPE_CHECKING:
 
 class ExecuteCommandMixin:
     @property
-    def align(self: CommandNode) -> "ExecuteAlignCommand":
+    def align(self) -> "ExecuteAlignCommand":
         return ExecuteAlignCommand(self)
 
     @property
-    def anchored(self: CommandNode) -> "ExecuteAnchoredCommand":
+    def anchored(self) -> "ExecuteAnchoredCommand":
         return ExecuteAnchoredCommand(self)
 
     @property
-    def as_(self: CommandNode) -> "ExecuteAsCommand":
+    def as_(self) -> "ExecuteAsCommand":
         return ExecuteAsCommand(self)
 
     @property
-    def at(self: CommandNode) -> "ExecuteAtCommand":
+    def at(self) -> "ExecuteAtCommand":
         return ExecuteAtCommand(self)
 
     @property
-    def facing(self: CommandNode) -> "ExecuteFacingCommand":
+    def facing(self) -> "ExecuteFacingCommand":
         return ExecuteFacingCommand(self)
 
     @property
-    def if_(self: CommandNode) -> "ExecuteIfCommand":
+    def if_(self) -> "ExecuteIfCommand":
         return ExecuteIfCommand(self)
 
     @property
-    def if_block(self: CommandNode) -> "ExecuteIfUnlessBlockCommand":
-        return ExecuteIfCommand(self).block
+    def if_block(self) -> "ExecuteIfUnlessBlockCommand":
+        return self.if_.block
 
     @property
-    def if_blocks(self: CommandNode) -> "ExecuteIfUnlessBlocksCommand":
-        return ExecuteIfCommand(self).blocks
+    def if_blocks(self) -> "ExecuteIfUnlessBlocksCommand":
+        return self.if_.blocks
 
     @property
-    def if_data(self: CommandNode) -> "ExecuteIfUnlessDataCommand":
-        return ExecuteIfCommand(self).data
+    def if_data(self) -> "ExecuteIfUnlessDataCommand":
+        return self.if_.data
 
     @property
-    def if_entity(self: CommandNode) -> "ExecuteIfUnlessEntityCommand":
-        return ExecuteIfCommand(self).entity
+    def if_entity(self) -> "ExecuteIfUnlessEntityCommand":
+        return self.if_.entity
 
     @property
-    def if_predicate(self: CommandNode) -> "ExecuteIfUnlessPredicateCommand":
-        return ExecuteIfCommand(self).predicate
+    def if_predicate(self) -> "ExecuteIfUnlessPredicateCommand":
+        return self.if_.predicate
 
     @property
-    def if_score(self: CommandNode) -> "ExecuteIfUnlessScoreCommand":
-        return ExecuteIfCommand(self).score
+    def if_score(self) -> "ExecuteIfUnlessScoreCommand":
+        return self.if_.score
 
     @property
-    def in_(self: CommandNode) -> "ExecuteInCommand":
+    def in_(self) -> "ExecuteInCommand":
         return ExecuteInCommand(self)
 
     @property
-    def positioned(self: CommandNode) -> "ExecutePositionedCommand":
+    def positioned(self) -> "ExecutePositionedCommand":
         return ExecutePositionedCommand(self)
 
     @property
-    def rotated(self: CommandNode) -> "ExecuteRotatedCommand":
+    def rotated(self) -> "ExecuteRotatedCommand":
         return ExecuteRotatedCommand(self)
 
     @property
-    def run(self: CommandNode) -> "ExecuteRunCommand":
+    def run(self) -> "ExecuteRunCommand":
         # NOTE This needs to be imported locally to avoid a circular import.
         from pyckaxe.commands.execute_run import ExecuteRunCommand
 
         return ExecuteRunCommand(self)
 
     @property
-    def store(self: CommandNode) -> "ExecuteStoreCommand":
+    def store(self) -> "ExecuteStoreCommand":
         return ExecuteStoreCommand(self)
 
     @property
-    def unless(self: CommandNode) -> "ExecuteUnlessCommand":
+    def unless(self) -> "ExecuteUnlessCommand":
         return ExecuteUnlessCommand(self)
 
     @property
-    def unless_block(self: CommandNode) -> "ExecuteIfUnlessBlockCommand":
-        return ExecuteUnlessCommand(self).block
+    def unless_block(self) -> "ExecuteIfUnlessBlockCommand":
+        return self.unless.block
 
     @property
-    def unless_blocks(self: CommandNode) -> "ExecuteIfUnlessBlocksCommand":
-        return ExecuteUnlessCommand(self).blocks
+    def unless_blocks(self) -> "ExecuteIfUnlessBlocksCommand":
+        return self.unless.blocks
 
     @property
-    def unless_data(self: CommandNode) -> "ExecuteIfUnlessDataCommand":
-        return ExecuteUnlessCommand(self).data
+    def unless_data(self) -> "ExecuteIfUnlessDataCommand":
+        return self.unless.data
 
     @property
-    def unless_entity(self: CommandNode) -> "ExecuteIfUnlessEntityCommand":
-        return ExecuteUnlessCommand(self).entity
+    def unless_entity(self) -> "ExecuteIfUnlessEntityCommand":
+        return self.unless.entity
 
     @property
-    def unless_predicate(self: CommandNode) -> "ExecuteIfUnlessPredicateCommand":
-        return ExecuteUnlessCommand(self).predicate
+    def unless_predicate(self) -> "ExecuteIfUnlessPredicateCommand":
+        return self.unless.predicate
 
     @property
-    def unless_score(self: CommandNode) -> "ExecuteIfUnlessScoreCommand":
-        return ExecuteUnlessCommand(self).score
+    def unless_score(self) -> "ExecuteIfUnlessScoreCommand":
+        return self.unless.score
 
 
 class ExecuteCommand(CommandLiteral, ExecuteCommandMixin):
@@ -183,27 +183,27 @@ class ExecuteFacingCommand(CommandLiteral):
 
 class ExecuteIfUnlessCommandMixin:
     @property
-    def block(self: CommandNode) -> "ExecuteIfUnlessBlockCommand":
+    def block(self) -> "ExecuteIfUnlessBlockCommand":
         return ExecuteIfUnlessBlockCommand(self)
 
     @property
-    def blocks(self: CommandNode) -> "ExecuteIfUnlessBlocksCommand":
+    def blocks(self) -> "ExecuteIfUnlessBlocksCommand":
         return ExecuteIfUnlessBlocksCommand(self)
 
     @property
-    def data(self: CommandNode) -> "ExecuteIfUnlessDataCommand":
+    def data(self) -> "ExecuteIfUnlessDataCommand":
         return ExecuteIfUnlessDataCommand(self)
 
     @property
-    def entity(self: CommandNode) -> "ExecuteIfUnlessEntityCommand":
+    def entity(self) -> "ExecuteIfUnlessEntityCommand":
         return ExecuteIfUnlessEntityCommand(self)
 
     @property
-    def predicate(self: CommandNode) -> "ExecuteIfUnlessPredicateCommand":
+    def predicate(self) -> "ExecuteIfUnlessPredicateCommand":
         return ExecuteIfUnlessPredicateCommand(self)
 
     @property
-    def score(self: CommandNode) -> "ExecuteIfUnlessScoreCommand":
+    def score(self) -> "ExecuteIfUnlessScoreCommand":
         return ExecuteIfUnlessScoreCommand(self)
 
 
@@ -495,23 +495,23 @@ class ExecuteStoreCommand(CommandLiteral):
 
 class ExecuteStoreResultSuccessCommandMixin:
     @property
-    def block(self: CommandNode) -> "ExecuteStoreResultSuccessBlockCommand":
+    def block(self) -> "ExecuteStoreResultSuccessBlockCommand":
         return ExecuteStoreResultSuccessBlockCommand(self)
 
     @property
-    def bossbar(self: CommandNode) -> "ExecuteStoreResultSuccessBossbarCommand":
+    def bossbar(self) -> "ExecuteStoreResultSuccessBossbarCommand":
         return ExecuteStoreResultSuccessBossbarCommand(self)
 
     @property
-    def entity(self: CommandNode) -> "ExecuteStoreResultSuccessEntityCommand":
+    def entity(self) -> "ExecuteStoreResultSuccessEntityCommand":
         return ExecuteStoreResultSuccessEntityCommand(self)
 
     @property
-    def score(self: CommandNode) -> "ExecuteStoreResultSuccessScoreCommand":
+    def score(self) -> "ExecuteStoreResultSuccessScoreCommand":
         return ExecuteStoreResultSuccessScoreCommand(self)
 
     @property
-    def storage(self: CommandNode) -> "ExecuteStoreResultSuccessStorageCommand":
+    def storage(self) -> "ExecuteStoreResultSuccessStorageCommand":
         return ExecuteStoreResultSuccessStorageCommand(self)
 
 
@@ -525,27 +525,27 @@ class ExecuteStoreSuccessCommand(CommandLiteral, ExecuteStoreResultSuccessComman
 
 class ExecuteStoreResultSuccessNbtCommandMixin:
     @property
-    def byte(self: CommandNode) -> "ExecuteStoreResultSuccessNbtByteCommand":
+    def byte(self) -> "ExecuteStoreResultSuccessNbtByteCommand":
         return ExecuteStoreResultSuccessNbtByteCommand(self)
 
     @property
-    def double(self: CommandNode) -> "ExecuteStoreResultSuccessNbtDoubleCommand":
+    def double(self) -> "ExecuteStoreResultSuccessNbtDoubleCommand":
         return ExecuteStoreResultSuccessNbtDoubleCommand(self)
 
     @property
-    def float(self: CommandNode) -> "ExecuteStoreResultSuccessNbtFloatCommand":
+    def float(self) -> "ExecuteStoreResultSuccessNbtFloatCommand":
         return ExecuteStoreResultSuccessNbtFloatCommand(self)
 
     @property
-    def int(self: CommandNode) -> "ExecuteStoreResultSuccessNbtIntCommand":
+    def int(self) -> "ExecuteStoreResultSuccessNbtIntCommand":
         return ExecuteStoreResultSuccessNbtIntCommand(self)
 
     @property
-    def long(self: CommandNode) -> "ExecuteStoreResultSuccessNbtLongCommand":
+    def long(self) -> "ExecuteStoreResultSuccessNbtLongCommand":
         return ExecuteStoreResultSuccessNbtLongCommand(self)
 
     @property
-    def short(self: CommandNode) -> "ExecuteStoreResultSuccessNbtShortCommand":
+    def short(self) -> "ExecuteStoreResultSuccessNbtShortCommand":
         return ExecuteStoreResultSuccessNbtShortCommand(self)
 
 
@@ -617,11 +617,11 @@ class ExecuteStoreResultSuccessBossbarCommand(CommandLiteral):
 
 class ExecuteStoreResultSuccessBossbarIDCommand(CommandArgument):
     @property
-    def max(self: CommandNode) -> "ExecuteStoreResultSuccessBossbarIDMaxCommand":
+    def max(self) -> "ExecuteStoreResultSuccessBossbarIDMaxCommand":
         return ExecuteStoreResultSuccessBossbarIDMaxCommand(self)
 
     @property
-    def value(self: CommandNode) -> "ExecuteStoreResultSuccessBossbarIDValueCommand":
+    def value(self) -> "ExecuteStoreResultSuccessBossbarIDValueCommand":
         return ExecuteStoreResultSuccessBossbarIDValueCommand(self)
 
 
