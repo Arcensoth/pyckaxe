@@ -1,6 +1,7 @@
 from pyckaxe.block import Block
 from pyckaxe.block_predicate import BlockPredicate
 from pyckaxe.block_state import BlockState
+from pyckaxe.command import Command
 from pyckaxe.coordinate import Coordinate
 from pyckaxe.position import Position
 from pyckaxe.text_component import TextComponent
