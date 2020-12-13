@@ -2,7 +2,8 @@ language: python
 
 python:
   - "3.8"
-  - "nightly"
+  - "3.9"
+  - "3.10"
 
 install:
   - pip install poetry
