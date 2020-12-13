@@ -80,14 +80,14 @@ def test_data_merge_block_position():
 
 
 def test_data_merge_block_position_nbt():
-    assert "data merge block ~ ~ ~ {auto:1b}" == str(
-        commands.data.merge.block.position([0, 0, 0]).nbt("{auto:1b}")
+    assert "data merge block ~ ~ ~ {auto: 1b}" == str(
+        commands.data.merge.block.position([0, 0, 0]).nbt({"auto": True})
     )
 
 
 def test_data_merge_block_call():
-    assert "data merge block ~ ~ ~ {auto:1b}" == str(
-        commands.data.merge.block([0, 0, 0], "{auto:1b}")
+    assert "data merge block ~ ~ ~ {auto: 1b}" == str(
+        commands.data.merge.block([0, 0, 0], {"auto": True})
     )
 
 
@@ -100,14 +100,14 @@ def test_data_merge_entity_target():
 
 
 def test_data_merge_entity_target_nbt():
-    assert "data merge entity @r {Motion:[0.0f,0.5f,0.0f]}" == str(
-        commands.data.merge.entity.target(selectors.random).nbt("{Motion:[0.0f,0.5f,0.0f]}")
+    assert "data merge entity @r {Motion: [0.0f, 0.5f, 0.0f]}" == str(
+        commands.data.merge.entity.target(selectors.random).nbt({"Motion": [0.0, 0.5, 0.0]})
     )
 
 
 def test_data_merge_entity_call():
-    assert "data merge entity @r {Motion:[0.0f,0.5f,0.0f]}" == str(
-        commands.data.merge.entity(selectors.random, "{Motion:[0.0f,0.5f,0.0f]}")
+    assert "data merge entity @r {Motion: [0.0f, 0.5f, 0.0f]}" == str(
+        commands.data.merge.entity(selectors.random, {"Motion": [0.0, 0.5, 0.0]})
     )
 
 

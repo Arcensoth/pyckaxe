@@ -1,13 +1,12 @@
 from typing import TYPE_CHECKING
 
-from pyckaxe import position
 from pyckaxe.block_predicate import BlockPredicate
 from pyckaxe.command.abc.command import CommandArgument, CommandLiteral, CommandNode
+from pyckaxe.nbt import NbtPath, NbtPathAble, to_nbt_path
 from pyckaxe.position import Position
 from pyckaxe.types import (
     BossbarID,
     CommandTarget,
-    NbtPath,
     ScoreboardObjective,
     ScoreHolder,
     StorageResourceLocation,
@@ -249,7 +248,7 @@ class ExecuteIfUnlessBlocksCommand(CommandLiteral):
     _LITERAL = "blocks"
 
     def __call__(
-        self, start: Position, end: position, destination: position
+        self, start: Position, end: Position, destination: Position
     ) -> "ExecuteIfUnlessBlocksStartEndDestinationCommand":
         return self.start(start).end(end).destination(destination)
 
@@ -313,7 +312,7 @@ class ExecuteIfUnlessDataBlockCommand(CommandLiteral):
     _LITERAL = "block"
 
     def __call__(
-        self, position: Position.Thing, path: NbtPath
+        self, position: Position.Thing, path: NbtPathAble
     ) -> "ExecuteIfUnlessDataBlockPositionPathCommand":
         return self.position(position).path(path)
 
@@ -324,12 +323,13 @@ class ExecuteIfUnlessDataBlockCommand(CommandLiteral):
 class ExecuteIfUnlessDataBlockPositionCommand(CommandArgument, ExecuteCommandMixin):
     _TYPE = Position
 
-    def path(self, path: NbtPath) -> "ExecuteIfUnlessDataBlockPositionPathCommand":
+    def path(self, path: NbtPathAble) -> "ExecuteIfUnlessDataBlockPositionPathCommand":
         return ExecuteIfUnlessDataBlockPositionPathCommand(self, path)
 
 
 class ExecuteIfUnlessDataBlockPositionPathCommand(CommandArgument, ExecuteCommandMixin):
-    pass
+    _CONVERT = to_nbt_path
+    _TYPE = NbtPath
 
 
 # @@ execute if/unless data entity
@@ -337,7 +337,7 @@ class ExecuteIfUnlessDataEntityCommand(CommandLiteral):
     _LITERAL = "entity"
 
     def __call__(
-        self, target: CommandTarget, path: NbtPath
+        self, target: CommandTarget, path: NbtPathAble
     ) -> "ExecuteIfUnlessDataEntityTargetPathCommand":
         return self.target(target).path(path)
 
@@ -346,12 +346,13 @@ class ExecuteIfUnlessDataEntityCommand(CommandLiteral):
 
 
 class ExecuteIfUnlessDataEntityTargetCommand(CommandArgument, ExecuteCommandMixin):
-    def path(self, path: NbtPath) -> "ExecuteIfUnlessDataEntityTargetPathCommand":
+    def path(self, path: NbtPathAble) -> "ExecuteIfUnlessDataEntityTargetPathCommand":
         return ExecuteIfUnlessDataEntityTargetPathCommand(self, path)
 
 
 class ExecuteIfUnlessDataEntityTargetPathCommand(CommandArgument, ExecuteCommandMixin):
-    pass
+    _CONVERT = to_nbt_path
+    _TYPE = NbtPath
 
 
 # @@ execute if/unless data storage
@@ -359,7 +360,7 @@ class ExecuteIfUnlessDataStorageCommand(CommandLiteral):
     _LITERAL = "storage"
 
     def __call__(
-        self, location: StorageResourceLocation, path: NbtPath
+        self, location: StorageResourceLocation, path: NbtPathAble
     ) -> "ExecuteIfUnlessDataStorageLocationPathCommand":
         return self.location(location).path(path)
 
@@ -370,12 +371,13 @@ class ExecuteIfUnlessDataStorageCommand(CommandLiteral):
 
 
 class ExecuteIfUnlessDataStorageLocationCommand(CommandArgument, ExecuteCommandMixin):
-    def path(self, path: NbtPath) -> "ExecuteIfUnlessDataStorageLocationPathCommand":
+    def path(self, path: NbtPathAble) -> "ExecuteIfUnlessDataStorageLocationPathCommand":
         return ExecuteIfUnlessDataStorageLocationPathCommand(self, path)
 
 
 class ExecuteIfUnlessDataStorageLocationPathCommand(CommandArgument, ExecuteCommandMixin):
-    pass
+    _CONVERT = to_nbt_path
+    _TYPE = NbtPath
 
 
 # @@ execute if/unless entity
@@ -578,7 +580,7 @@ class ExecuteStoreResultSuccessBlockCommand(CommandLiteral):
     _LITERAL = "block"
 
     def __call__(
-        self, position: Position.Thing, path: NbtPath
+        self, position: Position.Thing, path: NbtPathAble
     ) -> "ExecuteStoreResultSuccessBlockPositionPathCommand":
         return self.position(position).path(path)
 
@@ -589,14 +591,15 @@ class ExecuteStoreResultSuccessBlockCommand(CommandLiteral):
 class ExecuteStoreResultSuccessBlockPositionCommand(CommandArgument):
     _TYPE = Position
 
-    def path(self, path: NbtPath) -> "ExecuteStoreResultSuccessBlockPositionPathCommand":
+    def path(self, path: NbtPathAble) -> "ExecuteStoreResultSuccessBlockPositionPathCommand":
         return ExecuteStoreResultSuccessBlockPositionPathCommand(self, path)
 
 
 class ExecuteStoreResultSuccessBlockPositionPathCommand(
     CommandArgument, ExecuteStoreResultSuccessNbtCommandMixin
 ):
-    pass
+    _CONVERT = to_nbt_path
+    _TYPE = NbtPath
 
 
 # @@ execute store result/success bossbar
@@ -637,7 +640,7 @@ class ExecuteStoreResultSuccessEntityCommand(CommandLiteral):
     _LITERAL = "entity"
 
     def __call__(
-        self, target: CommandTarget, path: NbtPath
+        self, target: CommandTarget, path: NbtPathAble
     ) -> "ExecuteStoreResultSuccessEntityTargetPathCommand":
         return self.target(target).path(path)
 
@@ -646,14 +649,15 @@ class ExecuteStoreResultSuccessEntityCommand(CommandLiteral):
 
 
 class ExecuteStoreResultSuccessEntityTargetCommand(CommandArgument):
-    def path(self, path: NbtPath) -> "ExecuteStoreResultSuccessEntityTargetPathCommand":
+    def path(self, path: NbtPathAble) -> "ExecuteStoreResultSuccessEntityTargetPathCommand":
         return ExecuteStoreResultSuccessEntityTargetPathCommand(self, path)
 
 
 class ExecuteStoreResultSuccessEntityTargetPathCommand(
     CommandArgument, ExecuteStoreResultSuccessNbtCommandMixin
 ):
-    pass
+    _CONVERT = to_nbt_path
+    _TYPE = NbtPath
 
 
 # @@ execute store result/success score
@@ -689,7 +693,7 @@ class ExecuteStoreResultSuccessStorageCommand(CommandLiteral):
     _LITERAL = "storage"
 
     def __call__(
-        self, location: StorageResourceLocation, path: NbtPath
+        self, location: StorageResourceLocation, path: NbtPathAble
     ) -> "ExecuteStoreResultSuccessStorageLocationPathCommand":
         return self.location(location).path(path)
 
@@ -700,11 +704,12 @@ class ExecuteStoreResultSuccessStorageCommand(CommandLiteral):
 
 
 class ExecuteStoreResultSuccessStorageLocationCommand(CommandArgument):
-    def path(self, path: NbtPath) -> "ExecuteStoreResultSuccessStorageLocationPathCommand":
+    def path(self, path: NbtPathAble) -> "ExecuteStoreResultSuccessStorageLocationPathCommand":
         return ExecuteStoreResultSuccessStorageLocationPathCommand(self, path)
 
 
 class ExecuteStoreResultSuccessStorageLocationPathCommand(
     CommandArgument, ExecuteStoreResultSuccessNbtCommandMixin
 ):
-    pass
+    _CONVERT = to_nbt_path
+    _TYPE = NbtPath

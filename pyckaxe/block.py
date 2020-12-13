@@ -6,7 +6,7 @@ from nbtlib import tag
 from pyckaxe.abc.serializable import Serializable
 from pyckaxe.block_state import BlockState
 from pyckaxe.command.abc.command_token import CommandToken
-from pyckaxe.utils.nbt import to_nbt
+from pyckaxe.nbt import to_nbt
 
 
 @dataclass
