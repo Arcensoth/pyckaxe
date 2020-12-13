@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 from pyckaxe.block_predicate import BlockPredicate
-from pyckaxe.command.abc.command import CommandArgument, CommandLiteral, CommandNode
+from pyckaxe.command.abc.command import CommandArgument, CommandLiteral
 from pyckaxe.nbt import NbtPath, NbtPathAble, to_nbt_path
 from pyckaxe.position import Position
 from pyckaxe.types import (

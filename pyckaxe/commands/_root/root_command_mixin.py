@@ -1,4 +1,3 @@
-from pyckaxe.command.abc.command import CommandNode
 from pyckaxe.commands.advancement import AdvancementCommand
 from pyckaxe.commands.clear import ClearCommand
 from pyckaxe.commands.clone import CloneCommand
@@ -25,89 +24,89 @@ from pyckaxe.commands.trigger import TriggerCommand
 
 class RootCommandMixin:
     @property
-    def advancement(self: CommandNode) -> AdvancementCommand:
+    def advancement(self) -> AdvancementCommand:
         return AdvancementCommand(self)
 
     @property
-    def clear(self: CommandNode) -> ClearCommand:
+    def clear(self) -> ClearCommand:
         return ClearCommand(self)
 
     @property
-    def clone(self: CommandNode) -> CloneCommand:
+    def clone(self) -> CloneCommand:
         return CloneCommand(self)
 
     @property
-    def data(self: CommandNode) -> DataCommand:
+    def data(self) -> DataCommand:
         return DataCommand(self)
 
     @property
-    def effect(self: CommandNode) -> EffectCommand:
+    def effect(self) -> EffectCommand:
         return EffectCommand(self)
 
     @property
-    def execute(self: CommandNode) -> ExecuteCommand:
+    def execute(self) -> ExecuteCommand:
         return ExecuteCommand(self)
 
     @property
-    def fill(self: CommandNode) -> FillCommand:
+    def fill(self) -> FillCommand:
         return FillCommand(self)
 
     @property
-    def function(self: CommandNode) -> FunctionCommand:
+    def function(self) -> FunctionCommand:
         return FunctionCommand(self)
 
     @property
-    def give(self: CommandNode) -> GiveCommand:
+    def give(self) -> GiveCommand:
         return GiveCommand(self)
 
     @property
-    def kill(self: CommandNode) -> KillCommand:
+    def kill(self) -> KillCommand:
         return KillCommand(self)
 
     @property
-    def playsound(self: CommandNode) -> PlaysoundCommand:
+    def playsound(self) -> PlaysoundCommand:
         return PlaysoundCommand(self)
 
     @property
-    def replaceitem(self: CommandNode) -> ReplaceitemCommand:
+    def replaceitem(self) -> ReplaceitemCommand:
         return ReplaceitemCommand(self)
 
     @property
-    def say(self: CommandNode) -> SayCommand:
+    def say(self) -> SayCommand:
         return SayCommand(self)
 
     @property
-    def scoreboard(self: CommandNode) -> ScoreboardCommand:
+    def scoreboard(self) -> ScoreboardCommand:
         return ScoreboardCommand(self)
 
     @property
-    def setblock(self: CommandNode) -> SetblockCommand:
+    def setblock(self) -> SetblockCommand:
         return SetblockCommand(self)
 
     @property
-    def summon(self: CommandNode) -> SummonCommand:
+    def summon(self) -> SummonCommand:
         return SummonCommand(self)
 
     @property
-    def tag(self: CommandNode) -> TagCommand:
+    def tag(self) -> TagCommand:
         return TagCommand(self)
 
     @property
-    def teleport(self: CommandNode) -> TeleportCommand:
+    def teleport(self) -> TeleportCommand:
         return TeleportCommand(self)
 
     @property
-    def tellraw(self: CommandNode) -> TellrawCommand:
+    def tellraw(self) -> TellrawCommand:
         return TellrawCommand(self)
 
     @property
-    def time(self: CommandNode) -> TimeCommand:
+    def time(self) -> TimeCommand:
         return TimeCommand(self)
 
     @property
-    def tp(self: CommandNode) -> TpCommand:
+    def tp(self) -> TpCommand:
         return TpCommand(self)
 
     @property
-    def trigger(self: CommandNode) -> TriggerCommand:
+    def trigger(self) -> TriggerCommand:
         return TriggerCommand(self)

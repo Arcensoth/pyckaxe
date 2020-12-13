@@ -1,18 +1,12 @@
-from pyckaxe.command.abc.command import CommandArgument, CommandLiteral, CommandNode
-from pyckaxe.types import (
-    AdvancementCriteria,
-    AdvancementResourceLocation,
-    CommandTarget,
-)
+from pyckaxe.command.abc.command import CommandArgument, CommandLiteral
+from pyckaxe.types import AdvancementCriteria, AdvancementResourceLocation, CommandTarget
 
 
 class AdvancementGRCommandMixin:
     def __call__(self, targets: CommandTarget) -> "AdvancementGRTargetsCommand":
         return self.targets(targets)
 
-    def targets(
-        self: CommandNode, targets: CommandTarget
-    ) -> "AdvancementGRTargetsCommand":
+    def targets(self, targets: CommandTarget) -> "AdvancementGRTargetsCommand":
         return AdvancementGRTargetsCommand(self, targets)
 
 
@@ -74,9 +68,7 @@ class AdvancementGRTargetsEverythingCommand(CommandLiteral):
     _LITERAL = "everything"
 
 
-class AdvancementGRTargetsFromCommand(
-    CommandLiteral, AdvancementGRTargetsFTUCommandMixin
-):
+class AdvancementGRTargetsFromCommand(CommandLiteral, AdvancementGRTargetsFTUCommandMixin):
     _LITERAL = "from"
 
 
@@ -105,15 +97,11 @@ class AdvancementGRTargetsOnlyAdvancementCriteriaCommand(CommandArgument):
     pass
 
 
-class AdvancementGRTargetsThroughCommand(
-    CommandLiteral, AdvancementGRTargetsFTUCommandMixin
-):
+class AdvancementGRTargetsThroughCommand(CommandLiteral, AdvancementGRTargetsFTUCommandMixin):
     _LITERAL = "through"
 
 
-class AdvancementGRTargetsUntilCommand(
-    CommandLiteral, AdvancementGRTargetsFTUCommandMixin
-):
+class AdvancementGRTargetsUntilCommand(CommandLiteral, AdvancementGRTargetsFTUCommandMixin):
     _LITERAL = "until"
 
 

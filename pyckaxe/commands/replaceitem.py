@@ -1,10 +1,10 @@
-from pyckaxe.command.abc.command import CommandArgument, CommandLiteral, CommandNode
+from pyckaxe.command.abc.command import CommandArgument, CommandLiteral
 from pyckaxe.position import Position
 from pyckaxe.types import CommandTarget, Item, ItemSlot
 
 
 class ReplaceitemBECommandMixin:
-    def slot(self: CommandNode, slot: ItemSlot) -> "ReplaceitemBESlotCommand":
+    def slot(self, slot: ItemSlot) -> "ReplaceitemBESlotCommand":
         return ReplaceitemBESlotCommand(self, slot)
 
 

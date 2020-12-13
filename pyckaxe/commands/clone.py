@@ -1,19 +1,19 @@
 from pyckaxe.block_predicate import BlockPredicate
-from pyckaxe.command.abc.command import CommandArgument, CommandLiteral, CommandNode
+from pyckaxe.command.abc.command import CommandArgument, CommandLiteral
 from pyckaxe.position import Position
 
 
 class CloneBeginEndDestinationFMRCommandMixin:
     @property
-    def force(self: CommandNode) -> "CloneBeginEndDestinationFMRForceCommand":
+    def force(self) -> "CloneBeginEndDestinationFMRForceCommand":
         return CloneBeginEndDestinationFMRForceCommand(self)
 
     @property
-    def move(self: CommandNode) -> "CloneBeginEndDestinationFMRMoveCommand":
+    def move(self) -> "CloneBeginEndDestinationFMRMoveCommand":
         return CloneBeginEndDestinationFMRMoveCommand(self)
 
     @property
-    def normal(self: CommandNode) -> "CloneBeginEndDestinationFMRNormalCommand":
+    def normal(self) -> "CloneBeginEndDestinationFMRNormalCommand":
         return CloneBeginEndDestinationFMRNormalCommand(self)
 
 

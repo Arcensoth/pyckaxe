@@ -1,10 +1,10 @@
-from pyckaxe.command.abc.command import CommandArgument, CommandLiteral, CommandNode
+from pyckaxe.command.abc.command import CommandArgument, CommandLiteral
 from pyckaxe.types import (
-    ScoreHolder,
     ScoreboardCriteria,
     ScoreboardObjective,
     ScoreboardOperation,
     ScoreboardSlot,
+    ScoreHolder,
     TextComponent,
 )
 
@@ -15,9 +15,7 @@ class ScoreboardPlayersARSMixin:
     ) -> "ScoreboardPlayersARSTargetsObjectiveScoreCommand":
         return self.targets(targets).objective(objective).score(score)
 
-    def targets(
-        self: CommandNode, targets: ScoreHolder
-    ) -> "ScoreboardPlayersARSTargetsCommand":
+    def targets(self, targets: ScoreHolder) -> "ScoreboardPlayersARSTargetsCommand":
         return ScoreboardPlayersARSTargetsCommand(self, targets)
 
 
@@ -27,9 +25,7 @@ class ScoreboardPlayersEGRMixin:
     ) -> "ScoreboardPlayersEGTargetsObjectiveCommand":
         return self.targets(targets).objective(objective)
 
-    def targets(
-        self: CommandNode, targets: ScoreHolder
-    ) -> "ScoreboardPlayersEGTargetsCommand":
+    def targets(self, targets: ScoreHolder) -> "ScoreboardPlayersEGTargetsCommand":
         return ScoreboardPlayersEGTargetsCommand(self, targets)
 
 
@@ -100,9 +96,7 @@ class ScoreboardObjectivesAddObjectiveCriteriaCommand(CommandArgument):
     def display_name(
         self, display_name: TextComponent
     ) -> "ScoreboardObjectivesAddObjectiveCriteriaDisplayNameCommand":
-        return ScoreboardObjectivesAddObjectiveCriteriaDisplayNameCommand(
-            self, display_name
-        )
+        return ScoreboardObjectivesAddObjectiveCriteriaDisplayNameCommand(self, display_name)
 
 
 class ScoreboardObjectivesAddObjectiveCriteriaDisplayNameCommand(CommandArgument):
@@ -144,9 +138,7 @@ class ScoreboardObjectivesModifyObjectiveDisplaynameCommand(CommandLiteral):
     def display_name(
         self, display_name: TextComponent
     ) -> "ScoreboardObjectivesModifyObjectiveDisplaynameDisplayNameCommand":
-        return ScoreboardObjectivesModifyObjectiveDisplaynameDisplayNameCommand(
-            self, display_name
-        )
+        return ScoreboardObjectivesModifyObjectiveDisplaynameDisplayNameCommand(self, display_name)
 
 
 class ScoreboardObjectivesModifyObjectiveDisplaynameDisplayNameCommand(CommandArgument):
@@ -278,9 +270,7 @@ class ScoreboardPlayersOperationCommand(CommandLiteral):
             .objective(source_objective)
         )
 
-    def targets(
-        self, targets: ScoreHolder
-    ) -> "ScoreboardPlayersOperationTargetsCommand":
+    def targets(self, targets: ScoreHolder) -> "ScoreboardPlayersOperationTargetsCommand":
         return ScoreboardPlayersOperationTargetsCommand(self, targets)
 
 
@@ -295,18 +285,14 @@ class ScoreboardPlayersOperationTargetsObjectiveCommand(CommandArgument):
     def operation(
         self, operation: ScoreboardOperation
     ) -> "ScoreboardPlayersOperationTargetsObjectiveOperationCommand":
-        return ScoreboardPlayersOperationTargetsObjectiveOperationCommand(
-            self, operation
-        )
+        return ScoreboardPlayersOperationTargetsObjectiveOperationCommand(self, operation)
 
 
 class ScoreboardPlayersOperationTargetsObjectiveOperationCommand(CommandArgument):
     def source(
         self, source: ScoreHolder
     ) -> "ScoreboardPlayersOperationTargetsObjectiveOperationSourceCommand":
-        return ScoreboardPlayersOperationTargetsObjectiveOperationSourceCommand(
-            self, source
-        )
+        return ScoreboardPlayersOperationTargetsObjectiveOperationSourceCommand(self, source)
 
 
 class ScoreboardPlayersOperationTargetsObjectiveOperationSourceCommand(CommandArgument):
@@ -318,9 +304,7 @@ class ScoreboardPlayersOperationTargetsObjectiveOperationSourceCommand(CommandAr
         )
 
 
-class ScoreboardPlayersOperationTargetsObjectiveOperationSourceObjectiveCommand(
-    CommandArgument
-):
+class ScoreboardPlayersOperationTargetsObjectiveOperationSourceObjectiveCommand(CommandArgument):
     pass
 
 

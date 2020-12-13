@@ -1,4 +1,4 @@
-from pyckaxe.command.abc.command import CommandArgument, CommandLiteral, CommandNode
+from pyckaxe.command.abc.command import CommandArgument, CommandLiteral
 from pyckaxe.types import ScoreboardObjective
 
 
@@ -6,7 +6,7 @@ class TriggerObjectiveAddSetValueCommandMixin:
     def __call__(self, value: int):
         return self.value(value)
 
-    def value(self: CommandNode, value: int) -> "TriggerObjectiveAddSetValueCommand":
+    def value(self, value: int) -> "TriggerObjectiveAddSetValueCommand":
         return TriggerObjectiveAddSetValueCommand(self, value)
 
 
@@ -30,15 +30,11 @@ class TriggerObjectiveCommand(CommandArgument):
         return TriggerObjectiveSetCommand(self)
 
 
-class TriggerObjectiveAddCommand(
-    CommandLiteral, TriggerObjectiveAddSetValueCommandMixin
-):
+class TriggerObjectiveAddCommand(CommandLiteral, TriggerObjectiveAddSetValueCommandMixin):
     _LITERAL = "add"
 
 
-class TriggerObjectiveSetCommand(
-    CommandLiteral, TriggerObjectiveAddSetValueCommandMixin
-):
+class TriggerObjectiveSetCommand(CommandLiteral, TriggerObjectiveAddSetValueCommandMixin):
     _LITERAL = "set"
 
 
