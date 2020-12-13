@@ -1,5 +1,5 @@
-from pyckaxe import blocks, positions
-from pyckaxe import commands
+from pyckaxe import blocks, commands
+from pyckaxe.position import Position
 
 
 def test_clone():
@@ -7,38 +7,34 @@ def test_clone():
 
 
 def test_clone_begin():
-    assert "clone ~ ~ ~" == str(commands.clone.begin(positions.relative))
+    assert "clone ~ ~ ~" == str(commands.clone.begin(~Position.zero()))
 
 
 def test_clone_begin_end():
-    assert "clone ~ ~ ~ ~ ~ ~" == str(
-        commands.clone.begin(positions.relative).end(positions.relative)
-    )
+    assert "clone ~ ~ ~ ~ ~ ~" == str(commands.clone.begin(~Position.zero()).end(~Position.zero()))
 
 
 def test_clone_begin_end_destination():
     assert "clone ~ ~ ~ ~ ~ ~ ~ ~ ~" == str(
-        commands.clone.begin(positions.relative)
-        .end(positions.relative)
-        .destination(positions.relative)
+        commands.clone.begin(~Position.zero()).end(~Position.zero()).destination(~Position.zero())
     )
 
 
 def test_clone_call():
     assert "clone ~ ~ ~ ~ ~ ~ ~ ~ ~" == str(
-        commands.clone(positions.relative, positions.relative, positions.relative)
+        commands.clone(~Position.zero(), ~Position.zero(), ~Position.zero())
     )
 
 
 def test_clone_call_filtered():
     assert "clone ~ ~ ~ ~ ~ ~ ~ ~ ~ filtered" == str(
-        commands.clone(positions.relative, positions.relative, positions.relative).filtered
+        commands.clone(~Position.zero(), ~Position.zero(), ~Position.zero()).filtered
     )
 
 
 def test_clone_call_filtered_filter():
     assert "clone ~ ~ ~ ~ ~ ~ ~ ~ ~ filtered minecraft:dirt" == str(
-        commands.clone(positions.relative, positions.relative, positions.relative).filtered.filter(
+        commands.clone(~Position.zero(), ~Position.zero(), ~Position.zero()).filtered.filter(
             blocks.dirt
         )
     )
@@ -46,15 +42,13 @@ def test_clone_call_filtered_filter():
 
 def test_clone_call_filtered_call():
     assert "clone ~ ~ ~ ~ ~ ~ ~ ~ ~ filtered minecraft:dirt" == str(
-        commands.clone(positions.relative, positions.relative, positions.relative).filtered(
-            blocks.dirt
-        )
+        commands.clone(~Position.zero(), ~Position.zero(), ~Position.zero()).filtered(blocks.dirt)
     )
 
 
 def test_clone_call_filtered_call_force():
     assert "clone ~ ~ ~ ~ ~ ~ ~ ~ ~ filtered minecraft:dirt force" == str(
-        commands.clone(positions.relative, positions.relative, positions.relative)
+        commands.clone(~Position.zero(), ~Position.zero(), ~Position.zero())
         .filtered(blocks.dirt)
         .force
     )
@@ -62,7 +56,7 @@ def test_clone_call_filtered_call_force():
 
 def test_clone_call_filtered_call_move():
     assert "clone ~ ~ ~ ~ ~ ~ ~ ~ ~ filtered minecraft:dirt move" == str(
-        commands.clone(positions.relative, positions.relative, positions.relative)
+        commands.clone(~Position.zero(), ~Position.zero(), ~Position.zero())
         .filtered(blocks.dirt)
         .move
     )
@@ -70,7 +64,7 @@ def test_clone_call_filtered_call_move():
 
 def test_clone_call_filtered_call_normal():
     assert "clone ~ ~ ~ ~ ~ ~ ~ ~ ~ filtered minecraft:dirt normal" == str(
-        commands.clone(positions.relative, positions.relative, positions.relative)
+        commands.clone(~Position.zero(), ~Position.zero(), ~Position.zero())
         .filtered(blocks.dirt)
         .normal
     )
@@ -78,47 +72,47 @@ def test_clone_call_filtered_call_normal():
 
 def test_clone_call_masked():
     assert "clone ~ ~ ~ ~ ~ ~ ~ ~ ~ masked" == str(
-        commands.clone(positions.relative, positions.relative, positions.relative).masked
+        commands.clone(~Position.zero(), ~Position.zero(), ~Position.zero()).masked
     )
 
 
 def test_clone_call_masked_force():
     assert "clone ~ ~ ~ ~ ~ ~ ~ ~ ~ masked force" == str(
-        commands.clone(positions.relative, positions.relative, positions.relative).masked.force
+        commands.clone(~Position.zero(), ~Position.zero(), ~Position.zero()).masked.force
     )
 
 
 def test_clone_call_masked_move():
     assert "clone ~ ~ ~ ~ ~ ~ ~ ~ ~ masked move" == str(
-        commands.clone(positions.relative, positions.relative, positions.relative).masked.move
+        commands.clone(~Position.zero(), ~Position.zero(), ~Position.zero()).masked.move
     )
 
 
 def test_clone_call_masked_normal():
     assert "clone ~ ~ ~ ~ ~ ~ ~ ~ ~ masked normal" == str(
-        commands.clone(positions.relative, positions.relative, positions.relative).masked.normal
+        commands.clone(~Position.zero(), ~Position.zero(), ~Position.zero()).masked.normal
     )
 
 
 def test_clone_call_replace():
     assert "clone ~ ~ ~ ~ ~ ~ ~ ~ ~ replace" == str(
-        commands.clone(positions.relative, positions.relative, positions.relative).replace
+        commands.clone(~Position.zero(), ~Position.zero(), ~Position.zero()).replace
     )
 
 
 def test_clone_call_replace_force():
     assert "clone ~ ~ ~ ~ ~ ~ ~ ~ ~ replace force" == str(
-        commands.clone(positions.relative, positions.relative, positions.relative).replace.force
+        commands.clone(~Position.zero(), ~Position.zero(), ~Position.zero()).replace.force
     )
 
 
 def test_clone_call_replace_move():
     assert "clone ~ ~ ~ ~ ~ ~ ~ ~ ~ replace move" == str(
-        commands.clone(positions.relative, positions.relative, positions.relative).replace.move
+        commands.clone(~Position.zero(), ~Position.zero(), ~Position.zero()).replace.move
     )
 
 
 def test_clone_call_replace_normal():
     assert "clone ~ ~ ~ ~ ~ ~ ~ ~ ~ replace normal" == str(
-        commands.clone(positions.relative, positions.relative, positions.relative).replace.normal
+        commands.clone(~Position.zero(), ~Position.zero(), ~Position.zero()).replace.normal
     )

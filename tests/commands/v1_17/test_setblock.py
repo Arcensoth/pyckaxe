@@ -1,5 +1,4 @@
-from pyckaxe import blocks, positions
-from pyckaxe import commands
+from pyckaxe import Position, blocks, commands
 
 
 def test_setblock():
@@ -7,52 +6,50 @@ def test_setblock():
 
 
 def test_setblock_position():
-    assert "setblock ~ ~ ~" == str(commands.setblock.position(positions.relative))
+    assert "setblock ~ ~ ~" == str(commands.setblock.position(~Position.zero()))
 
 
 def test_setblock_position_block():
     assert "setblock ~ ~ ~ minecraft:dirt" == str(
-        commands.setblock.position(positions.relative).block(blocks.dirt)
+        commands.setblock.position(~Position.zero()).block(blocks.dirt)
     )
 
 
 def test_setblock_call():
-    assert "setblock ~ ~ ~ minecraft:dirt" == str(
-        commands.setblock(positions.relative, blocks.dirt)
-    )
+    assert "setblock ~ ~ ~ minecraft:dirt" == str(commands.setblock(~Position.zero(), blocks.dirt))
 
 
 def test_setblock_position_block_destroy():
     assert "setblock ~ ~ ~ minecraft:dirt destroy" == str(
-        commands.setblock.position(positions.relative).block(blocks.dirt).destroy
+        commands.setblock.position(~Position.zero()).block(blocks.dirt).destroy
     )
 
 
 def test_setblock_position_block_keep():
     assert "setblock ~ ~ ~ minecraft:dirt keep" == str(
-        commands.setblock.position(positions.relative).block(blocks.dirt).keep
+        commands.setblock.position(~Position.zero()).block(blocks.dirt).keep
     )
 
 
 def test_setblock_position_block_replace():
     assert "setblock ~ ~ ~ minecraft:dirt replace" == str(
-        commands.setblock.position(positions.relative).block(blocks.dirt).replace
+        commands.setblock.position(~Position.zero()).block(blocks.dirt).replace
     )
 
 
 def test_setblock_call_destroy():
     assert "setblock ~ ~ ~ minecraft:dirt destroy" == str(
-        commands.setblock(positions.relative, blocks.dirt).destroy
+        commands.setblock(~Position.zero(), blocks.dirt).destroy
     )
 
 
 def test_setblock_call_keep():
     assert "setblock ~ ~ ~ minecraft:dirt keep" == str(
-        commands.setblock(positions.relative, blocks.dirt).keep
+        commands.setblock(~Position.zero(), blocks.dirt).keep
     )
 
 
 def test_setblock_call_replace():
     assert "setblock ~ ~ ~ minecraft:dirt replace" == str(
-        commands.setblock(positions.relative, blocks.dirt).replace
+        commands.setblock(~Position.zero(), blocks.dirt).replace
     )

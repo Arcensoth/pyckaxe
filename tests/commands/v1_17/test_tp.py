@@ -1,5 +1,4 @@
-from pyckaxe import positions, selectors
-from pyckaxe import commands
+from pyckaxe import Position, commands, selectors
 
 
 def test_tp():
@@ -8,7 +7,5 @@ def test_tp():
 
 def test_tp_thoroughly():
     assert "tp @a ~ ~ ~ facing entity @r" == str(
-        commands.tp(selectors.all_players, positions.relative).facing.entity.entity(
-            selectors.random
-        )
+        commands.tp(selectors.all_players, ~Position.zero()).facing.entity.entity(selectors.random)
     )

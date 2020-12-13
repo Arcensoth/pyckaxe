@@ -1,5 +1,4 @@
-from pyckaxe import anchors, positions, rotations, selectors
-from pyckaxe import commands
+from pyckaxe import Position, anchors, commands, rotations, selectors
 
 
 def test_teleport():
@@ -11,7 +10,7 @@ def test_teleport_destination():
 
 
 def test_teleport_location():
-    assert "teleport ~ ~ ~" == str(commands.teleport.location(positions.relative))
+    assert "teleport ~ ~ ~" == str(commands.teleport.location(~Position.zero()))
 
 
 def test_teleport_targets():
@@ -26,55 +25,53 @@ def test_teleport_targets_destination():
 
 def test_teleport_targets_location():
     assert "teleport @a ~ ~ ~" == str(
-        commands.teleport.targets(selectors.all_players).location(positions.relative)
+        commands.teleport.targets(selectors.all_players).location(~Position.zero())
     )
 
 
 def test_teleport_call():
-    assert "teleport @a ~ ~ ~" == str(commands.teleport(selectors.all_players, positions.relative))
+    assert "teleport @a ~ ~ ~" == str(commands.teleport(selectors.all_players, ~Position.zero()))
 
 
 def test_teleport_call_rotation():
     assert "teleport @a ~ ~ ~ ~ ~" == str(
-        commands.teleport(selectors.all_players, positions.relative).rotation(rotations.relative)
+        commands.teleport(selectors.all_players, ~Position.zero()).rotation(rotations.relative)
     )
 
 
 def test_teleport_call_call():
     assert "teleport @a ~ ~ ~ ~ ~" == str(
-        commands.teleport(selectors.all_players, positions.relative)(rotations.relative)
+        commands.teleport(selectors.all_players, ~Position.zero())(rotations.relative)
     )
 
 
 def test_teleport_call_facing():
     assert "teleport @a ~ ~ ~ facing" == str(
-        commands.teleport(selectors.all_players, positions.relative).facing
+        commands.teleport(selectors.all_players, ~Position.zero()).facing
     )
 
 
 def test_teleport_call_facing_location():
     assert "teleport @a ~ ~ ~ facing ~ ~ ~" == str(
-        commands.teleport(selectors.all_players, positions.relative).facing.location(
-            positions.relative
-        )
+        commands.teleport(selectors.all_players, ~Position.zero()).facing.location(~Position.zero())
     )
 
 
 def test_teleport_call_facing_call():
     assert "teleport @a ~ ~ ~ facing ~ ~ ~" == str(
-        commands.teleport(selectors.all_players, positions.relative).facing(positions.relative)
+        commands.teleport(selectors.all_players, ~Position.zero()).facing(~Position.zero())
     )
 
 
 def test_teleport_call_facing_entity():
     assert "teleport @a ~ ~ ~ facing entity" == str(
-        commands.teleport(selectors.all_players, positions.relative).facing.entity
+        commands.teleport(selectors.all_players, ~Position.zero()).facing.entity
     )
 
 
 def test_teleport_call_facing_entity_entity():
     assert "teleport @a ~ ~ ~ facing entity @r" == str(
-        commands.teleport(selectors.all_players, positions.relative).facing.entity.entity(
+        commands.teleport(selectors.all_players, ~Position.zero()).facing.entity.entity(
             selectors.random
         )
     )
@@ -82,7 +79,7 @@ def test_teleport_call_facing_entity_entity():
 
 def test_teleport_call_facing_entity_entity_anchor():
     assert "teleport @a ~ ~ ~ facing entity @r eyes" == str(
-        commands.teleport(selectors.all_players, positions.relative)
+        commands.teleport(selectors.all_players, ~Position.zero())
         .facing.entity.entity(selectors.random)
         .anchor(anchors.eyes)
     )
@@ -90,7 +87,7 @@ def test_teleport_call_facing_entity_entity_anchor():
 
 def test_teleport_call_facing_entity_call():
     assert "teleport @a ~ ~ ~ facing entity @r eyes" == str(
-        commands.teleport(selectors.all_players, positions.relative).facing.entity(
+        commands.teleport(selectors.all_players, ~Position.zero()).facing.entity(
             selectors.random, anchors.eyes
         )
     )

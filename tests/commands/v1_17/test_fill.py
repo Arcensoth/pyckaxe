@@ -1,5 +1,4 @@
-from pyckaxe import blocks, positions
-from pyckaxe import commands
+from pyckaxe import Position, blocks, commands
 
 
 def test_fill():
@@ -7,64 +6,62 @@ def test_fill():
 
 
 def test_fill_from():
-    assert "fill ~ ~ ~" == str(commands.fill.from_(positions.relative))
+    assert "fill ~ ~ ~" == str(commands.fill.from_(~Position.zero()))
 
 
 def test_fill_from_to():
-    assert "fill ~ ~ ~ ~ ~ ~" == str(commands.fill.from_(positions.relative).to(positions.relative))
+    assert "fill ~ ~ ~ ~ ~ ~" == str(commands.fill.from_(~Position.zero()).to(~Position.zero()))
 
 
 def test_fill_from_to_block():
     assert "fill ~ ~ ~ ~ ~ ~ minecraft:grass" == str(
-        commands.fill.from_(positions.relative).to(positions.relative).block(blocks.grass)
+        commands.fill.from_(~Position.zero()).to(~Position.zero()).block(blocks.grass)
     )
 
 
 def test_fill_call():
     assert "fill ~ ~ ~ ~ ~ ~ minecraft:grass" == str(
-        commands.fill(positions.relative, positions.relative, blocks.grass)
+        commands.fill(~Position.zero(), ~Position.zero(), blocks.grass)
     )
 
 
 def test_fill_call_destroy():
     assert "fill ~ ~ ~ ~ ~ ~ minecraft:grass destroy" == str(
-        commands.fill(positions.relative, positions.relative, blocks.grass).destroy
+        commands.fill(~Position.zero(), ~Position.zero(), blocks.grass).destroy
     )
 
 
 def test_fill_call_hollow():
     assert "fill ~ ~ ~ ~ ~ ~ minecraft:grass hollow" == str(
-        commands.fill(positions.relative, positions.relative, blocks.grass).hollow
+        commands.fill(~Position.zero(), ~Position.zero(), blocks.grass).hollow
     )
 
 
 def test_fill_call_keep():
     assert "fill ~ ~ ~ ~ ~ ~ minecraft:grass keep" == str(
-        commands.fill(positions.relative, positions.relative, blocks.grass).keep
+        commands.fill(~Position.zero(), ~Position.zero(), blocks.grass).keep
     )
 
 
 def test_fill_call_outline():
     assert "fill ~ ~ ~ ~ ~ ~ minecraft:grass outline" == str(
-        commands.fill(positions.relative, positions.relative, blocks.grass).outline
+        commands.fill(~Position.zero(), ~Position.zero(), blocks.grass).outline
     )
 
 
 def test_fill_call_replace():
     assert "fill ~ ~ ~ ~ ~ ~ minecraft:grass replace" == str(
-        commands.fill(positions.relative, positions.relative, blocks.grass).replace
+        commands.fill(~Position.zero(), ~Position.zero(), blocks.grass).replace
     )
 
 
 def test_fill_call_replace_filter():
     assert "fill ~ ~ ~ ~ ~ ~ minecraft:grass replace minecraft:dirt" == str(
-        commands.fill(positions.relative, positions.relative, blocks.grass).replace.filter(
-            blocks.dirt
-        )
+        commands.fill(~Position.zero(), ~Position.zero(), blocks.grass).replace.filter(blocks.dirt)
     )
 
 
 def test_fill_call_replace_call():
     assert "fill ~ ~ ~ ~ ~ ~ minecraft:grass replace minecraft:dirt" == str(
-        commands.fill(positions.relative, positions.relative, blocks.grass).replace(blocks.dirt)
+        commands.fill(~Position.zero(), ~Position.zero(), blocks.grass).replace(blocks.dirt)
     )

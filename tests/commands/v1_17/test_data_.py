@@ -1,5 +1,4 @@
-from pyckaxe import positions, selectors
-from pyckaxe import commands
+from pyckaxe import Position, commands, selectors
 
 
 def test_data():
@@ -18,24 +17,24 @@ def test_data_get_block():
 
 
 def test_data_get_block_position():
-    assert "data get block ~ ~ ~" == str(commands.data.get.block.position(positions.relative))
+    assert "data get block ~ ~ ~" == str(commands.data.get.block.position(~Position.zero()))
 
 
 def test_data_get_block_position_path():
     assert "data get block ~ ~ ~ Item.Count" == str(
-        commands.data.get.block.position(positions.relative).path("Item.Count")
+        commands.data.get.block.position(~Position.zero()).path("Item.Count")
     )
 
 
 def test_data_get_block_position_path_scale():
     assert "data get block ~ ~ ~ Item.Count 0.5" == str(
-        commands.data.get.block.position(positions.relative).path("Item.Count").scale(0.5)
+        commands.data.get.block.position(~Position.zero()).path("Item.Count").scale(0.5)
     )
 
 
 def test_data_get_block_call():
     assert "data get block ~ ~ ~ Item.Count 0.5" == str(
-        commands.data.get.block(positions.relative, "Item.Count", 0.5)
+        commands.data.get.block(~Position.zero(), "Item.Count", 0.5)
     )
 
 
@@ -77,18 +76,18 @@ def test_data_merge_block():
 
 
 def test_data_merge_block_position():
-    assert "data merge block ~ ~ ~" == str(commands.data.merge.block.position(positions.relative))
+    assert "data merge block ~ ~ ~" == str(commands.data.merge.block.position(~Position.zero()))
 
 
 def test_data_merge_block_position_nbt():
     assert "data merge block ~ ~ ~ {auto:1b}" == str(
-        commands.data.merge.block.position(positions.relative).nbt("{auto:1b}")
+        commands.data.merge.block.position(~Position.zero()).nbt("{auto:1b}")
     )
 
 
 def test_data_merge_block_call():
     assert "data merge block ~ ~ ~ {auto:1b}" == str(
-        commands.data.merge.block(positions.relative, "{auto:1b}")
+        commands.data.merge.block(~Position.zero(), "{auto:1b}")
     )
 
 
@@ -124,18 +123,18 @@ def test_data_remove_block():
 
 
 def test_data_remove_block_position():
-    assert "data remove block ~ ~ ~" == str(commands.data.remove.block.position(positions.relative))
+    assert "data remove block ~ ~ ~" == str(commands.data.remove.block.position(~Position.zero()))
 
 
 def test_data_remove_block_position_path():
     assert "data remove block ~ ~ ~ Item" == str(
-        commands.data.remove.block.position(positions.relative).path("Item")
+        commands.data.remove.block.position(~Position.zero()).path("Item")
     )
 
 
 def test_data_remove_block_call():
     assert "data remove block ~ ~ ~ Item" == str(
-        commands.data.remove.block(positions.relative, "Item")
+        commands.data.remove.block(~Position.zero(), "Item")
     )
 
 

@@ -14,6 +14,10 @@ class Position(CommandToken):
         position = Position(*raw_position)
         return position
 
+    @staticmethod
+    def zero() -> "Position":
+        return Position(0, 0, 0)
+
     def __init__(self, x: Any, y: Any, z: Any):
         self.x: Coordinate = Coordinate.from_any(x)
         self.y: Coordinate = Coordinate.from_any(y)

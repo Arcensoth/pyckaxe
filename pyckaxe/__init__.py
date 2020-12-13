@@ -13,10 +13,6 @@ class Selector:
     self = "@s"
 
 
-class Positions:
-    relative = "~ ~ ~"
-
-
 class Rotations:
     relative = "~ ~"
 
@@ -96,7 +92,6 @@ class ScoreboardSlots:
 
 
 selectors = Selector
-positions = Positions
 rotations = Rotations
 anchors = Anchors
 entities = Entities
