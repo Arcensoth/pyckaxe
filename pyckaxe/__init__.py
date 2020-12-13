@@ -26,12 +26,6 @@ class Anchors:
     eyes = "eyes"
 
 
-class Blocks:
-    dirt = "minecraft:dirt"
-    grass = "minecraft:grass"
-    air = "minecraft:air"
-
-
 class Entities:
     area_effect_cloud = "minecraft:area_effect_cloud"
 
@@ -105,7 +99,6 @@ selectors = Selector
 positions = Positions
 rotations = Rotations
 anchors = Anchors
-blocks = Blocks
 entities = Entities
 items = Items
 item_slots = ItemSlots
