@@ -3,6 +3,7 @@ from typing import Any, Callable, Iterable, Optional, Type
 
 from pyckaxe.abc.from_thingable import FromThingable
 from pyckaxe.command.abc.command_token import CommandToken
+from pyckaxe.nbt import NbtBase, NbtPath
 
 
 class Command(ABC):
@@ -18,6 +19,10 @@ class Command(ABC):
     def _convert(token) -> str:
         if isinstance(token, CommandToken):
             return token.command_stringify()
+        if isinstance(token, NbtBase):
+            return str(token.snbt())
+        if isinstance(token, NbtPath):
+            return str(token)
         if isinstance(token, bool):
             return "true" if token else "false"
         if token is None:
@@ -57,13 +62,15 @@ class CommandArgument(CommandNode):
     _TYPE: Optional[type] = None
 
     def __init__(self, parent: CommandNode = None, argument: Any = None):
-        if self._CONVERT:
-            argument = self._CONVERT(argument)
-        if self._TYPE:
-            if issubclass(self._TYPE, FromThingable):
-                argument = self._TYPE.from_thing(argument)
-            if not isinstance(argument, self._TYPE):
+        converter = self.__class__._CONVERT
+        type_ = self.__class__._TYPE
+        if converter:
+            argument = converter(argument)
+        if type_:
+            if issubclass(type_, FromThingable):
+                argument = type_.from_thing(argument)
+            if not isinstance(argument, type_):
                 raise ValueError(
-                    f"Invalid command argument of type {self._TYPE.__name__}: {argument}"
+                    f"Invalid command argument of type {argument.__class__.__name__}: {argument!r}"
                 )
         super().__init__(parent, argument)
