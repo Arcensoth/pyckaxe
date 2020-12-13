@@ -1,11 +1,11 @@
-from pyckaxe import Position, commands, selectors
+from pyckaxe import commands, selectors
 
 
 def test_data():
     assert "data" == str(commands.data)
 
 
-# data get
+# @@ data get
 
 
 def test_data_get():
@@ -17,24 +17,24 @@ def test_data_get_block():
 
 
 def test_data_get_block_position():
-    assert "data get block ~ ~ ~" == str(commands.data.get.block.position(~Position.zero()))
+    assert "data get block ~ ~ ~" == str(commands.data.get.block.position([0, 0, 0]))
 
 
 def test_data_get_block_position_path():
     assert "data get block ~ ~ ~ Item.Count" == str(
-        commands.data.get.block.position(~Position.zero()).path("Item.Count")
+        commands.data.get.block.position([0, 0, 0]).path("Item.Count")
     )
 
 
 def test_data_get_block_position_path_scale():
     assert "data get block ~ ~ ~ Item.Count 0.5" == str(
-        commands.data.get.block.position(~Position.zero()).path("Item.Count").scale(0.5)
+        commands.data.get.block.position([0, 0, 0]).path("Item.Count").scale(0.5)
     )
 
 
 def test_data_get_block_call():
     assert "data get block ~ ~ ~ Item.Count 0.5" == str(
-        commands.data.get.block(~Position.zero(), "Item.Count", 0.5)
+        commands.data.get.block([0, 0, 0], "Item.Count", 0.5)
     )
 
 
@@ -64,7 +64,7 @@ def test_data_get_entity_call():
     )
 
 
-# data merge
+# @@ data merge
 
 
 def test_data_merge():
@@ -76,18 +76,18 @@ def test_data_merge_block():
 
 
 def test_data_merge_block_position():
-    assert "data merge block ~ ~ ~" == str(commands.data.merge.block.position(~Position.zero()))
+    assert "data merge block ~ ~ ~" == str(commands.data.merge.block.position([0, 0, 0]))
 
 
 def test_data_merge_block_position_nbt():
     assert "data merge block ~ ~ ~ {auto:1b}" == str(
-        commands.data.merge.block.position(~Position.zero()).nbt("{auto:1b}")
+        commands.data.merge.block.position([0, 0, 0]).nbt("{auto:1b}")
     )
 
 
 def test_data_merge_block_call():
     assert "data merge block ~ ~ ~ {auto:1b}" == str(
-        commands.data.merge.block(~Position.zero(), "{auto:1b}")
+        commands.data.merge.block([0, 0, 0], "{auto:1b}")
     )
 
 
@@ -111,7 +111,7 @@ def test_data_merge_entity_call():
     )
 
 
-# data remove
+# @@ data remove
 
 
 def test_data_remove():
@@ -123,19 +123,17 @@ def test_data_remove_block():
 
 
 def test_data_remove_block_position():
-    assert "data remove block ~ ~ ~" == str(commands.data.remove.block.position(~Position.zero()))
+    assert "data remove block ~ ~ ~" == str(commands.data.remove.block.position([0, 0, 0]))
 
 
 def test_data_remove_block_position_path():
     assert "data remove block ~ ~ ~ Item" == str(
-        commands.data.remove.block.position(~Position.zero()).path("Item")
+        commands.data.remove.block.position([0, 0, 0]).path("Item")
     )
 
 
 def test_data_remove_block_call():
-    assert "data remove block ~ ~ ~ Item" == str(
-        commands.data.remove.block(~Position.zero(), "Item")
-    )
+    assert "data remove block ~ ~ ~ Item" == str(commands.data.remove.block([0, 0, 0], "Item"))
 
 
 def test_data_remove_entity():

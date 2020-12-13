@@ -1,4 +1,4 @@
-from pyckaxe import Position, commands, selectors, sound_sources
+from pyckaxe import commands, selectors, sound_sources
 
 
 def test_playsound():
@@ -28,7 +28,7 @@ def test_playsound_sound_source_targets_position():
         commands.playsound.sound("ambient.cave")
         .source(sound_sources.ambient)
         .targets(selectors.all_players)
-        .position(~Position.zero())
+        .position([0, 0, 0])
     )
 
 
@@ -37,7 +37,7 @@ def test_playsound_sound_source_targets_position_volume():
         commands.playsound.sound("ambient.cave")
         .source(sound_sources.ambient)
         .targets(selectors.all_players)
-        .position(~Position.zero())
+        .position([0, 0, 0])
         .volume(2.0)
     )
 
@@ -47,7 +47,7 @@ def test_playsound_sound_source_targets_position_volume_pitch():
         commands.playsound.sound("ambient.cave")
         .source(sound_sources.ambient)
         .targets(selectors.all_players)
-        .position(~Position.zero())
+        .position([0, 0, 0])
         .volume(2.0)
         .pitch(1.5)
     )
@@ -58,7 +58,7 @@ def test_playsound_sound_source_targets_position_volume_pitch_min_volume():
         commands.playsound.sound("ambient.cave")
         .source(sound_sources.ambient)
         .targets(selectors.all_players)
-        .position(~Position.zero())
+        .position([0, 0, 0])
         .volume(2.0)
         .pitch(1.5)
         .min_volume(0.5)
@@ -71,7 +71,7 @@ def test_playsound_call():
             "ambient.cave",
             sound_sources.ambient,
             selectors.all_players,
-            ~Position.zero(),
+            [0, 0, 0],
             2.0,
             1.5,
             0.5,

@@ -7,19 +7,25 @@ from pyckaxe.position import Position
 class FillCommand(CommandLiteral):
     _LITERAL = "fill"
 
-    def __call__(self, from_: Position, to: Position, block: Block) -> "FillFromToBlockCommand":
+    def __call__(
+        self, from_: Position.Thing, to: Position.Thing, block: Block
+    ) -> "FillFromToBlockCommand":
         return self.from_(from_).to(to).block(block)
 
-    def from_(self, from_: Position) -> "FillFromCommand":
+    def from_(self, from_: Position.Thing) -> "FillFromCommand":
         return FillFromCommand(self, from_)
 
 
 class FillFromCommand(CommandArgument):
-    def to(self, to: Position) -> "FillFromToCommand":
+    _TYPE = Position
+
+    def to(self, to: Position.Thing) -> "FillFromToCommand":
         return FillFromToCommand(self, to)
 
 
 class FillFromToCommand(CommandArgument):
+    _TYPE = Position
+
     def block(self, block: Block) -> "FillFromToBlockCommand":
         return FillFromToBlockCommand(self, block)
 

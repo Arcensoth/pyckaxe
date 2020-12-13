@@ -1,4 +1,4 @@
-from pyckaxe import Position, commands, item_slots, items, selectors
+from pyckaxe import commands, item_slots, items, selectors
 
 
 def test_replaceitem():
@@ -10,18 +10,18 @@ def test_replaceitem_block():
 
 
 def test_replaceitem_block_position():
-    assert "replaceitem block ~ ~ ~" == str(commands.replaceitem.block.position(~Position.zero()))
+    assert "replaceitem block ~ ~ ~" == str(commands.replaceitem.block.position([0, 0, 0]))
 
 
 def test_replaceitem_block_position_slot():
     assert "replaceitem block ~ ~ ~ slot.container.13" == str(
-        commands.replaceitem.block.position(~Position.zero()).slot(item_slots.slot_container_13)
+        commands.replaceitem.block.position([0, 0, 0]).slot(item_slots.slot_container_13)
     )
 
 
 def test_replaceitem_block_position_slot_item():
     assert "replaceitem block ~ ~ ~ slot.container.13 minecraft:diamond" == str(
-        commands.replaceitem.block.position(~Position.zero())
+        commands.replaceitem.block.position([0, 0, 0])
         .slot(item_slots.slot_container_13)
         .item(items.diamond)
     )
@@ -29,7 +29,7 @@ def test_replaceitem_block_position_slot_item():
 
 def test_replaceitem_block_position_slot_item_count():
     assert "replaceitem block ~ ~ ~ slot.container.13 minecraft:diamond 64" == str(
-        commands.replaceitem.block.position(~Position.zero())
+        commands.replaceitem.block.position([0, 0, 0])
         .slot(item_slots.slot_container_13)
         .item(items.diamond)
         .count(64)
@@ -38,9 +38,7 @@ def test_replaceitem_block_position_slot_item_count():
 
 def test_replaceitem_block_call():
     assert "replaceitem block ~ ~ ~ slot.container.13 minecraft:diamond 64" == str(
-        commands.replaceitem.block(
-            ~Position.zero(), item_slots.slot_container_13, items.diamond, 64
-        )
+        commands.replaceitem.block([0, 0, 0], item_slots.slot_container_13, items.diamond, 64)
     )
 
 

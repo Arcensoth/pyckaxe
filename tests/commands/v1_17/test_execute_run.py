@@ -1,4 +1,4 @@
-from pyckaxe import Position, blocks, commands, selectors
+from pyckaxe import blocks, commands, selectors
 
 
 def test_execute_run():
@@ -15,7 +15,7 @@ def test_execute_run_something_with_one_arg():
 
 def test_execute_run_something_with_several_args():
     assert "execute run setblock ~ ~ ~ minecraft:dirt" == str(
-        commands.execute.run.setblock(~Position.zero(), blocks.dirt)
+        commands.execute.run.setblock([0, 0, 0], blocks.dirt)
     )
 
 

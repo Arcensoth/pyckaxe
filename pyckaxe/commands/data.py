@@ -50,15 +50,17 @@ class DataGetBlockCommand(CommandLiteral):
     _LITERAL = "block"
 
     def __call__(
-        self, position: Position, path: DataPath, scale: float
+        self, position: Position.Thing, path: DataPath, scale: float
     ) -> "DataGetBlockPositionPathScaleCommand":
         return self.position(position).path(path).scale(scale)
 
-    def position(self, position: Position) -> "DataGetBlockPositionCommand":
+    def position(self, position: Position.Thing) -> "DataGetBlockPositionCommand":
         return DataGetBlockPositionCommand(self, position)
 
 
 class DataGetBlockPositionCommand(CommandArgument):
+    _TYPE = Position
+
     def path(self, path: DataPath) -> "DataGetBlockPositionPathCommand":
         return DataGetBlockPositionPathCommand(self, path)
 
@@ -150,14 +152,18 @@ class DataMergeCommand(CommandLiteral):
 class DataMergeBlockCommand(CommandLiteral):
     _LITERAL = "block"
 
-    def __call__(self, position: Position, nbt: tag.Compound) -> "DataMergeBlockPositionNbtCommand":
+    def __call__(
+        self, position: Position.Thing, nbt: tag.Compound
+    ) -> "DataMergeBlockPositionNbtCommand":
         return self.position(position).nbt(nbt)
 
-    def position(self, position: Position) -> "DataMergeBlockPositionCommand":
+    def position(self, position: Position.Thing) -> "DataMergeBlockPositionCommand":
         return DataMergeBlockPositionCommand(self, position)
 
 
 class DataMergeBlockPositionCommand(CommandArgument):
+    _TYPE = Position
+
     def nbt(self, nbt: tag.Compound) -> "DataMergeBlockPositionNbtCommand":
         return DataMergeBlockPositionNbtCommand(self, nbt)
 
@@ -219,7 +225,97 @@ class DataMergeStorageLocationNbtCommand(CommandArgument):
 
 class DataModifyCommand(CommandLiteral):
     _LITERAL = "modify"
-    # IMPL data modify
+
+    @property
+    def block(self) -> "DataModifyBlockCommand":
+        return DataModifyBlockCommand(self)
+
+    @property
+    def entity(self) -> "DataModifyEntityCommand":
+        return DataModifyEntityCommand(self)
+
+    @property
+    def storage(self) -> "DataModifyStorageCommand":
+        return DataModifyStorageCommand(self)
+
+
+class DataModifyCommandMixin:
+    # IMPL data modify: append insert merge prepend set
+    pass
+
+
+# @@ data modify block
+
+
+class DataModifyBlockCommand(CommandLiteral):
+    _LITERAL = "block"
+
+    def __call__(
+        self, position: Position.Thing, path: DataPath
+    ) -> "DataModifyBlockPositionPathCommand":
+        return self.position(position).path(path)
+
+    def position(self, position: Position.Thing) -> "DataModifyBlockPositionCommand":
+        return DataModifyBlockPositionCommand(self, position)
+
+
+class DataModifyBlockPositionCommand(CommandArgument):
+    _TYPE = Position
+
+    def path(self, path: DataPath) -> "DataModifyBlockPositionPathCommand":
+        return DataModifyBlockPositionPathCommand(self, path)
+
+
+class DataModifyBlockPositionPathCommand(CommandArgument, DataModifyCommandMixin):
+    pass
+
+
+# @@ data remove entity
+
+
+class DataModifyEntityCommand(CommandLiteral):
+    _LITERAL = "entity"
+
+    def __call__(
+        self, target: UniqueCommandTarget, path: DataPath
+    ) -> "DataModifyEntityTargetPathCommand":
+        return self.target(target).path(path)
+
+    def target(self, target: UniqueCommandTarget) -> "DataModifyEntityTargetCommand":
+        return DataModifyEntityTargetCommand(self, target)
+
+
+class DataModifyEntityTargetCommand(CommandArgument):
+    def path(self, path: DataPath) -> "DataModifyEntityTargetPathCommand":
+        return DataModifyEntityTargetPathCommand(self, path)
+
+
+class DataModifyEntityTargetPathCommand(CommandArgument, DataModifyCommandMixin):
+    pass
+
+
+# @@ data modify storage
+
+
+class DataModifyStorageCommand(CommandLiteral):
+    _LITERAL = "storage"
+
+    def __call__(
+        self, location: StorageResourceLocation, path: DataPath
+    ) -> "DataModifyStorageLocationPathCommand":
+        return self.location(location).path(path)
+
+    def location(self, location: StorageResourceLocation) -> "DataModifyStorageLocationCommand":
+        return DataModifyStorageLocationCommand(self, location)
+
+
+class DataModifyStorageLocationCommand(CommandArgument):
+    def path(self, path: DataPath) -> "DataModifyStorageLocationPathCommand":
+        return DataModifyStorageLocationPathCommand(self, path)
+
+
+class DataModifyStorageLocationPathCommand(CommandArgument, DataModifyCommandMixin):
+    pass
 
 
 # @@ data remove
@@ -247,14 +343,18 @@ class DataRemoveCommand(CommandLiteral):
 class DataRemoveBlockCommand(CommandLiteral):
     _LITERAL = "block"
 
-    def __call__(self, position: Position, path: DataPath) -> "DataRemoveBlockPositionPathCommand":
+    def __call__(
+        self, position: Position.Thing, path: DataPath
+    ) -> "DataRemoveBlockPositionPathCommand":
         return self.position(position).path(path)
 
-    def position(self, position: Position) -> "DataRemoveBlockPositionCommand":
+    def position(self, position: Position.Thing) -> "DataRemoveBlockPositionCommand":
         return DataRemoveBlockPositionCommand(self, position)
 
 
 class DataRemoveBlockPositionCommand(CommandArgument):
+    _TYPE = Position
+
     def path(self, path: DataPath) -> "DataRemoveBlockPositionPathCommand":
         return DataRemoveBlockPositionPathCommand(self, path)
 

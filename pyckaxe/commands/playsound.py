@@ -11,7 +11,7 @@ class PlaysoundCommand(CommandLiteral):
         sound: Sound,
         source: SoundSource,
         targets: CommandTarget,
-        position: Position,
+        position: Position.Thing,
         volume: float,
         pitch: float,
         min_volume: float,
@@ -41,11 +41,13 @@ class PlaysoundSoundSourceCommand(CommandArgument):
 
 
 class PlaysoundSoundSourceTargetsCommand(CommandArgument):
-    def position(self, position: Position) -> "PlaysoundSoundSourceTargetsPositionCommand":
+    def position(self, position: Position.Thing) -> "PlaysoundSoundSourceTargetsPositionCommand":
         return PlaysoundSoundSourceTargetsPositionCommand(self, position)
 
 
 class PlaysoundSoundSourceTargetsPositionCommand(CommandArgument):
+    _TYPE = Position
+
     def volume(self, volume: float) -> "PlaysoundSoundSourceTargetsPositionVolumeCommand":
         return PlaysoundSoundSourceTargetsPositionVolumeCommand(self, volume)
 

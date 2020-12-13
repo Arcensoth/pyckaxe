@@ -24,16 +24,16 @@ class ReplaceitemBlockCommand(CommandLiteral):
     _LITERAL = "block"
 
     def __call__(
-        self, position: Position, slot: ItemSlot, item: Item, count: int
+        self, position: Position.Thing, slot: ItemSlot, item: Item, count: int
     ) -> "ReplaceitemBESlotItemCountCommand":
         return self.position(position).slot(slot).item(item).count(count)
 
-    def position(self, position: Position) -> "ReplaceitemBlockPositionCommand":
+    def position(self, position: Position.Thing) -> "ReplaceitemBlockPositionCommand":
         return ReplaceitemBlockPositionCommand(self, position)
 
 
 class ReplaceitemBlockPositionCommand(CommandArgument, ReplaceitemBECommandMixin):
-    pass
+    _TYPE = Position
 
 
 class ReplaceitemEntityCommand(CommandLiteral):

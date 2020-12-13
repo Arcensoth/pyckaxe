@@ -7,14 +7,14 @@ class TeleportCommand(CommandLiteral):
     _LITERAL = "teleport"
 
     def __call__(
-        self, targets: CommandTarget, location: Position
+        self, targets: CommandTarget, location: Position.Thing
     ) -> "TeleportTargetsLocationCommand":
         return self.targets(targets).location(location)
 
     def destination(self, destination: UniqueCommandTarget) -> "TeleportDestinationCommand":
         return TeleportDestinationCommand(self, destination)
 
-    def location(self, location: Position) -> "TeleportLocationCommand":
+    def location(self, location: Position.Thing) -> "TeleportLocationCommand":
         return TeleportLocationCommand(self, location)
 
     def targets(self, targets: CommandTarget) -> "TeleportTargetsCommand":
@@ -26,14 +26,14 @@ class TeleportDestinationCommand(CommandArgument):
 
 
 class TeleportLocationCommand(CommandArgument):
-    pass
+    _TYPE = Position
 
 
 class TeleportTargetsCommand(CommandArgument):
     def destination(self, destination: UniqueCommandTarget) -> "TeleportTargetsDestinationCommand":
         return TeleportTargetsDestinationCommand(self, destination)
 
-    def location(self, location: Position) -> "TeleportTargetsLocationCommand":
+    def location(self, location: Position.Thing) -> "TeleportTargetsLocationCommand":
         return TeleportTargetsLocationCommand(self, location)
 
 
@@ -42,6 +42,8 @@ class TeleportTargetsDestinationCommand(CommandArgument):
 
 
 class TeleportTargetsLocationCommand(CommandArgument):
+    _TYPE = Position
+
     def __call__(self, rotation: Rotation) -> "TeleportTargetsLocationRotationCommand":
         return self.rotation(rotation)
 
@@ -60,19 +62,19 @@ class TeleportTargetsLocationRotationCommand(CommandArgument):
 class TeleportTargetsLocationFacingCommand(CommandLiteral):
     _LITERAL = "facing"
 
-    def __call__(self, location: Position) -> "TeleportTargetsLocationFacingLocationCommand":
+    def __call__(self, location: Position.Thing) -> "TeleportTargetsLocationFacingLocationCommand":
         return self.location(location)
 
     @property
     def entity(self) -> "TeleportTargetsLocationFacingEntityCommand":
         return TeleportTargetsLocationFacingEntityCommand(self)
 
-    def location(self, location: Position) -> "TeleportTargetsLocationFacingLocationCommand":
+    def location(self, location: Position.Thing) -> "TeleportTargetsLocationFacingLocationCommand":
         return TeleportTargetsLocationFacingLocationCommand(self, location)
 
 
 class TeleportTargetsLocationFacingLocationCommand(CommandArgument):
-    pass
+    _TYPE = Position
 
 
 class TeleportTargetsLocationFacingEntityCommand(CommandLiteral):

@@ -21,25 +21,31 @@ class CloneCommand(CommandLiteral):
     _LITERAL = "clone"
 
     def __call__(
-        self, begin: Position, end: Position, destination: Position
+        self, begin: Position.Thing, end: Position.Thing, destination: Position.Thing
     ) -> "CloneBeginEndDestinationCommand":
         return self.begin(begin).end(end).destination(destination)
 
-    def begin(self, begin: Position) -> "CloneBeginCommand":
+    def begin(self, begin: Position.Thing) -> "CloneBeginCommand":
         return CloneBeginCommand(self, begin)
 
 
 class CloneBeginCommand(CommandArgument):
-    def end(self, end: Position) -> "CloneBeginEndCommand":
+    _TYPE = Position
+
+    def end(self, end: Position.Thing) -> "CloneBeginEndCommand":
         return CloneBeginEndCommand(self, end)
 
 
 class CloneBeginEndCommand(CommandArgument):
-    def destination(self, destination: Position) -> "CloneBeginEndDestinationCommand":
+    _TYPE = Position
+
+    def destination(self, destination: Position.Thing) -> "CloneBeginEndDestinationCommand":
         return CloneBeginEndDestinationCommand(self, destination)
 
 
 class CloneBeginEndDestinationCommand(CommandArgument):
+    _TYPE = Position
+
     @property
     def filtered(self) -> "CloneBeginEndDestinationFilteredCommand":
         return CloneBeginEndDestinationFilteredCommand(self)

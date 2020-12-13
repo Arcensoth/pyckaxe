@@ -1,24 +1,22 @@
-from typing import Any
+from typing import Any, Union
 
+from pyckaxe.abc.from_thingable import FromThingable
 from pyckaxe.command.abc.command_token import CommandToken
 
 
-class Coordinate(CommandToken):
-    @staticmethod
-    def from_any(value: Any) -> "Coordinate":
-        if isinstance(value, Coordinate):
-            return value
-        if isinstance(value, float):
-            return AbsoluteCoordinate(value)
-        if isinstance(value, int):
-            return AbsoluteCoordinate(float(value))
-        raise ValueError(f"Value cannot be converted to {Coordinate.__name__}: {value}")
+class Coordinate(CommandToken, FromThingable):
+    Thing = Union["Coordinate", float, int]
+
+    @classmethod
+    def _convert_from_thing(cls, thing):
+        if isinstance(thing, (float, int)):
+            return AbsoluteCoordinate(float(thing))
 
     def __init__(self, value: float):
         self.value: float = float(value)
 
     def __repr__(self) -> str:
-        return str(self)
+        return f"{self.__class__.__name__}({self.value!r})"
 
     def __str__(self) -> str:
         return self.command_stringify()
@@ -47,15 +45,15 @@ class Coordinate(CommandToken):
 
 class AbsoluteCoordinate(Coordinate):
     def __add__(self, other: Any) -> "AbsoluteCoordinate":
-        c = Coordinate.from_any(other)
+        c = Coordinate.from_thing(other)
         return AbsoluteCoordinate(self.value + c.value)
 
     def __sub__(self, other: Any) -> "AbsoluteCoordinate":
-        c = Coordinate.from_any(other)
+        c = Coordinate.from_thing(other)
         return AbsoluteCoordinate(self.value - c.value)
 
     def __mul__(self, other: Any) -> "AbsoluteCoordinate":
-        c = Coordinate.from_any(other)
+        c = Coordinate.from_thing(other)
         return AbsoluteCoordinate(self.value * c.value)
 
     def __neg__(self) -> "AbsoluteCoordinate":
@@ -68,15 +66,15 @@ class AbsoluteCoordinate(Coordinate):
 
 class RelativeCoordinate(Coordinate):
     def __add__(self, other: Any) -> "RelativeCoordinate":
-        c = Coordinate.from_any(other)
+        c = Coordinate.from_thing(other)
         return RelativeCoordinate(self.value + c.value)
 
     def __sub__(self, other: Any) -> "RelativeCoordinate":
-        c = Coordinate.from_any(other)
+        c = Coordinate.from_thing(other)
         return RelativeCoordinate(self.value - c.value)
 
     def __mul__(self, other: Any) -> "RelativeCoordinate":
-        c = Coordinate.from_any(other)
+        c = Coordinate.from_thing(other)
         return RelativeCoordinate(self.value * c.value)
 
     def __neg__(self) -> "RelativeCoordinate":
@@ -89,15 +87,15 @@ class RelativeCoordinate(Coordinate):
 
 class LocalCoordinate(Coordinate):
     def __add__(self, other: Any) -> "LocalCoordinate":
-        c = Coordinate.from_any(other)
+        c = Coordinate.from_thing(other)
         return LocalCoordinate(self.value + c.value)
 
     def __sub__(self, other: Any) -> "LocalCoordinate":
-        c = Coordinate.from_any(other)
+        c = Coordinate.from_thing(other)
         return LocalCoordinate(self.value - c.value)
 
     def __mul__(self, other: Any) -> "LocalCoordinate":
-        c = Coordinate.from_any(other)
+        c = Coordinate.from_thing(other)
         return LocalCoordinate(self.value * c.value)
 
     def __neg__(self) -> "LocalCoordinate":

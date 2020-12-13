@@ -223,15 +223,17 @@ class ExecuteIfUnlessBlockCommand(CommandLiteral):
     _LITERAL = "block"
 
     def __call__(
-        self, position: Position, block: BlockPredicate
+        self, position: Position.Thing, block: BlockPredicate
     ) -> "ExecuteIfUnlessBlockPositionBlockCommand":
         return self.position(position).block(block)
 
-    def position(self, position: Position) -> "ExecuteIfUnlessBlockPositionCommand":
+    def position(self, position: Position.Thing) -> "ExecuteIfUnlessBlockPositionCommand":
         return ExecuteIfUnlessBlockPositionCommand(self, position)
 
 
 class ExecuteIfUnlessBlockPositionCommand(CommandArgument):
+    _TYPE = Position
+
     def block(self, block: BlockPredicate) -> "ExecuteIfUnlessBlockPositionBlockCommand":
         return ExecuteIfUnlessBlockPositionBlockCommand(self, block)
 
@@ -311,15 +313,17 @@ class ExecuteIfUnlessDataBlockCommand(CommandLiteral):
     _LITERAL = "block"
 
     def __call__(
-        self, position: Position, path: NbtPath
+        self, position: Position.Thing, path: NbtPath
     ) -> "ExecuteIfUnlessDataBlockPositionPathCommand":
         return self.position(position).path(path)
 
-    def position(self, position: Position) -> "ExecuteIfUnlessDataBlockPositionCommand":
+    def position(self, position: Position.Thing) -> "ExecuteIfUnlessDataBlockPositionCommand":
         return ExecuteIfUnlessDataBlockPositionCommand(self, position)
 
 
 class ExecuteIfUnlessDataBlockPositionCommand(CommandArgument, ExecuteCommandMixin):
+    _TYPE = Position
+
     def path(self, path: NbtPath) -> "ExecuteIfUnlessDataBlockPositionPathCommand":
         return ExecuteIfUnlessDataBlockPositionPathCommand(self, path)
 
@@ -435,10 +439,10 @@ class ExecuteInTheNetherCommand(CommandLiteral, ExecuteCommandMixin):
 class ExecutePositionedCommand(CommandLiteral):
     _LITERAL = "positioned"
 
-    def __call__(self, position: Position) -> "ExecutePositionedPositionCommand":
+    def __call__(self, position: Position.Thing) -> "ExecutePositionedPositionCommand":
         return self.position(position)
 
-    def position(self, position: Position) -> "ExecutePositionedPositionCommand":
+    def position(self, position: Position.Thing) -> "ExecutePositionedPositionCommand":
         return ExecutePositionedPositionCommand(self, position)
 
     @property
@@ -447,7 +451,7 @@ class ExecutePositionedCommand(CommandLiteral):
 
 
 class ExecutePositionedPositionCommand(CommandArgument, ExecuteCommandMixin):
-    pass
+    _TYPE = Position
 
 
 class ExecutePositionedAsCommand(CommandLiteral):
@@ -574,15 +578,17 @@ class ExecuteStoreResultSuccessBlockCommand(CommandLiteral):
     _LITERAL = "block"
 
     def __call__(
-        self, position: Position, path: NbtPath
+        self, position: Position.Thing, path: NbtPath
     ) -> "ExecuteStoreResultSuccessBlockPositionPathCommand":
         return self.position(position).path(path)
 
-    def position(self, position: Position) -> "ExecuteStoreResultSuccessBlockPositionCommand":
+    def position(self, position: Position.Thing) -> "ExecuteStoreResultSuccessBlockPositionCommand":
         return ExecuteStoreResultSuccessBlockPositionCommand(self, position)
 
 
 class ExecuteStoreResultSuccessBlockPositionCommand(CommandArgument):
+    _TYPE = Position
+
     def path(self, path: NbtPath) -> "ExecuteStoreResultSuccessBlockPositionPathCommand":
         return ExecuteStoreResultSuccessBlockPositionPathCommand(self, path)
 
