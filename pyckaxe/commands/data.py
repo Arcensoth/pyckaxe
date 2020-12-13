@@ -289,15 +289,15 @@ class DataModifyBESOpCommandMixin:
 
     @property
     def from_block(self) -> "DataModifyBESOpFromBlockCommand":
-        return DataModifyBESOpFromBlockCommand(self)
+        return self.from_.block
 
     @property
     def from_entity(self) -> "DataModifyBESOpFromEntityCommand":
-        return DataModifyBESOpFromEntityCommand(self)
+        return self.from_.entity
 
     @property
     def from_storage(self) -> "DataModifyBESOpFromStorageCommand":
-        return DataModifyBESOpFromStorageCommand(self)
+        return self.from_.storage
 
     @property
     def value(self) -> "DataModifyBESOpValueCommand":
