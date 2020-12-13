@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Iterable, Optional, Type
+from typing import Any, Callable, Iterable, Optional, Type
 
 from pyckaxe.abc.from_thingable import FromThingable
 from pyckaxe.command.abc.command_token import CommandToken
@@ -53,9 +53,12 @@ class CommandLiteral(CommandNode):
 class CommandArgument(CommandNode):
     """ A node in the command hierarchy that resolves to the given argument. """
 
+    _CONVERT: Optional[Callable] = None
     _TYPE: Optional[type] = None
 
     def __init__(self, parent: CommandNode = None, argument: Any = None):
+        if self._CONVERT:
+            argument = self._CONVERT(argument)
         if self._TYPE:
             if issubclass(self._TYPE, FromThingable):
                 argument = self._TYPE.from_thing(argument)
