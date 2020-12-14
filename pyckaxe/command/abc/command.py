@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Callable, Iterable, Optional, Type
+from typing import Any, Callable, Iterable, Optional, TypeVar
 
 from pyckaxe.abc.from_thingable import FromThingable
 from pyckaxe.command.abc.command_token import CommandToken
@@ -46,6 +46,9 @@ class CommandNode(Command):
         yield self._token
 
 
+CommandLiteralType = TypeVar("CommandLiteralType", bound="CommandNode")
+
+
 class CommandLiteral(CommandNode):
     """ A node in the command hierarchy that always resolves to the same literal. """
 
@@ -53,6 +56,9 @@ class CommandLiteral(CommandNode):
 
     def __init__(self, parent: CommandNode = None, literal: str = None):
         super().__init__(parent, literal or self._LITERAL)
+
+    def __call__(self: CommandLiteralType) -> CommandLiteralType:
+        return self
 
 
 class CommandArgument(CommandNode):
