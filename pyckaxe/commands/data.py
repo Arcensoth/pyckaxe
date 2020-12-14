@@ -59,7 +59,7 @@ class DataGetBlockCommand(CommandLiteral):
     _LITERAL = "block"
 
     def __call__(
-        self, position: Position.Thing, path: NbtPathAble, scale: float
+        self, position: Position.Thing, path: NbtPathAble, scale: float = 1.0
     ) -> "DataGetBlockPositionPathScaleCommand":
         return self.position(position).path(path).scale(scale)
 
@@ -94,7 +94,7 @@ class DataGetEntityCommand(CommandLiteral):
     _LITERAL = "entity"
 
     def __call__(
-        self, target: UniqueCommandTarget, path: NbtPathAble, scale: float
+        self, target: UniqueCommandTarget, path: NbtPathAble, scale: float = 1.0
     ) -> "DataGetEntityTargetPathScaleCommand":
         return self.target(target).path(path).scale(scale)
 
@@ -127,9 +127,9 @@ class DataGetStorageCommand(CommandLiteral):
     _LITERAL = "storage"
 
     def __call__(
-        self, location: StorageResourceLocation, path: NbtPathAble
+        self, location: StorageResourceLocation, path: NbtPathAble, scale: float = 1.0
     ) -> "DataGetStorageLocationPathCommand":
-        return self.location(location).path(path)
+        return self.location(location).path(path).scale(scale)
 
     def location(self, location: StorageResourceLocation) -> "DataGetStorageLocationCommand":
         return DataGetStorageLocationCommand(self, location)
@@ -143,6 +143,14 @@ class DataGetStorageLocationCommand(CommandArgument):
 class DataGetStorageLocationPathCommand(CommandArgument):
     _CONVERT = to_nbt_path
     _TYPE = NbtPath
+
+    def scale(self, scale: float) -> "DataGetStorageLocationPathScaleCommand":
+        return DataGetStorageLocationPathScaleCommand(self, scale)
+
+
+class DataGetStorageLocationPathScaleCommand(CommandArgument):
+    _CONVERT = float
+    _TYPE = float
 
 
 # @@ data merge
