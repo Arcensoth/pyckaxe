@@ -111,6 +111,3 @@ class RootCommandMixin:
     @property
     def trigger(self) -> TriggerCommand:
         return TriggerCommand(self)
-
-    def _raw(self, raw: str) -> RawCommand:
-        return RawCommand(raw, self)

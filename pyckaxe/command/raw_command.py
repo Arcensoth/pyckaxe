@@ -1,18 +1,18 @@
-from typing import Any, Iterable
+from typing import Any, Iterable, Optional, Tuple
 
-from pyckaxe.command.abc.command_node import CommandNode
-from pyckaxe.command.abc.command_token import CommandToken
+from pyckaxe.command.abc.command import Command
 
 
-class RawCommand(CommandNode):
-    def __init__(self, command_string: str, parent: "CommandNode" = None):
-        super().__init__(parent, command_string)
+class RawCommand(Command):
+    """
+    A wrapper used to encapsulate an arbitrary, raw command string that can be optionally attached
+    to the end of another command.
+    """
 
-    @staticmethod
-    def from_tokens(*tokens: Iterable[CommandToken]) -> "RawCommand":
-        str_tokens = (
-            token.command_stringify() if isinstance(token, CommandToken) else str(token)
-            for token in tokens
-        )
-        command_string = " ".join(str_tokens)
-        return RawCommand(command_string)
+    def __init__(self, *tokens: str, parent: "Command" = None):
+        self._tokens_tuple: Tuple[Any] = tuple(tokens)
+        self._parent: Optional[Command] = parent
+
+    def _tokens(self) -> Iterable[Any]:
+        yield from self._parent or ()
+        yield from self._tokens_tuple

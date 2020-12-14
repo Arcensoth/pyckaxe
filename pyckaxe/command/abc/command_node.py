@@ -3,6 +3,7 @@ from typing import Any, Callable, Iterable, Optional, TypeVar
 from pyckaxe.abc.from_thingable import FromThingable
 from pyckaxe.command.abc.command import Command
 from pyckaxe.command.debug_command import DebugCommand
+from pyckaxe.command.raw_command import RawCommand
 
 
 class CommandNode(Command):
@@ -15,6 +16,9 @@ class CommandNode(Command):
     def _tokens(self) -> Iterable[Any]:
         yield from self._parent or ()
         yield self._token
+
+    def _raw(self, *tokens) -> RawCommand:
+        return RawCommand(*tokens, parent=self)
 
     @property
     def _debug(self) -> DebugCommand:
