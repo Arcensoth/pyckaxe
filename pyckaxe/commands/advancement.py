@@ -2,26 +2,6 @@ from pyckaxe.command.abc.command import CommandArgument, CommandLiteral
 from pyckaxe.types import AdvancementCriteria, AdvancementResourceLocation, CommandTarget
 
 
-class AdvancementGRCommandMixin:
-    def __call__(self, targets: CommandTarget) -> "AdvancementGRTargetsCommand":
-        return self.targets(targets)
-
-    def targets(self, targets: CommandTarget) -> "AdvancementGRTargetsCommand":
-        return AdvancementGRTargetsCommand(self, targets)
-
-
-class AdvancementGRTargetsFTUCommandMixin:
-    def __call__(
-        self, advancement: AdvancementResourceLocation
-    ) -> "AdvancementGRTargetsFTUAdvancementCommand":
-        return self.advancement(advancement)
-
-    def advancement(
-        self, advancement: AdvancementResourceLocation
-    ) -> "AdvancementGRTargetsFTUAdvancementCommand":
-        return AdvancementGRTargetsFTUAdvancementCommand(self, advancement)
-
-
 class AdvancementCommand(CommandLiteral):
     _LITERAL = "advancement"
 
@@ -34,11 +14,19 @@ class AdvancementCommand(CommandLiteral):
         return AdvancementRevokeCommand(self)
 
 
-class AdvancementGrantCommand(CommandLiteral, AdvancementGRCommandMixin):
+class AdvancementGRCommandLiteralBase(CommandLiteral):
+    def __call__(self, targets: CommandTarget) -> "AdvancementGRTargetsCommand":
+        return self.targets(targets)
+
+    def targets(self, targets: CommandTarget) -> "AdvancementGRTargetsCommand":
+        return AdvancementGRTargetsCommand(self, targets)
+
+
+class AdvancementGrantCommand(AdvancementGRCommandLiteralBase):
     _LITERAL = "grant"
 
 
-class AdvancementRevokeCommand(CommandLiteral, AdvancementGRCommandMixin):
+class AdvancementRevokeCommand(AdvancementGRCommandLiteralBase):
     _LITERAL = "revoke"
 
 
@@ -68,7 +56,19 @@ class AdvancementGRTargetsEverythingCommand(CommandLiteral):
     _LITERAL = "everything"
 
 
-class AdvancementGRTargetsFromCommand(CommandLiteral, AdvancementGRTargetsFTUCommandMixin):
+class AdvancementGRTargetsFTUCommandLiteralBase(CommandLiteral):
+    def __call__(
+        self, advancement: AdvancementResourceLocation
+    ) -> "AdvancementGRTargetsFTUAdvancementCommand":
+        return self.advancement(advancement)
+
+    def advancement(
+        self, advancement: AdvancementResourceLocation
+    ) -> "AdvancementGRTargetsFTUAdvancementCommand":
+        return AdvancementGRTargetsFTUAdvancementCommand(self, advancement)
+
+
+class AdvancementGRTargetsFromCommand(AdvancementGRTargetsFTUCommandLiteralBase):
     _LITERAL = "from"
 
 
@@ -97,11 +97,11 @@ class AdvancementGRTargetsOnlyAdvancementCriteriaCommand(CommandArgument):
     pass
 
 
-class AdvancementGRTargetsThroughCommand(CommandLiteral, AdvancementGRTargetsFTUCommandMixin):
+class AdvancementGRTargetsThroughCommand(AdvancementGRTargetsFTUCommandLiteralBase):
     _LITERAL = "through"
 
 
-class AdvancementGRTargetsUntilCommand(CommandLiteral, AdvancementGRTargetsFTUCommandMixin):
+class AdvancementGRTargetsUntilCommand(AdvancementGRTargetsFTUCommandLiteralBase):
     _LITERAL = "until"
 
 

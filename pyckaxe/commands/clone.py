@@ -3,20 +3,6 @@ from pyckaxe.command.abc.command import CommandArgument, CommandLiteral
 from pyckaxe.position import Position
 
 
-class CloneBeginEndDestinationFMRCommandMixin:
-    @property
-    def force(self) -> "CloneBeginEndDestinationFMRForceCommand":
-        return CloneBeginEndDestinationFMRForceCommand(self)
-
-    @property
-    def move(self) -> "CloneBeginEndDestinationFMRMoveCommand":
-        return CloneBeginEndDestinationFMRMoveCommand(self)
-
-    @property
-    def normal(self) -> "CloneBeginEndDestinationFMRNormalCommand":
-        return CloneBeginEndDestinationFMRNormalCommand(self)
-
-
 class CloneCommand(CommandLiteral):
     _LITERAL = "clone"
 
@@ -67,6 +53,20 @@ class CloneBeginEndDestinationFilteredCommand(CommandLiteral):
 
     def filter(self, filter_: BlockPredicate) -> "CloneBeginEndDestinationFilteredFilterCommand":
         return CloneBeginEndDestinationFilteredFilterCommand(self, filter_)
+
+
+class CloneBeginEndDestinationFMRCommandMixin:
+    @property
+    def force(self) -> "CloneBeginEndDestinationFMRForceCommand":
+        return CloneBeginEndDestinationFMRForceCommand(self)
+
+    @property
+    def move(self) -> "CloneBeginEndDestinationFMRMoveCommand":
+        return CloneBeginEndDestinationFMRMoveCommand(self)
+
+    @property
+    def normal(self) -> "CloneBeginEndDestinationFMRNormalCommand":
+        return CloneBeginEndDestinationFMRNormalCommand(self)
 
 
 class CloneBeginEndDestinationFilteredFilterCommand(

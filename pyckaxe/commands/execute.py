@@ -549,28 +549,41 @@ class ExecuteStoreResultSuccessNbtCommandMixin:
         return ExecuteStoreResultSuccessNbtShortCommand(self)
 
 
-class ExecuteStoreResultSuccessNbtByteCommand(CommandLiteral, ExecuteCommandMixin):
+class ExecuteStoreResultSuccessNbtTypeCommandLiteralBase(CommandLiteral):
+    def __call__(self, scale: float) -> "ExecuteStoreResultSuccessNbtTypeCommand":
+        return self.scale(scale)
+
+    def scale(self, scale: float) -> "ExecuteStoreResultSuccessNbtTypeCommand":
+        return ExecuteStoreResultSuccessNbtTypeCommand(self, scale)
+
+
+class ExecuteStoreResultSuccessNbtByteCommand(ExecuteStoreResultSuccessNbtTypeCommandLiteralBase):
     _LITERAL = "byte"
 
 
-class ExecuteStoreResultSuccessNbtDoubleCommand(CommandLiteral, ExecuteCommandMixin):
+class ExecuteStoreResultSuccessNbtDoubleCommand(ExecuteStoreResultSuccessNbtTypeCommandLiteralBase):
     _LITERAL = "double"
 
 
-class ExecuteStoreResultSuccessNbtFloatCommand(CommandLiteral, ExecuteCommandMixin):
+class ExecuteStoreResultSuccessNbtFloatCommand(ExecuteStoreResultSuccessNbtTypeCommandLiteralBase):
     _LITERAL = "float"
 
 
-class ExecuteStoreResultSuccessNbtIntCommand(CommandLiteral, ExecuteCommandMixin):
+class ExecuteStoreResultSuccessNbtIntCommand(ExecuteStoreResultSuccessNbtTypeCommandLiteralBase):
     _LITERAL = "int"
 
 
-class ExecuteStoreResultSuccessNbtLongCommand(CommandLiteral, ExecuteCommandMixin):
+class ExecuteStoreResultSuccessNbtLongCommand(ExecuteStoreResultSuccessNbtTypeCommandLiteralBase):
     _LITERAL = "long"
 
 
-class ExecuteStoreResultSuccessNbtShortCommand(CommandLiteral, ExecuteCommandMixin):
+class ExecuteStoreResultSuccessNbtShortCommand(ExecuteStoreResultSuccessNbtTypeCommandLiteralBase):
     _LITERAL = "short"
+
+
+class ExecuteStoreResultSuccessNbtTypeCommand(CommandArgument, ExecuteCommandMixin):
+    _CONVERT = float
+    _TYPE = float
 
 
 # @@ execute store result/success block

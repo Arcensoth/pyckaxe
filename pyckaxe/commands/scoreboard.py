@@ -9,26 +9,6 @@ from pyckaxe.types import (
 )
 
 
-class ScoreboardPlayersARSMixin:
-    def __call__(
-        self, targets: ScoreHolder, objective: ScoreboardObjective, score: int
-    ) -> "ScoreboardPlayersARSTargetsObjectiveScoreCommand":
-        return self.targets(targets).objective(objective).score(score)
-
-    def targets(self, targets: ScoreHolder) -> "ScoreboardPlayersARSTargetsCommand":
-        return ScoreboardPlayersARSTargetsCommand(self, targets)
-
-
-class ScoreboardPlayersEGRMixin:
-    def __call__(
-        self, targets: ScoreHolder, objective: ScoreboardObjective
-    ) -> "ScoreboardPlayersEGTargetsObjectiveCommand":
-        return self.targets(targets).objective(objective)
-
-    def targets(self, targets: ScoreHolder) -> "ScoreboardPlayersEGTargetsCommand":
-        return ScoreboardPlayersEGTargetsCommand(self, targets)
-
-
 class ScoreboardCommand(CommandLiteral):
     _LITERAL = "scoreboard"
 
@@ -225,15 +205,35 @@ class ScoreboardPlayersCommand(CommandLiteral):
         return ScoreboardPlayersSetCommand(self)
 
 
-class ScoreboardPlayersAddCommand(CommandLiteral, ScoreboardPlayersARSMixin):
+class ScoreboardPlayersARSCommandLiteralBase(CommandLiteral):
+    def __call__(
+        self, targets: ScoreHolder, objective: ScoreboardObjective, score: int
+    ) -> "ScoreboardPlayersARSTargetsObjectiveScoreCommand":
+        return self.targets(targets).objective(objective).score(score)
+
+    def targets(self, targets: ScoreHolder) -> "ScoreboardPlayersARSTargetsCommand":
+        return ScoreboardPlayersARSTargetsCommand(self, targets)
+
+
+class ScoreboardPlayersEGRCommandLiteralBase(CommandLiteral):
+    def __call__(
+        self, targets: ScoreHolder, objective: ScoreboardObjective
+    ) -> "ScoreboardPlayersEGTargetsObjectiveCommand":
+        return self.targets(targets).objective(objective)
+
+    def targets(self, targets: ScoreHolder) -> "ScoreboardPlayersEGTargetsCommand":
+        return ScoreboardPlayersEGTargetsCommand(self, targets)
+
+
+class ScoreboardPlayersAddCommand(ScoreboardPlayersARSCommandLiteralBase):
     _LITERAL = "add"
 
 
-class ScoreboardPlayersEnableCommand(CommandLiteral, ScoreboardPlayersEGRMixin):
+class ScoreboardPlayersEnableCommand(ScoreboardPlayersEGRCommandLiteralBase):
     _LITERAL = "enable"
 
 
-class ScoreboardPlayersGetCommand(CommandLiteral, ScoreboardPlayersEGRMixin):
+class ScoreboardPlayersGetCommand(ScoreboardPlayersEGRCommandLiteralBase):
     _LITERAL = "get"
 
 
@@ -308,15 +308,15 @@ class ScoreboardPlayersOperationTargetsObjectiveOperationSourceObjectiveCommand(
     pass
 
 
-class ScoreboardPlayersRemoveCommand(CommandLiteral, ScoreboardPlayersARSMixin):
+class ScoreboardPlayersRemoveCommand(ScoreboardPlayersARSCommandLiteralBase):
     _LITERAL = "remove"
 
 
-class ScoreboardPlayersResetCommand(CommandLiteral, ScoreboardPlayersEGRMixin):
+class ScoreboardPlayersResetCommand(ScoreboardPlayersEGRCommandLiteralBase):
     _LITERAL = "reset"
 
 
-class ScoreboardPlayersSetCommand(CommandLiteral, ScoreboardPlayersARSMixin):
+class ScoreboardPlayersSetCommand(ScoreboardPlayersARSCommandLiteralBase):
     _LITERAL = "set"
 
 
