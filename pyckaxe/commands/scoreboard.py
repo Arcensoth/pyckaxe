@@ -2,7 +2,6 @@ from pyckaxe.command.abc.command import CommandArgument, CommandLiteral
 from pyckaxe.types import (
     ScoreboardCriteria,
     ScoreboardObjective,
-    ScoreboardOperation,
     ScoreboardSlot,
     ScoreHolder,
     TextComponent,
@@ -257,18 +256,9 @@ class ScoreboardPlayersOperationCommand(CommandLiteral):
     def __call__(
         self,
         targets: ScoreHolder,
-        target_objective: ScoreboardObjective,
-        operation: ScoreboardOperation,
-        source: ScoreHolder,
-        source_objective: ScoreboardObjective,
-    ) -> "ScoreboardPlayersOperationTargetsObjectiveOperationSourceObjectiveCommand":
-        return (
-            self.targets(targets)
-            .objective(target_objective)
-            .operation(operation)
-            .source(source)
-            .objective(source_objective)
-        )
+        objective: ScoreboardObjective,
+    ) -> "ScoreboardPlayersOperationTargetsObjectiveCommand":
+        return self.targets(targets).objective(objective)
 
     def targets(self, targets: ScoreHolder) -> "ScoreboardPlayersOperationTargetsCommand":
         return ScoreboardPlayersOperationTargetsCommand(self, targets)
@@ -282,29 +272,119 @@ class ScoreboardPlayersOperationTargetsCommand(CommandArgument):
 
 
 class ScoreboardPlayersOperationTargetsObjectiveCommand(CommandArgument):
-    def operation(
-        self, operation: ScoreboardOperation
-    ) -> "ScoreboardPlayersOperationTargetsObjectiveOperationCommand":
-        return ScoreboardPlayersOperationTargetsObjectiveOperationCommand(self, operation)
+    @property
+    def add(self) -> "ScoreboardPlayersOperationTargetsObjectiveAddCommand":
+        return ScoreboardPlayersOperationTargetsObjectiveAddCommand(self)
+
+    @property
+    def subtract(self) -> "ScoreboardPlayersOperationTargetsObjectiveSubtractCommand":
+        return ScoreboardPlayersOperationTargetsObjectiveSubtractCommand(self)
+
+    @property
+    def multiply(self) -> "ScoreboardPlayersOperationTargetsObjectiveMultiplyCommand":
+        return ScoreboardPlayersOperationTargetsObjectiveMultiplyCommand(self)
+
+    @property
+    def divide(self) -> "ScoreboardPlayersOperationTargetsObjectiveDivideCommand":
+        return ScoreboardPlayersOperationTargetsObjectiveDivideCommand(self)
+
+    @property
+    def modulo(self) -> "ScoreboardPlayersOperationTargetsObjectiveModuloCommand":
+        return ScoreboardPlayersOperationTargetsObjectiveModuloCommand(self)
+
+    @property
+    def assign(self) -> "ScoreboardPlayersOperationTargetsObjectiveAssignCommand":
+        return ScoreboardPlayersOperationTargetsObjectiveAssignCommand(self)
+
+    @property
+    def min(self) -> "ScoreboardPlayersOperationTargetsObjectiveMinCommand":
+        return ScoreboardPlayersOperationTargetsObjectiveMinCommand(self)
+
+    @property
+    def max(self) -> "ScoreboardPlayersOperationTargetsObjectiveMaxCommand":
+        return ScoreboardPlayersOperationTargetsObjectiveMaxCommand(self)
+
+    @property
+    def swap(self) -> "ScoreboardPlayersOperationTargetsObjectiveSwapCommand":
+        return ScoreboardPlayersOperationTargetsObjectiveSwapCommand(self)
 
 
-class ScoreboardPlayersOperationTargetsObjectiveOperationCommand(CommandArgument):
+class ScoreboardPlayersOperationTargetsObjectiveOpCommandLiteralBase(CommandLiteral):
+    def __call__(
+        self,
+        source: ScoreHolder,
+        objective: ScoreboardObjective,
+    ) -> "ScoreboardPlayersOperationTargetsObjectiveOpSourceObjectiveCommand":
+        return self.source(source).objective(objective)
+
     def source(
         self, source: ScoreHolder
-    ) -> "ScoreboardPlayersOperationTargetsObjectiveOperationSourceCommand":
-        return ScoreboardPlayersOperationTargetsObjectiveOperationSourceCommand(self, source)
+    ) -> "ScoreboardPlayersOperationTargetsObjectiveOpSourceCommand":
+        return ScoreboardPlayersOperationTargetsObjectiveOpSourceCommand(self, source)
 
 
-class ScoreboardPlayersOperationTargetsObjectiveOperationSourceCommand(CommandArgument):
+class ScoreboardPlayersOperationTargetsObjectiveAddCommand(
+    ScoreboardPlayersOperationTargetsObjectiveOpCommandLiteralBase
+):
+    _LITERAL = "+="
+
+
+class ScoreboardPlayersOperationTargetsObjectiveSubtractCommand(
+    ScoreboardPlayersOperationTargetsObjectiveOpCommandLiteralBase
+):
+    _LITERAL = "-="
+
+
+class ScoreboardPlayersOperationTargetsObjectiveMultiplyCommand(
+    ScoreboardPlayersOperationTargetsObjectiveOpCommandLiteralBase
+):
+    _LITERAL = "*="
+
+
+class ScoreboardPlayersOperationTargetsObjectiveDivideCommand(
+    ScoreboardPlayersOperationTargetsObjectiveOpCommandLiteralBase
+):
+    _LITERAL = "/="
+
+
+class ScoreboardPlayersOperationTargetsObjectiveModuloCommand(
+    ScoreboardPlayersOperationTargetsObjectiveOpCommandLiteralBase
+):
+    _LITERAL = "%="
+
+
+class ScoreboardPlayersOperationTargetsObjectiveAssignCommand(
+    ScoreboardPlayersOperationTargetsObjectiveOpCommandLiteralBase
+):
+    _LITERAL = "="
+
+
+class ScoreboardPlayersOperationTargetsObjectiveMinCommand(
+    ScoreboardPlayersOperationTargetsObjectiveOpCommandLiteralBase
+):
+    _LITERAL = "<"
+
+
+class ScoreboardPlayersOperationTargetsObjectiveMaxCommand(
+    ScoreboardPlayersOperationTargetsObjectiveOpCommandLiteralBase
+):
+    _LITERAL = ">"
+
+
+class ScoreboardPlayersOperationTargetsObjectiveSwapCommand(
+    ScoreboardPlayersOperationTargetsObjectiveOpCommandLiteralBase
+):
+    _LITERAL = "><"
+
+
+class ScoreboardPlayersOperationTargetsObjectiveOpSourceCommand(CommandArgument):
     def objective(
         self, objective: ScoreboardObjective
-    ) -> "ScoreboardPlayersOperationTargetsObjectiveOperationSourceObjectiveCommand":
-        return ScoreboardPlayersOperationTargetsObjectiveOperationSourceObjectiveCommand(
-            self, objective
-        )
+    ) -> "ScoreboardPlayersOperationTargetsObjectiveOpSourceObjectiveCommand":
+        return ScoreboardPlayersOperationTargetsObjectiveOpSourceObjectiveCommand(self, objective)
 
 
-class ScoreboardPlayersOperationTargetsObjectiveOperationSourceObjectiveCommand(CommandArgument):
+class ScoreboardPlayersOperationTargetsObjectiveOpSourceObjectiveCommand(CommandArgument):
     pass
 
 

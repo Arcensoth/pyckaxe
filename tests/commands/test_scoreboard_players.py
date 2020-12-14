@@ -1,5 +1,4 @@
-from pyckaxe import scoreboard_operations, selectors
-from pyckaxe import commands
+from pyckaxe import commands, selectors
 
 
 def test_scoreboard_players():
@@ -129,7 +128,7 @@ def test_scoreboard_players_operation_targets_objective_operation():
     assert "scoreboard players operation @a myobj =" == str(
         commands.scoreboard.players.operation.targets(selectors.all_players)
         .objective("myobj")
-        .operation(scoreboard_operations.assign)
+        .assign
     )
 
 
@@ -137,8 +136,7 @@ def test_scoreboard_players_operation_targets_objective_operation_source():
     assert "scoreboard players operation @a myobj = @r" == str(
         commands.scoreboard.players.operation.targets(selectors.all_players)
         .objective("myobj")
-        .operation(scoreboard_operations.assign)
-        .source(selectors.random)
+        .assign.source(selectors.random)
     )
 
 
@@ -146,18 +144,14 @@ def test_scoreboard_players_operation_targets_objective_operation_source_objecti
     assert "scoreboard players operation @a myobj = @r anotherobj" == str(
         commands.scoreboard.players.operation.targets(selectors.all_players)
         .objective("myobj")
-        .operation(scoreboard_operations.assign)
-        .source(selectors.random)
+        .assign.source(selectors.random)
         .objective("anotherobj")
     )
 
 
 def test_scoreboard_players_operation_call():
     assert "scoreboard players operation @a myobj = @r anotherobj" == str(
-        commands.scoreboard.players.operation(
-            selectors.all_players,
-            "myobj",
-            scoreboard_operations.assign,
+        commands.scoreboard.players.operation(selectors.all_players, "myobj").assign(
             selectors.random,
             "anotherobj",
         )

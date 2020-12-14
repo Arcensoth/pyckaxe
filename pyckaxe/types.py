@@ -11,7 +11,6 @@ ItemSlot = str
 Rotation = str
 ScoreboardCriteria = str
 ScoreboardObjective = str
-ScoreboardOperation = str
 ScoreboardSlot = str
 ScoreHolder = str
 Sound = str

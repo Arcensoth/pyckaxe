@@ -59,18 +59,6 @@ class SoundSources:
     weather = "weather"
 
 
-class ScoreboardOperations:
-    add = "+="
-    subtract = "-="
-    multiply = "*="
-    divide = "/="
-    modulo = "%="
-    assign = "="
-    min = "<"
-    max = ">"
-    swap = "><"
-
-
 class ScoreboardSlots:
     below_name = "belowName"
     list = "list"
@@ -101,7 +89,6 @@ items = Items
 item_slots = ItemSlots
 effects = Effects
 sound_sources = SoundSources
-scoreboard_operations = ScoreboardOperations
 scoreboard_slots = ScoreboardSlots
 
 cmd = RootCommand()
