@@ -1,8 +1,8 @@
 from dataclasses import dataclass
-from pathlib import Path
-from typing import Iterable, List, Optional, Union
+from typing import Iterable, List, Union
 
 from pyckaxe.command.abc.command import Command
+from pyckaxe.command.debug_command import DebugCommand
 from pyckaxe.pack.resource.abc.resource import RawResource
 
 
@@ -20,8 +20,8 @@ class Function(RawResource):
         return Function(lines=lines)
 
     # @implements Resource
-    async def serialize(self, compact: bool = False, **options) -> str:
-        lines = self.commands if compact else self.lines
+    async def serialize(self, production: bool = False, **options) -> str:
+        lines = self.production_commands if production else self.lines
         return "\n".join(str(line) for line in lines)
 
     @property
@@ -29,3 +29,9 @@ class Function(RawResource):
         for line in self.lines:
             if isinstance(line, Command):
                 yield line
+
+    @property
+    def production_commands(self) -> Iterable[Command]:
+        for command in self.commands:
+            if not isinstance(command, DebugCommand):
+                yield command
