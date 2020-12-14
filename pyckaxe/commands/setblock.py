@@ -1,5 +1,5 @@
 from pyckaxe.block import Block
-from pyckaxe.command.abc.command import CommandArgument, CommandLiteral
+from pyckaxe.command.abc.command_node import CommandArgument, CommandLiteral
 from pyckaxe.position import Position
 
 

@@ -1,4 +1,4 @@
-from pyckaxe.command.abc.command import CommandArgument, CommandLiteral
+from pyckaxe.command.abc.command_node import CommandArgument, CommandLiteral
 from pyckaxe.types import CommandTarget, Effect
 
 # NOTE This command uses a different form of namespacing: nested classes.

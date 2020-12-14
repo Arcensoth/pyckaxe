@@ -1,6 +1,5 @@
 import pytest
-
-from pyckaxe.command.abc.command import CommandNode
+from pyckaxe.command.abc.command_node import CommandNode
 from pyckaxe.command.raw_command import RawCommand
 
 

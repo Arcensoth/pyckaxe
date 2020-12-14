@@ -1,6 +1,6 @@
 from typing import Any, Iterable
 
-from pyckaxe.command.abc.command import CommandNode
+from pyckaxe.command.abc.command_node import CommandNode
 from pyckaxe.command.abc.command_token import CommandToken
 
 

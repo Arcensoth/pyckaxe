@@ -1,6 +1,6 @@
 import typing
 
-from pyckaxe.command.abc.command import CommandNode
+from pyckaxe.command.abc.command_node import CommandNode
 from pyckaxe.commands._root.root_command_mixin import RootCommandMixin
 
 
