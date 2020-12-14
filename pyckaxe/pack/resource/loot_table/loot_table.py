@@ -9,10 +9,10 @@ class LootTable(DictResource):
 
     # @implements Resource
     @staticmethod
-    async def deserialize(raw: dict) -> "LootTable":
+    async def deserialize(raw: dict, **options) -> "LootTable":
         assert isinstance(raw, dict)
         return LootTable(data=raw)
 
     # @implements Serializable
-    async def serialize(self) -> dict:
+    async def serialize(self, **options) -> dict:
         return self.data

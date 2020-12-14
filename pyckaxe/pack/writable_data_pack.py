@@ -3,6 +3,6 @@ from pyckaxe.pack.resource.abc.located_resource import LocatedResource
 
 
 class WritableDataPack(ReadableDataPack):
-    async def add(self, located_resource: LocatedResource):
+    async def add(self, located_resource: LocatedResource, **options):
         partial_path = located_resource.location.resolve_path(self.context)
-        await located_resource.resource.dump(partial_path)
+        await located_resource.resource.dump(partial_path, **options)

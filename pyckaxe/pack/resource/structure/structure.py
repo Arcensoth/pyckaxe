@@ -20,7 +20,7 @@ class Structure(NbtResource):
 
     # @implements Resource
     @staticmethod
-    async def deserialize(raw: nbtlib.Compound) -> "Structure":
+    async def deserialize(raw: nbtlib.Compound, **options) -> "Structure":
         assert isinstance(raw, nbtlib.Compound)
         return Structure(
             size=~Position.from_field(raw, "size"),
@@ -31,7 +31,7 @@ class Structure(NbtResource):
         )
 
     # @implements Resource
-    async def serialize(self) -> nbtlib.Compound:
+    async def serialize(self, **options) -> nbtlib.Compound:
         return StructureFileData(
             {
                 "size": [self.size.x, self.size.y, self.size.z],
