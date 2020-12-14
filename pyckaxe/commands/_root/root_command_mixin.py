@@ -1,3 +1,4 @@
+from pyckaxe.command.raw_command import RawCommand
 from pyckaxe.commands.advancement import AdvancementCommand
 from pyckaxe.commands.clear import ClearCommand
 from pyckaxe.commands.clone import CloneCommand
@@ -110,3 +111,6 @@ class RootCommandMixin:
     @property
     def trigger(self) -> TriggerCommand:
         return TriggerCommand(self)
+
+    def _raw(self, raw: str) -> RawCommand:
+        return RawCommand(raw, self)
