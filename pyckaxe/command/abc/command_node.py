@@ -17,6 +17,17 @@ class CommandNode(Command):
         yield from self._parent or ()
         yield self._token
 
+    def __add__(self, other: Any) -> "CommandNode":
+        # TODO Can we feasibly support concatenating two commands? #enhance
+        if isinstance(other, str):
+            return self._raw(other)
+        if isinstance(other, (list, tuple)):
+            return self._raw(*other)
+        raise ValueError(f"Value cannot be added with {CommandNode.__name__}: {other}")
+
+    def __invert__(self) -> "CommandNode":
+        return self._debug
+
     def _raw(self, *tokens) -> RawCommand:
         return RawCommand(*tokens, parent=self)
 
