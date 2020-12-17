@@ -56,7 +56,14 @@ class Position(CommandToken, FromThingable):
             return Position(self.x + other.x, self.y + other.y, self.z + other.z)
         if isinstance(other, (tuple, list)) and len(other) == 3:
             return Position(self.x + other[0], self.y + other[1], self.z + other[2])
-        raise ValueError(f"Value cannot be added with {Position.__name__}: {other}")
+        raise ValueError(f"Value cannot be added to {Position.__name__}: {other}")
+
+    def __sub__(self, other: Any) -> "Position":
+        if isinstance(other, Position):
+            return Position(self.x - other.x, self.y - other.y, self.z - other.z)
+        if isinstance(other, (tuple, list)) and len(other) == 3:
+            return Position(self.x - other[0], self.y - other[1], self.z - other[2])
+        raise ValueError(f"Value cannot be subtracted from {Position.__name__}: {other}")
 
     def unpack(self) -> Tuple[Coordinate, Coordinate, Coordinate]:
         return self.x, self.y, self.z
