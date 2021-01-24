@@ -1,4 +1,4 @@
-from typing import Any, Coroutine, Generic, Optional, Type, TypeVar
+from typing import Any, Coroutine, Generic, Iterable, List, Optional, Type, TypeVar
 
 from pyckaxe.pack.pack_context import PackContext
 from pyckaxe.pack.resource.abc.located_resource import LocatedResource
@@ -41,6 +41,12 @@ class ResourceOrLocation(Generic[ResourceType, ResourceLocationType]):
         return await cls.deserialize_resource(raw)
 
     @classmethod
+    async def deserialize_many(
+        cls: Type[ResourceOrLocationType], raw: Iterable[Any]
+    ) -> List[ResourceOrLocationType]:
+        return [await cls.des(raw_elem) for raw_elem in raw]
+
+    @classmethod
     async def from_field(
         cls: Type[ResourceOrLocationType], raw: dict, field: str, default=DEFAULT
     ) -> Optional[ResourceOrLocationType]:
@@ -49,6 +55,14 @@ class ResourceOrLocation(Generic[ResourceType, ResourceLocationType]):
         # If it's non-null, then attempt to deserialize it.
         if raw_value is not None:
             return await cls.deserialize(raw_value)
+
+    @classmethod
+    async def many_from_field(
+        cls: Type[ResourceOrLocationType], raw: dict, field: str, default=DEFAULT
+    ) -> Optional[List[ResourceOrLocationType]]:
+        raw_elems = get_field(raw, field, default=default)
+        if raw_elems is not None:
+            return await cls.deserialize_many(raw_elems)
 
     def __init__(
         self,
