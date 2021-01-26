@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from pyckaxe.block_predicate import BlockPredicate
+from pyckaxe.block_predicate import AnyBlockPredicate
 from pyckaxe.command.abc.command_node import CommandArgument, CommandLiteral
 from pyckaxe.nbt import NbtPath, NbtPathAble, to_nbt_path
 from pyckaxe.position import Position
@@ -222,7 +222,7 @@ class ExecuteIfUnlessBlockCommand(CommandLiteral):
     _LITERAL = "block"
 
     def __call__(
-        self, position: Position.Thing, block: BlockPredicate
+        self, position: Position.Thing, block: AnyBlockPredicate
     ) -> "ExecuteIfUnlessBlockPositionBlockCommand":
         return self.position(position).block(block)
 
@@ -233,7 +233,7 @@ class ExecuteIfUnlessBlockCommand(CommandLiteral):
 class ExecuteIfUnlessBlockPositionCommand(CommandArgument):
     _TYPE = Position
 
-    def block(self, block: BlockPredicate) -> "ExecuteIfUnlessBlockPositionBlockCommand":
+    def block(self, block: AnyBlockPredicate) -> "ExecuteIfUnlessBlockPositionBlockCommand":
         return ExecuteIfUnlessBlockPositionBlockCommand(self, block)
 
 

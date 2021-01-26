@@ -1,4 +1,4 @@
-from pyckaxe.block import Block
+from pyckaxe.any_block import AnyBlock
 from pyckaxe.command.abc.command_node import CommandArgument, CommandLiteral
 from pyckaxe.position import Position
 
@@ -6,7 +6,7 @@ from pyckaxe.position import Position
 class SetblockCommand(CommandLiteral):
     _LITERAL = "setblock"
 
-    def __call__(self, position: Position.Thing, block: Block) -> "SetblockPositionBlockCommand":
+    def __call__(self, position: Position.Thing, block: AnyBlock) -> "SetblockPositionBlockCommand":
         return self.position(position).block(block)
 
     def position(self, position: Position.Thing) -> "SetblockPositionCommand":
@@ -16,7 +16,7 @@ class SetblockCommand(CommandLiteral):
 class SetblockPositionCommand(CommandArgument):
     _TYPE = Position
 
-    def block(self, block: Block) -> "SetblockPositionBlockCommand":
+    def block(self, block: AnyBlock) -> "SetblockPositionBlockCommand":
         return SetblockPositionBlockCommand(self, block)
 
 
