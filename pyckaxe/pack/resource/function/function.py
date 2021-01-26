@@ -7,8 +7,16 @@ from pyckaxe.pack.resource.abc.resource import RawResource
 
 
 @dataclass
+class FunctionLine:
+    content: Union[Command, str]
+
+    def __str__(self) -> str:
+        return str(self.content)
+
+
+@dataclass
 class Function(RawResource):
-    lines: List[Union[Command, str]]
+    lines: List[FunctionLine]
 
     _file_suffix = ".mcfunction"
 
@@ -16,8 +24,9 @@ class Function(RawResource):
     @staticmethod
     async def deserialize(raw: str, **options) -> "Function":
         assert isinstance(raw, str)
-        lines = raw.split("\n")
-        return Function(lines=lines)
+        raw_lines = raw.split("\n")
+        function_lines = [FunctionLine(line) for line in raw_lines]
+        return Function(lines=function_lines)
 
     # @implements Resource
     async def serialize(self, production: bool = False, **options) -> str:
@@ -27,8 +36,9 @@ class Function(RawResource):
     @property
     def commands(self) -> Iterable[Command]:
         for line in self.lines:
-            if isinstance(line, Command):
-                yield line
+            content = line.content
+            if isinstance(content, Command):
+                yield content
 
     @property
     def production_commands(self) -> Iterable[Command]:
