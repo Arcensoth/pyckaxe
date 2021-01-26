@@ -30,11 +30,11 @@ class ResourceLocation(CommandToken, Generic[ResourceType]):
         resource_location = cls.from_string(raw_resource_location)
         return resource_location
 
-    def __init__(self, namespace: Namespace, parts: Tuple[str]):
+    def __init__(self, namespace: Namespace, parts: Tuple[str, ...]):
         assert isinstance(namespace, Namespace)
         assert isinstance(parts, tuple)
         self.registry_location: RegistryLocation = RegistryLocation(namespace, self.registry_parts)
-        self.parts: Tuple[str] = parts
+        self.parts: Tuple[str, ...] = parts
 
     def __str__(self) -> str:
         return self.name
