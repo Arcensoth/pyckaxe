@@ -23,5 +23,4 @@ BossbarID = str
 # Resource location
 ResourceLocation = str
 AdvancementResourceLocation = ResourceLocation
-FunctionResourceLocation = ResourceLocation
 StorageResourceLocation = ResourceLocation
