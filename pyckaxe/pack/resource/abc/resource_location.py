@@ -51,7 +51,7 @@ class ResourceLocation(CommandToken, Generic[ResourceType]):
     def __call__(self, pack_context: PackContext) -> Coroutine[Any, Any, ResourceType]:
         return self.resolve_resource(pack_context)
 
-    def extend(self, *parts: str) -> "ResourceLocation":
+    def extend(self: ResourceLocationType, *parts: str) -> ResourceLocationType:
         resource_cls = self.__class__
         resource = resource_cls(self.namespace, (*self.parts, *parts))
         return resource
