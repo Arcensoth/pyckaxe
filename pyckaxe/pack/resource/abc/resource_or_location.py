@@ -48,10 +48,20 @@ class ResourceOrLocation(Generic[ResourceType, ResourceLocationType]):
 
     @classmethod
     async def from_field(
-        cls: Type[ResourceOrLocationType], raw: dict, field: str, default=DEFAULT
+        cls: Type[ResourceOrLocationType], raw: dict, field: str
+    ) -> ResourceOrLocationType:
+        # Extract the field from the raw data.
+        raw_value = get_field(raw, field)
+        # If it's non-null, then attempt to deserialize it.
+        if raw_value is not None:
+            return await cls.deserialize(raw_value)
+
+    @classmethod
+    async def from_field_optional(
+        cls: Type[ResourceOrLocationType], raw: dict, field: str
     ) -> Optional[ResourceOrLocationType]:
         # Extract the field from the raw data.
-        raw_value = get_field(raw, field, default=default)
+        raw_value = get_field(raw, field, default=None)
         # If it's non-null, then attempt to deserialize it.
         if raw_value is not None:
             return await cls.deserialize(raw_value)
