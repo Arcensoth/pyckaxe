@@ -1,17 +1,10 @@
 from dataclasses import dataclass
-from typing import Iterable, List, Union
+from typing import Iterable, List
 
 from pyckaxe.command.abc.command import Command
 from pyckaxe.command.debug_command import DebugCommand
 from pyckaxe.pack.resource.abc.resource import RawResource
-
-
-@dataclass
-class FunctionLine:
-    content: Union[Command, str]
-
-    def __str__(self) -> str:
-        return str(self.content)
+from pyckaxe.pack.resource.function.function_line import FunctionLine
 
 
 @dataclass
