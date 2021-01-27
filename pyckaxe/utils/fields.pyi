@@ -1,8 +1,19 @@
-from typing import Any, Callable, Dict, Optional, Type, TypeVar
+from typing import Any, Callable, Dict, Optional, Type, TypeVar, overload
 
 FieldType = TypeVar("FieldType")
 
+# without type
+@overload
+def get_field(
+    raw: Dict[str, Any],
+    field: str,
+    check: Optional[Callable[[Any], bool]] = ...,
+    default: Any = ...,
+    convert: Optional[type] = ...,
+) -> Any: ...
+
 # with type
+@overload
 def get_field(
     raw: Dict[str, Any],
     field: str,
@@ -11,12 +22,3 @@ def get_field(
     default: Any = ...,
     convert: Optional[type] = ...,
 ) -> FieldType: ...
-
-# without type
-def get_field(
-    raw: Dict[str, Any],
-    field: str,
-    check: Optional[Callable[[Any], bool]] = ...,
-    default: Any = ...,
-    convert: Optional[type] = ...,
-) -> Any: ...
