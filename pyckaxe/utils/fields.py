@@ -1,26 +1,26 @@
-from typing import Any, Callable, Type, TypeVar
+from typing import Any, Callable, Dict, Optional, Type, TypeVar
 
 
 class MissingRequiredFieldError(Exception):
-    def __init__(self, raw: dict, field: str):
-        self.raw: dict = raw
+    def __init__(self, raw: Dict[str, Any], field: str):
+        self.raw: Dict[str, Any] = raw
         self.field: str = field
         super().__init__(f"Field '{self.field}' is required but missing, in: {self.raw}")
 
 
 class InvalidFieldTypeError(Exception):
-    def __init__(self, raw: dict, field: str, field_type: Type):
-        self.raw: dict = raw
+    def __init__(self, raw: Dict[str, Any], field: str, field_type: type):
+        self.raw: Dict[str, Any] = raw
         self.field: str = field
-        self.field_type: Type = field_type
+        self.field_type: type = field_type
         super().__init__(
             f"Field '{self.field}' is not of expected type <{self.field_type}>, in: {self.raw}"
         )
 
 
 class MalformedFieldError(Exception):
-    def __init__(self, raw: dict, field: str):
-        self.raw: dict = raw
+    def __init__(self, raw: Dict[str, Any], field: str):
+        self.raw: Dict[str, Any] = raw
         self.field: str = field
         super().__init__(f"Field '{self.field}' is malformed, in: {self.raw}")
 
@@ -31,12 +31,12 @@ DEFAULT = object()
 
 
 def get_field(
-    raw: dict,
+    raw: Dict[str, Any],
     field: str,
-    type: Type[FieldType] = None,
-    check: Callable[[FieldType], bool] = None,
+    type: Optional[Type[FieldType]] = None,
+    check: Optional[Callable[[FieldType], bool]] = None,
     default: Any = DEFAULT,
-    convert: type = None,
+    convert: Optional[type] = None,
 ) -> FieldType:
     value = raw.get(field)
     if value is None:
