@@ -1,10 +1,10 @@
+from dataclasses import dataclass
 from pathlib import Path
 
 
+@dataclass
 class PackContext:
-    def __init__(self, path: Path):
-        assert isinstance(path, Path)
-        self.path: Path = path
+    path: Path
 
     def __str__(self) -> str:
         return self.name
