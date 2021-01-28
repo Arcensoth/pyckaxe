@@ -6,21 +6,20 @@ from pyckaxe.pack.resource.abc.resource import Resource
 from pyckaxe.pack.resource.abc.resource_location import ResourceLocation
 from pyckaxe.utils.fields import DEFAULT, get_field
 
-ResourceOrLocationType = TypeVar("ResourceOrLocationType", bound="ResourceOrLocation")
-ResourceLocationType = TypeVar("ResourceLocationType", bound=ResourceLocation)
-ResourceType = TypeVar("ResourceType", bound=Resource)
+ResourceOrLocationType = TypeVar("ResourceOrLocationType", bound="ResourceOrLocation[Any, Any]")
+ResourceLocationType = TypeVar("ResourceLocationType", bound=ResourceLocation[Any])
+ResourceType = TypeVar("ResourceType", bound=Resource[Any])
 
 
 class ResourceOrLocation(Generic[ResourceType, ResourceLocationType]):
-    class Meta:
-        resource_class: Type[Resource] = Resource
-        resource_location_class: Type[ResourceLocation] = ResourceLocation
+    resource_class: Type[Resource[Any]] = Resource
+    resource_location_class: Type[ResourceLocation[Any]] = ResourceLocation
 
     @classmethod
     async def deserialize_resource_location(
         cls: Type[ResourceOrLocationType], raw: str
     ) -> ResourceOrLocationType:
-        resource_location = cls.Meta.resource_location_class.from_string(raw)
+        resource_location = cls.resource_location_class.from_string(raw)
         resource_or_location = cls(resource_location=resource_location)
         return resource_or_location
 
@@ -28,7 +27,7 @@ class ResourceOrLocation(Generic[ResourceType, ResourceLocationType]):
     async def deserialize_resource(
         cls: Type[ResourceOrLocationType], raw: Any
     ) -> ResourceOrLocationType:
-        resource = await cls.Meta.resource_class.deserialize(raw)
+        resource = await cls.resource_class.deserialize(raw)
         resource_or_location = cls(resource=resource)
         return resource_or_location
 
@@ -83,9 +82,9 @@ class ResourceOrLocation(Generic[ResourceType, ResourceLocationType]):
         assert (resource is not None) or (resource_location is not None)
         # Values must either be null or the correct type.
         if resource is not None:
-            assert isinstance(resource, self.Meta.resource_class)
+            assert isinstance(resource, self.resource_class)
         if resource_location is not None:
-            assert isinstance(resource_location, self.Meta.resource_location_class)
+            assert isinstance(resource_location, self.resource_location_class)
         # Remember these values, internally, and resolve them on-demand.
         self.resource: Optional[ResourceType] = resource
         self.resource_location: Optional[ResourceLocationType] = resource_location
