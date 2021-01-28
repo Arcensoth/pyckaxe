@@ -41,19 +41,25 @@ class PlaysoundSoundSourceCommand(CommandArgument):
 
 
 class PlaysoundSoundSourceTargetsCommand(CommandArgument):
-    def position(self, position: Position.Thing) -> "PlaysoundSoundSourceTargetsPositionCommand":
+    def position(
+        self, position: Position.Thing
+    ) -> "PlaysoundSoundSourceTargetsPositionCommand":
         return PlaysoundSoundSourceTargetsPositionCommand(self, position)
 
 
 class PlaysoundSoundSourceTargetsPositionCommand(CommandArgument):
     _TYPE = Position
 
-    def volume(self, volume: float) -> "PlaysoundSoundSourceTargetsPositionVolumeCommand":
+    def volume(
+        self, volume: float
+    ) -> "PlaysoundSoundSourceTargetsPositionVolumeCommand":
         return PlaysoundSoundSourceTargetsPositionVolumeCommand(self, volume)
 
 
 class PlaysoundSoundSourceTargetsPositionVolumeCommand(CommandArgument):
-    def pitch(self, pitch: float) -> "PlaysoundSoundSourceTargetsPositionVolumePitchCommand":
+    def pitch(
+        self, pitch: float
+    ) -> "PlaysoundSoundSourceTargetsPositionVolumePitchCommand":
         return PlaysoundSoundSourceTargetsPositionVolumePitchCommand(self, pitch)
 
 
@@ -61,7 +67,9 @@ class PlaysoundSoundSourceTargetsPositionVolumePitchCommand(CommandArgument):
     def min_volume(
         self, min_volume: float
     ) -> "PlaysoundSoundSourceTargetsPositionVolumePitchMonVolumeCommand":
-        return PlaysoundSoundSourceTargetsPositionVolumePitchMonVolumeCommand(self, min_volume)
+        return PlaysoundSoundSourceTargetsPositionVolumePitchMonVolumeCommand(
+            self, min_volume
+        )
 
 
 class PlaysoundSoundSourceTargetsPositionVolumePitchMonVolumeCommand(CommandArgument):

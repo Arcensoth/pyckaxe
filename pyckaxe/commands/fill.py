@@ -71,7 +71,9 @@ class FillFromToBlockOutlineCommand(CommandLiteral):
 class FillFromToBlockReplaceCommand(CommandLiteral):
     _LITERAL = "replace"
 
-    def __call__(self, filter_: BlockPredicate) -> "FillFromToBlockReplaceFilterCommand":
+    def __call__(
+        self, filter_: BlockPredicate
+    ) -> "FillFromToBlockReplaceFilterCommand":
         return self.filter(filter_)
 
     def filter(self, filter_: BlockPredicate) -> "FillFromToBlockReplaceFilterCommand":

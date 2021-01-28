@@ -13,7 +13,9 @@ class FromThingable(ABC):
         try:
             converted = cls._convert_from_thing(thing)
         except:
-            raise ValueError(f"Error attempting to convert value to {cls.__name__}: {thing!r}")
+            raise ValueError(
+                f"Error attempting to convert value to {cls.__name__}: {thing!r}"
+            )
 
         if isinstance(converted, cls):
             return converted

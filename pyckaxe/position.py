@@ -3,7 +3,12 @@ from typing import Any, Iterable, Tuple, Union
 
 from pyckaxe.abc.from_thingable import FromThingable
 from pyckaxe.command.abc.command_token import CommandToken
-from pyckaxe.coordinate import AbsoluteCoordinate, Coordinate, LocalCoordinate, RelativeCoordinate
+from pyckaxe.coordinate import (
+    AbsoluteCoordinate,
+    Coordinate,
+    LocalCoordinate,
+    RelativeCoordinate,
+)
 from pyckaxe.utils.fields import DEFAULT, get_field
 
 
@@ -63,7 +68,9 @@ class Position(CommandToken, FromThingable):
             return Position(self.x - other.x, self.y - other.y, self.z - other.z)
         if isinstance(other, (tuple, list)) and len(other) == 3:
             return Position(self.x - other[0], self.y - other[1], self.z - other[2])
-        raise ValueError(f"Value cannot be subtracted from {Position.__name__}: {other}")
+        raise ValueError(
+            f"Value cannot be subtracted from {Position.__name__}: {other}"
+        )
 
     def unpack(self) -> Tuple[Coordinate, Coordinate, Coordinate]:
         return self.x, self.y, self.z

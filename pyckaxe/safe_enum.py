@@ -22,7 +22,9 @@ class SafeEnum(Enum):
             return None
 
     @classmethod
-    def from_field(cls: Type[SelfType], raw: dict, field: str, default=DEFAULT) -> SelfType:
+    def from_field(
+        cls: Type[SelfType], raw: dict, field: str, default=DEFAULT
+    ) -> SelfType:
         raw_value = get_field(raw, field, type=str, check=cls.contains, default=default)
         value = cls[raw_value]
         return value

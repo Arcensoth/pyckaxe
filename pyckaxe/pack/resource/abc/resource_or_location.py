@@ -6,7 +6,9 @@ from pyckaxe.pack.resource.abc.resource import Resource
 from pyckaxe.pack.resource.abc.resource_location import ResourceLocation
 from pyckaxe.utils.fields import DEFAULT, get_field
 
-ResourceOrLocationType = TypeVar("ResourceOrLocationType", bound="ResourceOrLocation[Any, Any]")
+ResourceOrLocationType = TypeVar(
+    "ResourceOrLocationType", bound="ResourceOrLocation[Any, Any]"
+)
 ResourceLocationType = TypeVar("ResourceLocationType", bound=ResourceLocation[Any])
 ResourceType = TypeVar("ResourceType", bound=Resource[Any])
 
@@ -32,7 +34,9 @@ class ResourceOrLocation(Generic[ResourceType, ResourceLocationType]):
         return resource_or_location
 
     @classmethod
-    async def deserialize(cls: Type[ResourceOrLocationType], raw: Any) -> ResourceOrLocationType:
+    async def deserialize(
+        cls: Type[ResourceOrLocationType], raw: Any
+    ) -> ResourceOrLocationType:
         # A string is assumed to be a resource location.
         if isinstance(raw, str):
             return await cls.deserialize_resource_location(raw)
@@ -108,7 +112,9 @@ class ResourceOrLocation(Generic[ResourceType, ResourceLocationType]):
         resource = await self.resource_location.resolve_resource(pack_context)
         return resource
 
-    def location_or_inline(self, inline_location: ResourceLocationType) -> ResourceLocationType:
+    def location_or_inline(
+        self, inline_location: ResourceLocationType
+    ) -> ResourceLocationType:
         """
         Returns either the contained [ResourceLocaton] or the given [inline_location].
 

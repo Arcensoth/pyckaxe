@@ -25,7 +25,9 @@ class CloneBeginCommand(CommandArgument):
 class CloneBeginEndCommand(CommandArgument):
     _TYPE = Position
 
-    def destination(self, destination: Position.Thing) -> "CloneBeginEndDestinationCommand":
+    def destination(
+        self, destination: Position.Thing
+    ) -> "CloneBeginEndDestinationCommand":
         return CloneBeginEndDestinationCommand(self, destination)
 
 
@@ -48,10 +50,14 @@ class CloneBeginEndDestinationCommand(CommandArgument):
 class CloneBeginEndDestinationFilteredCommand(CommandLiteral):
     _LITERAL = "filtered"
 
-    def __call__(self, filter_: BlockPredicate) -> "CloneBeginEndDestinationFilteredFilterCommand":
+    def __call__(
+        self, filter_: BlockPredicate
+    ) -> "CloneBeginEndDestinationFilteredFilterCommand":
         return self.filter(filter_)
 
-    def filter(self, filter_: BlockPredicate) -> "CloneBeginEndDestinationFilteredFilterCommand":
+    def filter(
+        self, filter_: BlockPredicate
+    ) -> "CloneBeginEndDestinationFilteredFilterCommand":
         return CloneBeginEndDestinationFilteredFilterCommand(self, filter_)
 
 

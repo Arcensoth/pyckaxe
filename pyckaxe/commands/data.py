@@ -131,7 +131,9 @@ class DataGetStorageCommand(CommandLiteral):
     ) -> "DataGetStorageLocationPathCommand":
         return self.location(location).path(path).scale(scale)
 
-    def location(self, location: StorageResourceLocation) -> "DataGetStorageLocationCommand":
+    def location(
+        self, location: StorageResourceLocation
+    ) -> "DataGetStorageLocationCommand":
         return DataGetStorageLocationCommand(self, location)
 
 
@@ -235,7 +237,9 @@ class DataMergeStorageCommand(CommandLiteral):
     ) -> "DataMergeStorageLocationNbtCommand":
         return self.location(location).nbt(nbt)
 
-    def location(self, location: StorageResourceLocation) -> "DataMergeStorageLocationCommand":
+    def location(
+        self, location: StorageResourceLocation
+    ) -> "DataMergeStorageLocationCommand":
         return DataMergeStorageLocationCommand(self, location)
 
 
@@ -373,14 +377,18 @@ class DataModifyBESOpFromBlockCommand(CommandLiteral):
     ) -> "DataModifyBESOpFromBlockPositionPathCommand":
         return self.position(position).path(path)
 
-    def position(self, position: Position.Thing) -> "DataModifyBESOpFromBlockPositionCommand":
+    def position(
+        self, position: Position.Thing
+    ) -> "DataModifyBESOpFromBlockPositionCommand":
         return DataModifyBESOpFromBlockPositionCommand(self, position)
 
 
 class DataModifyBESOpFromBlockPositionCommand(CommandArgument):
     _TYPE = Position
 
-    def __call__(self, path: NbtPathAble) -> "DataModifyBESOpFromBlockPositionPathCommand":
+    def __call__(
+        self, path: NbtPathAble
+    ) -> "DataModifyBESOpFromBlockPositionPathCommand":
         return self.path(path)
 
     def path(self, path: NbtPathAble) -> "DataModifyBESOpFromBlockPositionPathCommand":
@@ -403,12 +411,16 @@ class DataModifyBESOpFromEntityCommand(CommandLiteral):
     ) -> "DataModifyBESOpFromEntityTargetPathCommand":
         return self.target(target).path(path)
 
-    def target(self, target: UniqueCommandTarget) -> "DataModifyBESOpFromEntityTargetCommand":
+    def target(
+        self, target: UniqueCommandTarget
+    ) -> "DataModifyBESOpFromEntityTargetCommand":
         return DataModifyBESOpFromEntityTargetCommand(self, target)
 
 
 class DataModifyBESOpFromEntityTargetCommand(CommandArgument):
-    def __call__(self, path: NbtPathAble) -> "DataModifyBESOpFromEntityTargetPathCommand":
+    def __call__(
+        self, path: NbtPathAble
+    ) -> "DataModifyBESOpFromEntityTargetPathCommand":
         return self.path(path)
 
     def path(self, path: NbtPathAble) -> "DataModifyBESOpFromEntityTargetPathCommand":
@@ -438,10 +450,14 @@ class DataModifyBESOpFromStorageCommand(CommandLiteral):
 
 
 class DataModifyBESOpFromStorageLocationCommand(CommandArgument):
-    def __call__(self, path: NbtPathAble) -> "DataModifyBESOpFromStorageLocationPathCommand":
+    def __call__(
+        self, path: NbtPathAble
+    ) -> "DataModifyBESOpFromStorageLocationPathCommand":
         return self.path(path)
 
-    def path(self, path: NbtPathAble) -> "DataModifyBESOpFromStorageLocationPathCommand":
+    def path(
+        self, path: NbtPathAble
+    ) -> "DataModifyBESOpFromStorageLocationPathCommand":
         return DataModifyBESOpFromStorageLocationPathCommand(self, path)
 
 
@@ -531,7 +547,9 @@ class DataModifyStorageCommand(CommandLiteral):
     ) -> "DataModifyStorageLocationPathCommand":
         return self.location(location).path(path)
 
-    def location(self, location: StorageResourceLocation) -> "DataModifyStorageLocationCommand":
+    def location(
+        self, location: StorageResourceLocation
+    ) -> "DataModifyStorageLocationCommand":
         return DataModifyStorageLocationCommand(self, location)
 
 
@@ -627,7 +645,9 @@ class DataRemoveStorageCommand(CommandLiteral):
     ) -> "DataRemoveStorageLocationPathCommand":
         return self.location(location).path(path)
 
-    def location(self, location: StorageResourceLocation) -> "DataRemoveStorageLocationCommand":
+    def location(
+        self, location: StorageResourceLocation
+    ) -> "DataRemoveStorageLocationCommand":
         return DataRemoveStorageLocationCommand(self, location)
 
 

@@ -18,14 +18,16 @@ class ResourceError(Exception):
 class NoSuchResourceError(ResourceError):
     def __init__(self, partial_path: Path):
         super().__init__(
-            partial_path, f"Unable to find resource matching partial path: {partial_path}"
+            partial_path,
+            f"Unable to find resource matching partial path: {partial_path}",
         )
 
 
 class DuplicateResourceError(ResourceError):
     def __init__(self, partial_path: Path):
         super().__init__(
-            partial_path, f"Encountered duplicate resources matching partial path: {partial_path}"
+            partial_path,
+            f"Encountered duplicate resources matching partial path: {partial_path}",
         )
 
 
@@ -36,12 +38,16 @@ class UnsupportedResourceExtensionError(ResourceError):
 
 class YamlNotInstalledError(ResourceError):
     def __init__(self, path: Path):
-        super().__init__(path, f"PyYAML must be installed to load YAML resource at: {path}")
+        super().__init__(
+            path, f"PyYAML must be installed to load YAML resource at: {path}"
+        )
 
 
 class MalformedResourceError(ResourceError):
     def __init__(self, path: Path, cause: Exception):
-        super().__init__(path, f"Failed to load malformed resource at {path} due to: {cause}")
+        super().__init__(
+            path, f"Failed to load malformed resource at {path} due to: {cause}"
+        )
         self.cause: Exception = cause
 
 

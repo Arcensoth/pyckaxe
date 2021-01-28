@@ -37,7 +37,9 @@ class Resource(AsyncSerializable, Generic[RawType]):
         ...
 
     @classmethod
-    async def load(cls: Type[ResourceType], partial_path: Path, **options) -> ResourceType:
+    async def load(
+        cls: Type[ResourceType], partial_path: Path, **options
+    ) -> ResourceType:
         try:
             raw = await cls._load_raw(partial_path, **options)
             return await cls.deserialize(raw, **options)

@@ -75,7 +75,9 @@ class ScoreboardObjectivesAddObjectiveCriteriaCommand(CommandArgument):
     def display_name(
         self, display_name: TextComponent
     ) -> "ScoreboardObjectivesAddObjectiveCriteriaDisplayNameCommand":
-        return ScoreboardObjectivesAddObjectiveCriteriaDisplayNameCommand(self, display_name)
+        return ScoreboardObjectivesAddObjectiveCriteriaDisplayNameCommand(
+            self, display_name
+        )
 
 
 class ScoreboardObjectivesAddObjectiveCriteriaDisplayNameCommand(CommandArgument):
@@ -117,7 +119,9 @@ class ScoreboardObjectivesModifyObjectiveDisplaynameCommand(CommandLiteral):
     def display_name(
         self, display_name: TextComponent
     ) -> "ScoreboardObjectivesModifyObjectiveDisplaynameDisplayNameCommand":
-        return ScoreboardObjectivesModifyObjectiveDisplaynameDisplayNameCommand(self, display_name)
+        return ScoreboardObjectivesModifyObjectiveDisplaynameDisplayNameCommand(
+            self, display_name
+        )
 
 
 class ScoreboardObjectivesModifyObjectiveDisplaynameDisplayNameCommand(CommandArgument):
@@ -260,7 +264,9 @@ class ScoreboardPlayersOperationCommand(CommandLiteral):
     ) -> "ScoreboardPlayersOperationTargetsObjectiveCommand":
         return self.targets(targets).objective(objective)
 
-    def targets(self, targets: ScoreHolder) -> "ScoreboardPlayersOperationTargetsCommand":
+    def targets(
+        self, targets: ScoreHolder
+    ) -> "ScoreboardPlayersOperationTargetsCommand":
         return ScoreboardPlayersOperationTargetsCommand(self, targets)
 
 
@@ -381,10 +387,14 @@ class ScoreboardPlayersOperationTargetsObjectiveOpSourceCommand(CommandArgument)
     def objective(
         self, objective: ScoreboardObjective
     ) -> "ScoreboardPlayersOperationTargetsObjectiveOpSourceObjectiveCommand":
-        return ScoreboardPlayersOperationTargetsObjectiveOpSourceObjectiveCommand(self, objective)
+        return ScoreboardPlayersOperationTargetsObjectiveOpSourceObjectiveCommand(
+            self, objective
+        )
 
 
-class ScoreboardPlayersOperationTargetsObjectiveOpSourceObjectiveCommand(CommandArgument):
+class ScoreboardPlayersOperationTargetsObjectiveOpSourceObjectiveCommand(
+    CommandArgument
+):
     pass
 
 

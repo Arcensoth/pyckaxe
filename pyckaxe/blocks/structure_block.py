@@ -90,8 +90,12 @@ class StructureBlock(BlockBase):
                         "sizeX": self.size.x.value if self.size is not None else None,
                         "sizeY": self.size.y.value if self.size is not None else None,
                         "sizeZ": self.size.z.value if self.size is not None else None,
-                        "rotation": self.rotation.value if self.rotation is not None else None,
-                        "mirror": self.mirror.value if self.mirror is not None else None,
+                        "rotation": self.rotation.value
+                        if self.rotation is not None
+                        else None,
+                        "mirror": self.mirror.value
+                        if self.mirror is not None
+                        else None,
                         "mode": self.mode.value if self.mode is not None else None,
                         "integrity": self.integrity,
                         "seed": self.seed,

@@ -39,7 +39,9 @@ class EffectCommand(CommandLiteral):
                         class _HideParticles(CommandArgument):
                             pass
 
-                        def hide_particles(self, hide_particles: bool) -> _HideParticles:
+                        def hide_particles(
+                            self, hide_particles: bool
+                        ) -> _HideParticles:
                             return self._HideParticles(self, hide_particles)
 
                     def amplifier(self, amplifier: int) -> _Amplifier:

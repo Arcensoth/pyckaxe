@@ -19,7 +19,9 @@ class TextComponent:
             yield from (TextComponent.flatten(subnode) for subnode in node)
         elif isinstance(node, dict):
             yield from (
-                TextComponent.flatten(subnode) for key, subnode in node.items() if key == "text"
+                TextComponent.flatten(subnode)
+                for key, subnode in node.items()
+                if key == "text"
             )
         else:
             yield str(node)

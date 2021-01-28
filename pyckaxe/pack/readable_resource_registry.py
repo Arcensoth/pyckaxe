@@ -10,7 +10,9 @@ ResourceType = TypeVar("ResourceType", bound=Resource)
 ResourceLocationType = TypeVar("ResourceLocationType", bound=ResourceLocation)
 
 
-class ReadableResourceRegistry(ReadableRegistryNode, Generic[ResourceType, ResourceLocationType]):
+class ReadableResourceRegistry(
+    ReadableRegistryNode, Generic[ResourceType, ResourceLocationType]
+):
     """ A registry with a physical, readable directory and resource files. """
 
     # NOTE Apparently this nested type alias only works from within the class?
@@ -27,7 +29,9 @@ class ReadableResourceRegistry(ReadableRegistryNode, Generic[ResourceType, Resou
         assert isinstance(resource_class, type)
         assert isinstance(resource_location_class, type)
         self.resource_class: Type[ResourceType] = resource_class
-        self.resource_location_class: Type[ResourceLocationType] = resource_location_class
+        self.resource_location_class: Type[
+            ResourceLocationType
+        ] = resource_location_class
 
     async def iter_all(self) -> AsyncIterable[ResourceTriplet]:
         for path in self.path.rglob(r"[!!]*"):

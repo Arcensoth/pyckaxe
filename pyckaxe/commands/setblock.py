@@ -6,7 +6,9 @@ from pyckaxe.position import Position
 class SetblockCommand(CommandLiteral):
     _LITERAL = "setblock"
 
-    def __call__(self, position: Position.Thing, block: AnyBlock) -> "SetblockPositionBlockCommand":
+    def __call__(
+        self, position: Position.Thing, block: AnyBlock
+    ) -> "SetblockPositionBlockCommand":
         return self.position(position).block(block)
 
     def position(self, position: Position.Thing) -> "SetblockPositionCommand":

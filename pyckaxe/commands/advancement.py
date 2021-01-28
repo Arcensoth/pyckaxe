@@ -1,5 +1,9 @@
 from pyckaxe.command.abc.command_node import CommandArgument, CommandLiteral
-from pyckaxe.types import AdvancementCriteria, AdvancementResourceLocation, CommandTarget
+from pyckaxe.types import (
+    AdvancementCriteria,
+    AdvancementResourceLocation,
+    CommandTarget,
+)
 
 
 class AdvancementCommand(CommandLiteral):

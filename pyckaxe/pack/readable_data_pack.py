@@ -6,7 +6,9 @@ from pyckaxe.pack.readable_pack import ReadablePack
 from pyckaxe.pack.readable_registry_node import ReadableRegistryNode
 from pyckaxe.pack.registry_location import RegistryLocation
 
-ReadableRegistryNodeType = TypeVar("ReadableRegistryNodeType", bound=ReadableRegistryNode)
+ReadableRegistryNodeType = TypeVar(
+    "ReadableRegistryNodeType", bound=ReadableRegistryNode
+)
 
 
 class ReadableDataPack(ReadablePack):
@@ -17,7 +19,9 @@ class ReadableDataPack(ReadablePack):
             namespace = Namespace(namespace_dir.name)
             yield namespace, namespace_dir
 
-    async def iter_all_registry_locations(self) -> AsyncIterable[Tuple[RegistryLocation, Path]]:
+    async def iter_all_registry_locations(
+        self,
+    ) -> AsyncIterable[Tuple[RegistryLocation, Path]]:
         async for namespace, namespace_dir in self.iter_namespaces():
             registry_dirs = [f for f in namespace_dir.iterdir() if f.is_dir()]
             for registry_dir in registry_dirs:

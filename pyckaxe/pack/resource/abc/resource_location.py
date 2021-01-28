@@ -24,7 +24,10 @@ class ResourceLocation(CommandToken, Generic[ResourceType]):
 
     @classmethod
     def from_field(
-        cls: Type[ResourceLocationType], raw: Dict[str, Any], field: str, default: Any = DEFAULT
+        cls: Type[ResourceLocationType],
+        raw: Dict[str, Any],
+        field: str,
+        default: Any = DEFAULT,
     ) -> ResourceLocationType:
         raw_resource_location = get_field(raw, field, type=str, default=default)
         resource_location = cls.from_string(raw_resource_location)
@@ -33,7 +36,9 @@ class ResourceLocation(CommandToken, Generic[ResourceType]):
     def __init__(self, namespace: Namespace, parts: Tuple[str, ...]):
         assert isinstance(namespace, Namespace)
         assert isinstance(parts, tuple)
-        self.registry_location: RegistryLocation = RegistryLocation(namespace, self.registry_parts)
+        self.registry_location: RegistryLocation = RegistryLocation(
+            namespace, self.registry_parts
+        )
         self.parts: Tuple[str, ...] = parts
 
     def __str__(self) -> str:

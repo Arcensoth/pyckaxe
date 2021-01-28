@@ -5,7 +5,9 @@ class MissingRequiredFieldError(Exception):
     def __init__(self, raw: Dict[str, Any], field: str):
         self.raw: Dict[str, Any] = raw
         self.field: str = field
-        super().__init__(f"Field '{self.field}' is required but missing, in: {self.raw}")
+        super().__init__(
+            f"Field '{self.field}' is required but missing, in: {self.raw}"
+        )
 
 
 class InvalidFieldTypeError(Exception):
