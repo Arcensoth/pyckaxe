@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Coroutine, Generic, Tuple, Type, TypeVar
+from typing import Any, Coroutine, Dict, Generic, Tuple, Type, TypeVar
 
 from pyckaxe.command.abc.command_token import CommandToken
 from pyckaxe.pack.namespace import Namespace
@@ -14,7 +14,7 @@ ResourceType = TypeVar("ResourceType", bound=Resource)
 
 class ResourceLocation(CommandToken, Generic[ResourceType]):
     resource_class: Type[Resource] = Resource
-    registry_parts: Tuple[str] = tuple()
+    registry_parts: Tuple[str, ...] = tuple()
 
     @classmethod
     def from_string(cls: Type[ResourceLocationType], name: str) -> ResourceLocationType:
@@ -24,7 +24,7 @@ class ResourceLocation(CommandToken, Generic[ResourceType]):
 
     @classmethod
     def from_field(
-        cls: Type[ResourceLocationType], raw: dict, field: str, default=DEFAULT
+        cls: Type[ResourceLocationType], raw: Dict[str, Any], field: str, default: Any = DEFAULT
     ) -> ResourceLocationType:
         raw_resource_location = get_field(raw, field, type=str, default=default)
         resource_location = cls.from_string(raw_resource_location)
