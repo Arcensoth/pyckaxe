@@ -1,18 +1,21 @@
-from typing import Any, Iterable, Optional, Tuple
+from typing import Iterable, Optional
 
 from pyckaxe.command.abc.command import Command
+
+__all__ = ("RawCommand",)
 
 
 class RawCommand(Command):
     """
-    A wrapper used to encapsulate an arbitrary, raw command string that can be optionally attached
-    to the end of another command.
+    A wrapper used to encapsulate an arbitrary, raw command string that can be
+    optionally attached to the end of another command.
     """
 
-    def __init__(self, *tokens: str, parent: "Command" = None):
-        self._tokens_tuple: Tuple[Any] = tuple(tokens)
+    def __init__(self, raw_command: str, parent: Optional[Command] = None):
+        self._raw_command: str = raw_command
         self._parent: Optional[Command] = parent
 
-    def _tokens(self) -> Iterable[Any]:
-        yield from self._parent or ()
-        yield from self._tokens_tuple
+    def command_tokens(self) -> Iterable[str]:
+        if self._parent is not None:
+            yield from self._parent.command_tokens()
+        yield self._raw_command

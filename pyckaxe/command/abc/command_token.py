@@ -1,8 +1,9 @@
 from abc import ABC, abstractmethod
-from typing import Iterable
+
+__all__ = ("CommandToken",)
 
 
 class CommandToken(ABC):
     @abstractmethod
-    def command_stringify(self) -> Iterable[str]:
+    def command_tokenize(self) -> str:
         """ Stringify the object into a command token. """

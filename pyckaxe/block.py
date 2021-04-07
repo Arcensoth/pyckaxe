@@ -1,46 +1,83 @@
 from dataclasses import dataclass
-from typing import Iterable, Optional
+from typing import Any, Dict, Iterable, Optional, Union
 
-from nbtlib import tag
-
-from pyckaxe.abc.serializable import Serializable
 from pyckaxe.block_state import BlockState
-from pyckaxe.command.abc.command_token import CommandToken
-from pyckaxe.nbt import to_nbt
+from pyckaxe.nbt import NbtCompound, to_nbt
+
+__all__ = (
+    "BlockConvertible",
+    "to_block",
+    "Block",
+)
+
+
+BlockConvertible = Union[
+    "Block",
+    str,
+    Dict[str, Any],
+]
+
+
+def to_block(value: BlockConvertible) -> "Block":
+    if isinstance(value, Block):
+        return value
+    if isinstance(value, str):
+        return Block.from_string(value)
+    assert isinstance(value, dict)
+    return Block.from_dict(value)
 
 
 @dataclass
-class Block(CommandToken, Serializable):
+class Block:
     name: str
     state: Optional[BlockState] = None
-    data: Optional[tag.Compound] = None
+    data: Optional[NbtCompound] = None
 
-    @staticmethod
-    def deserialize(raw: dict) -> "Block":
-        assert isinstance(raw, dict)
-        name = raw["block"]
-        raw_state = raw.get("state")
+    @classmethod
+    def from_string(cls, s: str) -> "Block":
+        return cls(name=s)
+
+    @classmethod
+    def from_dict(cls, d: Dict[str, Any]) -> "Block":
+        # name
+        name = d["block"]
+        assert isinstance(name, str)
+        # state
+        raw_state = d.get("state")
         state = BlockState(raw_state) if raw_state is not None else None
-        raw_data = raw.get("data")
+        # data
+        raw_data = d.get("data")
         data = to_nbt(raw_data) if raw_data is not None else None
-        return Block(name=name, state=state, data=data)
+        if data is not None:
+            assert isinstance(data, NbtCompound)
+        return cls(name=name, state=state, data=data)
 
-    # @implements Serializable
-    def serialize(self) -> dict:
-        # FIXME Shouldn't `data` be a dict as well?
-        return {
-            "name": self.name,
-            "state": self.state.serialize(),
-            "data": self.data.snbt(),
-        }
+    def __str__(self) -> str:
+        return "".join(self._str_parts())
 
-    def _command_stringify(self) -> Iterable[str]:
+    def __hash__(self) -> int:
+        return hash(str(self))
+
+    def __eq__(self, other: Any) -> bool:
+        return (
+            isinstance(other, self.__class__)
+            and (other.name == self.name)
+            and (other.state == self.state)
+            and (other.data == self.data)
+        )
+
+    def _str_parts(self) -> Iterable[str]:
         yield self.name
         if self.state is not None:
-            yield self.state.command_stringify()
+            yield self.state.command_tokenize()
         if self.data is not None:
             yield str(self.data.snbt())
 
-    # @implements CommandToken
-    def command_stringify(self) -> str:
-        return "".join(self._command_stringify())
+    def to_dict(self) -> Dict[str, Any]:
+        # FIXME Shouldn't `data` be a dict as well?
+        d: Dict[str, Any] = {"name": self.name}
+        if self.state is not None:
+            d["state"] = self.state.serialize()
+        if self.data is not None:
+            d["data"] = self.data.snbt()
+        return d

@@ -14,13 +14,13 @@ class BlockBase(CommandToken):
     def state(self) -> BlockState:
         return BlockState({k: v for k, v in self._properties()})
 
-    def _command_stringify(self) -> Iterable[str]:
+    def _command_parts(self) -> Iterable[str]:
         yield self.NAME
         if (state := self.state()) :
-            yield state.command_stringify()
+            yield state.command_tokenize()
         if self.data is not None:
-            yield self.data.command_stringify()
+            yield self.data.command_tokenize()
 
     # @implements CommandToken
-    def command_stringify(self) -> str:
-        return "".join(self._command_stringify())
+    def command_tokenize(self) -> str:
+        return "".join(self._command_parts())

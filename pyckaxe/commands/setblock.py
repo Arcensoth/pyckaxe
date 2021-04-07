@@ -1,28 +1,43 @@
-from pyckaxe.any_block import AnyBlock
-from pyckaxe.command.abc.command_node import CommandArgument, CommandLiteral
-from pyckaxe.position import Position
+from typing import Any, Optional
+
+from pyckaxe.block import Block, BlockConvertible, to_block
+from pyckaxe.command import (
+    CommandArgument,
+    CommandLiteral,
+    command_argument,
+    command_literal,
+)
+from pyckaxe.position import Position, PositionConvertible, to_position
 
 
+class SetblockDescriptor:
+    def __get__(self, obj: Any, objtype: Optional[type] = None) -> "SetblockCommand":
+        return SetblockCommand(None)
+
+
+@command_literal("setblock")
 class SetblockCommand(CommandLiteral):
-    _LITERAL = "setblock"
-
     def __call__(
-        self, position: Position.Thing, block: AnyBlock
+        self, position: PositionConvertible, block: BlockConvertible
     ) -> "SetblockPositionBlockCommand":
-        return self.position(position).block(block)
+        # return self.position(position).block(block)
+        return SetblockPositionCommand(self, to_position(position))(block)
 
-    def position(self, position: Position.Thing) -> "SetblockPositionCommand":
-        return SetblockPositionCommand(self, position)
-
-
-class SetblockPositionCommand(CommandArgument):
-    _TYPE = Position
-
-    def block(self, block: AnyBlock) -> "SetblockPositionBlockCommand":
-        return SetblockPositionBlockCommand(self, block)
+    # def position(self, position: PositionConvertible) -> "SetblockPosition":
+    #     return SetblockPosition(self, Position.from_thing(position))
 
 
-class SetblockPositionBlockCommand(CommandArgument):
+@command_argument(Position)
+class SetblockPositionCommand(CommandArgument[Position]):
+    def __call__(self, block: BlockConvertible) -> "SetblockPositionBlockCommand":
+        return SetblockPositionBlockCommand(self, to_block(block))
+
+    # def block(self, block: BlockConvertible) -> "SetblockPositionBlock":
+    #     return SetblockPositionBlock(self, thing_to_block(block))
+
+
+@command_argument(Block)
+class SetblockPositionBlockCommand(CommandArgument[Block]):
     @property
     def destroy(self) -> "SetblockPositionBlockDestroyCommand":
         return SetblockPositionBlockDestroyCommand(self)
@@ -36,13 +51,16 @@ class SetblockPositionBlockCommand(CommandArgument):
         return SetblockPositionBlockReplaceCommand(self)
 
 
+@command_literal("destroy")
 class SetblockPositionBlockDestroyCommand(CommandLiteral):
-    _LITERAL = "destroy"
+    pass
 
 
+@command_literal("keep")
 class SetblockPositionBlockKeepCommand(CommandLiteral):
-    _LITERAL = "keep"
+    pass
 
 
+@command_literal("replace")
 class SetblockPositionBlockReplaceCommand(CommandLiteral):
-    _LITERAL = "replace"
+    pass

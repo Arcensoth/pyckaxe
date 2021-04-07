@@ -1,28 +1,56 @@
-from typing import Any, Union
+from dataclasses import dataclass
+from enum import Enum
+from typing import Any, ClassVar, Dict, Union
 
-from pyckaxe.abc.from_thingable import FromThingable
-from pyckaxe.command.abc.command_token import CommandToken
+__all__ = (
+    "CoordinateConvertible",
+    "to_coordinate",
+    "Coordinate",
+)
+
+CoordinateAsNumber = Union[int, float]
+CoordinateConvertible = Union[
+    "Coordinate",
+    CoordinateAsNumber,
+]
 
 
-class Coordinate(CommandToken, FromThingable):
-    Thing = Union["Coordinate", float, int]
+def to_coordinate(value: CoordinateConvertible) -> "Coordinate":
+    if isinstance(value, Coordinate):
+        return value
+    assert isinstance(value, (int, float))
+    return Coordinate.from_number(value)
+
+
+class CoordinateSign(Enum):
+    ABSOLUTE = "absolute"
+    RELATIVE = "relative"
+    LOCAL = "local"
+
+
+@dataclass
+class Coordinate:
+    value: float
+    sign: CoordinateSign = CoordinateSign.ABSOLUTE
+
+    PREFIX_MAP: ClassVar[Dict[CoordinateSign, str]] = {
+        CoordinateSign.ABSOLUTE: "",
+        CoordinateSign.RELATIVE: "~",
+        CoordinateSign.LOCAL: "^",
+    }
 
     @classmethod
-    def _convert_from_thing(cls, thing):
-        if isinstance(thing, (float, int)):
-            return AbsoluteCoordinate(float(thing))
-
-    def __init__(self, value: float):
-        self.value: float = float(value)
-
-    def __repr__(self) -> str:
-        return f"{self.__class__.__name__}({self.value!r})"
+    def from_number(cls, n: CoordinateAsNumber) -> "Coordinate":
+        return cls(float(n))
 
     def __str__(self) -> str:
-        return self.command_stringify()
+        prefix = self.prefix
+        if self.value == 0 and prefix:
+            return prefix
+        return f"{prefix}{self.value:g}"
 
     def __hash__(self) -> int:
-        return hash(self.value)
+        return hash(str(self))
 
     def __eq__(self, other: Any) -> bool:
         return other.__eq__(self.value)
@@ -33,74 +61,55 @@ class Coordinate(CommandToken, FromThingable):
     def __gt__(self, other: Any) -> bool:
         return other.__gt__(self.value)
 
-    def __bool__(self) -> bool:
-        return bool(self.value)
-
     def __int__(self) -> int:
         return int(self.value)
 
+    def __neg__(self) -> "Coordinate":
+        return Coordinate(-self.value, sign=self.sign)
+
     def __invert__(self) -> "Coordinate":
-        return RelativeCoordinate(self.value)
+        return self.relative()
 
+    def __add__(self, other: CoordinateConvertible) -> "Coordinate":
+        other_coord = to_coordinate(other)
+        new_coord = Coordinate(self.value + other_coord.value, sign=self.sign)
+        return new_coord
 
-class AbsoluteCoordinate(Coordinate):
-    def __add__(self, other: Any) -> "AbsoluteCoordinate":
-        c = Coordinate.from_thing(other)
-        return AbsoluteCoordinate(self.value + c.value)
+    def __sub__(self, other: CoordinateConvertible) -> "Coordinate":
+        other_coord = to_coordinate(other)
+        new_coord = Coordinate(self.value - other_coord.value, sign=self.sign)
+        return new_coord
 
-    def __sub__(self, other: Any) -> "AbsoluteCoordinate":
-        c = Coordinate.from_thing(other)
-        return AbsoluteCoordinate(self.value - c.value)
+    def __mul__(self, other: CoordinateConvertible) -> "Coordinate":
+        other_coord = to_coordinate(other)
+        new_coord = Coordinate(self.value * other_coord.value, sign=self.sign)
+        return new_coord
 
-    def __mul__(self, other: Any) -> "AbsoluteCoordinate":
-        c = Coordinate.from_thing(other)
-        return AbsoluteCoordinate(self.value * c.value)
+    @property
+    def is_absolute(self) -> bool:
+        return self.sign == CoordinateSign.ABSOLUTE
 
-    def __neg__(self) -> "AbsoluteCoordinate":
-        return AbsoluteCoordinate(-self.value)
+    @property
+    def is_relative(self) -> bool:
+        return self.sign == CoordinateSign.RELATIVE
 
-    # @implements CommandToken
-    def command_stringify(self) -> str:
-        return f"{self.value:g}"
+    @property
+    def is_local(self) -> bool:
+        return self.sign == CoordinateSign.LOCAL
 
+    @property
+    def prefix(self) -> str:
+        return self.PREFIX_MAP[self.sign]
 
-class RelativeCoordinate(Coordinate):
-    def __add__(self, other: Any) -> "RelativeCoordinate":
-        c = Coordinate.from_thing(other)
-        return RelativeCoordinate(self.value + c.value)
+    def absolute(self) -> "Coordinate":
+        return Coordinate(self.value, sign=CoordinateSign.ABSOLUTE)
 
-    def __sub__(self, other: Any) -> "RelativeCoordinate":
-        c = Coordinate.from_thing(other)
-        return RelativeCoordinate(self.value - c.value)
+    def relative(self) -> "Coordinate":
+        return Coordinate(self.value, sign=CoordinateSign.RELATIVE)
 
-    def __mul__(self, other: Any) -> "RelativeCoordinate":
-        c = Coordinate.from_thing(other)
-        return RelativeCoordinate(self.value * c.value)
-
-    def __neg__(self) -> "RelativeCoordinate":
-        return RelativeCoordinate(-self.value)
-
-    # @implements CommandToken
-    def command_stringify(self) -> str:
-        return f"~" if self.value == 0 else f"~{self.value:g}"
-
-
-class LocalCoordinate(Coordinate):
-    def __add__(self, other: Any) -> "LocalCoordinate":
-        c = Coordinate.from_thing(other)
-        return LocalCoordinate(self.value + c.value)
-
-    def __sub__(self, other: Any) -> "LocalCoordinate":
-        c = Coordinate.from_thing(other)
-        return LocalCoordinate(self.value - c.value)
-
-    def __mul__(self, other: Any) -> "LocalCoordinate":
-        c = Coordinate.from_thing(other)
-        return LocalCoordinate(self.value * c.value)
-
-    def __neg__(self) -> "LocalCoordinate":
-        return LocalCoordinate(-self.value)
+    def local(self) -> "Coordinate":
+        return Coordinate(self.value, sign=CoordinateSign.LOCAL)
 
     # @implements CommandToken
-    def command_stringify(self) -> str:
-        return f"^" if self.value == 0 else f"^{self.value:g}"
+    def command_tokenize(self) -> str:
+        return str(self)

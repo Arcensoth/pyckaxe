@@ -12,10 +12,10 @@ class FromThingable(ABC):
     def from_thing(cls: Type[ClassType], thing: Thing) -> ClassType:
         try:
             converted = cls._convert_from_thing(thing)
-        except:
+        except Exception as ex:
             raise ValueError(
                 f"Error attempting to convert value to {cls.__name__}: {thing!r}"
-            )
+            ) from ex
 
         if isinstance(converted, cls):
             return converted

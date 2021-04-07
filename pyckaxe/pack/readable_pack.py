@@ -1,16 +1,19 @@
+from dataclasses import dataclass, field
 from pathlib import Path
 
 from pyckaxe.pack.pack_context import PackContext
 from pyckaxe.pack.pack_meta import PackMeta
 
 
+@dataclass
 class ReadablePack:
     """ A pack that has a physical, readable directory associated with it. """
 
-    def __init__(self, path: Path):
-        assert isinstance(path, Path)
-        self.path: Path = path
-        self.context = PackContext(path)
+    path: Path
+    context: PackContext = field(init=False)
+
+    def __post_init__(self):
+        self.context = PackContext(self.path)
 
     def __str__(self) -> str:
         return self.name

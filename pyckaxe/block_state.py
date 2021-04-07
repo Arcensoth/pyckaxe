@@ -55,6 +55,6 @@ class BlockState(MutableMapping, CommandToken, Serializable, NbtSerializable):
         return c
 
     # @implements CommandToken
-    def command_stringify(self) -> str:
+    def command_tokenize(self) -> str:
         innards = ",".join(f"{k}={v}" for k, v in self._value.items())
         return f"[{innards}]"

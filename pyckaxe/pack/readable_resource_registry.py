@@ -33,8 +33,8 @@ class ReadableResourceRegistry(
             ResourceLocationType
         ] = resource_location_class
 
-    async def iter_all(self) -> AsyncIterable[ResourceTriplet]:
-        for path in self.path.rglob(r"[!!]*"):
+    async def iter_all(self, glob: str = r"[!!]*") -> AsyncIterable[ResourceTriplet]:
+        for path in self.path.rglob(glob):
             if path.is_file():
                 rel_path = path.relative_to(self.path)
                 parts_without_ext = (*(rel_path.parts[:-1]), rel_path.stem)

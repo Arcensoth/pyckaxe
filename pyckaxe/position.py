@@ -1,76 +1,99 @@
-import collections.abc
-from typing import Any, Iterable, Tuple, Union
+from dataclasses import dataclass
+from typing import Any, List, Tuple, Union
 
-from pyckaxe.abc.from_thingable import FromThingable
-from pyckaxe.command.abc.command_token import CommandToken
-from pyckaxe.coordinate import (
-    AbsoluteCoordinate,
-    Coordinate,
-    LocalCoordinate,
-    RelativeCoordinate,
+from pyckaxe.coordinate import Coordinate, CoordinateConvertible, to_coordinate
+
+__all__ = (
+    "PositionConvertible",
+    "to_position",
+    "Position",
 )
-from pyckaxe.utils.fields import DEFAULT, get_field
 
 
-class Position(CommandToken, FromThingable):
-    Thing = Union["Position", Iterable[Union[int, float]]]
+PositionAsTuple = Tuple[
+    CoordinateConvertible, CoordinateConvertible, CoordinateConvertible
+]
+PositionAsList = List[CoordinateConvertible]
+PositionConvertible = Union[
+    "Position",
+    PositionAsTuple,
+    PositionAsList,
+]
+
+
+def to_position(value: PositionConvertible) -> "Position":
+    if isinstance(value, Position):
+        return value
+    # tuple -> absolute
+    if isinstance(value, tuple):
+        return Position.from_tuple(value)
+    # list -> relative
+    assert isinstance(value, list)
+    return Position.from_list(value)
+
+
+@dataclass
+class Position:
+    x: Coordinate
+    y: Coordinate
+    z: Coordinate
 
     @classmethod
-    def _convert_from_thing(cls, thing):
-        if isinstance(thing, collections.abc.Iterable):
-            return ~Position(*thing)
+    def from_xyz(
+        cls,
+        x: CoordinateConvertible,
+        y: CoordinateConvertible,
+        z: CoordinateConvertible,
+    ) -> "Position":
+        return cls(to_coordinate(x), to_coordinate(y), to_coordinate(z))
 
     @classmethod
-    def from_field(cls, raw: dict, field: str, default=DEFAULT) -> "Position":
-        raw_position = get_field(
-            raw, field, type=list, check=lambda obj: len(obj) == 3, default=default
-        )
-        position = Position(*raw_position)
-        return position
+    def from_tuple(cls, t: PositionAsTuple) -> "Position":
+        assert len(t) == 3
+        return cls.from_xyz(t[0], t[1], t[2])
 
-    def __init__(self, x: Coordinate.Thing, y: Coordinate.Thing, z: Coordinate.Thing):
-        self.x: Coordinate = Coordinate.from_thing(x)
-        self.y: Coordinate = Coordinate.from_thing(y)
-        self.z: Coordinate = Coordinate.from_thing(z)
-
-    def __repr__(self) -> str:
-        return f"{self.__class__.__name__}({self.x!r}, {self.y!r}, {self.z!r})"
+    @classmethod
+    def from_list(cls, l: PositionAsList) -> "Position":
+        assert len(l) == 3
+        return cls.from_xyz(l[0], l[1], l[2]).relative()
 
     def __str__(self) -> str:
-        return self.command_stringify()
+        return self.command_tokenize()
 
     def __hash__(self) -> int:
-        return hash(self.x) + hash(self.y) + hash(self.z)
+        return hash(str(self))
 
-    def __eq__(self, other: object) -> bool:
-        if isinstance(other, Position):
-            return (other.x == self.x) and (other.y == self.y) and (other.z == self.z)
-        return False
-
-    def __bool__(self) -> bool:
-        return bool(self.x) or bool(self.y) or bool(self.z)
+    def __eq__(self, other: Any) -> bool:
+        return (
+            isinstance(other, Position)
+            and (other.x == self.x)
+            and (other.y == self.y)
+            and (other.z == self.z)
+        )
 
     def __invert__(self) -> "Position":
-        return Position(~self.x, ~self.y, ~self.z)
+        return self.__class__(~self.x, ~self.y, ~self.z)
 
     def __neg__(self) -> "Position":
-        return Position(-self.x, -self.y, -self.z)
+        return self.__class__(-self.x, -self.y, -self.z)
 
-    def __add__(self, other: Any) -> "Position":
-        if isinstance(other, Position):
-            return Position(self.x + other.x, self.y + other.y, self.z + other.z)
-        if isinstance(other, (tuple, list)) and len(other) == 3:
-            return Position(self.x + other[0], self.y + other[1], self.z + other[2])
-        raise ValueError(f"Value cannot be added to {Position.__name__}: {other}")
-
-    def __sub__(self, other: Any) -> "Position":
-        if isinstance(other, Position):
-            return Position(self.x - other.x, self.y - other.y, self.z - other.z)
-        if isinstance(other, (tuple, list)) and len(other) == 3:
-            return Position(self.x - other[0], self.y - other[1], self.z - other[2])
-        raise ValueError(
-            f"Value cannot be subtracted from {Position.__name__}: {other}"
+    def __add__(self, other: PositionConvertible) -> "Position":
+        other_position = to_position(other)
+        new_position = self.__class__(
+            self.x + other_position.x,
+            self.y + other_position.y,
+            self.z + other_position.z,
         )
+        return new_position
+
+    def __sub__(self, other: PositionConvertible) -> "Position":
+        other_position = to_position(other)
+        new_position = self.__class__(
+            self.x - other_position.x,
+            self.y - other_position.y,
+            self.z - other_position.z,
+        )
+        return new_position
 
     def unpack(self) -> Tuple[Coordinate, Coordinate, Coordinate]:
         return self.x, self.y, self.z
@@ -85,14 +108,14 @@ class Position(CommandToken, FromThingable):
         return (self.x > other.x) and (self.y > other.y) and (self.z > other.z)
 
     def absolute(self) -> "Position":
-        return Position(AbsoluteCoordinate(c) for c in self.unpack_floats())
+        return self.__class__(self.x.absolute(), self.y.absolute(), self.z.absolute())
 
     def relative(self) -> "Position":
-        return Position(RelativeCoordinate(c) for c in self.unpack_floats())
+        return self.__class__(self.x.relative(), self.y.relative(), self.z.relative())
 
     def local(self) -> "Position":
-        return Position(LocalCoordinate(c) for c in self.unpack_floats())
+        return self.__class__(self.x.local(), self.y.local(), self.z.local())
 
     # @implements CommandToken
-    def command_stringify(self) -> str:
-        return " ".join(coord.command_stringify() for coord in (self.x, self.y, self.z))
+    def command_tokenize(self) -> str:
+        return " ".join(coord.command_tokenize() for coord in (self.x, self.y, self.z))

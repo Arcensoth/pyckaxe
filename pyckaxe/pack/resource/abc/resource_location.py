@@ -72,7 +72,7 @@ class ResourceLocation(CommandToken, Generic[ResourceType]):
         return resource
 
     # @implements CommandToken
-    def command_stringify(self) -> str:
+    def command_tokenize(self) -> str:
         return self.name
 
     @property
