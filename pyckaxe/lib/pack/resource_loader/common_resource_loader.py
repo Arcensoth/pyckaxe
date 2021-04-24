@@ -1,7 +1,8 @@
+import re
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Coroutine, Dict, Generic, TypeVar
+from typing import Any, Coroutine, Dict, Generic, List, TypeVar
 
 from pyckaxe.lib.pack.abc.resource import Resource
 from pyckaxe.lib.pack.abc.resource_deserializer import ResourceDeserializer
@@ -57,6 +58,16 @@ class CommonResourceLoader(ABC, Generic[ResourceType, RawType]):
         if self.options is DEFAULT:
             self.options = self.default_options_factory()
 
+    async def _get_matching_paths(
+        self, location: PhysicalResourceLocation
+    ) -> List[Path]:
+        """ Get all file paths matching `location`. """
+        # Since glob isn't expressive enough, we need to do a second pass with regex.
+        pattern = re.compile(r"^" + location.path.name + r"(?:\.[^\.]*)?$")
+        all_paths = [path for path in location.path.parent.glob("*") if path.is_file()]
+        matching_paths = [p for p in all_paths if pattern.match(p.name)]
+        return matching_paths
+
     async def _get_path_to_load(self, location: PhysicalResourceLocation) -> Path:
         """
         Get the first file path matching `location`.
@@ -66,11 +77,11 @@ class CommonResourceLoader(ABC, Generic[ResourceType, RawType]):
         NoSuchResourceError
             If no file paths matching `location` are found.
         """
-        paths = list(path for path in location.path.glob("*") if path.is_file())
+        paths = await self._get_matching_paths(location)
         if len(paths) < 1:
             raise NoSuchResourceError(location.path)
         elif len(paths) > 1:
-            raise DuplicateResourceError(location.path)
+            raise DuplicateResourceError(location.path, paths)
         return paths[0]
 
     async def load(self, location: PhysicalResourceLocation) -> ResourceType:
