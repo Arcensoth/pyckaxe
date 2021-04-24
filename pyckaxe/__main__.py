@@ -1,3 +1,3 @@
-from pyckaxe.cli import cli
+from pyckaxe.cli import run
 
-cli()
+run()

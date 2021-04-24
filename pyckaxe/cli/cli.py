@@ -12,17 +12,14 @@ from pyckaxe.logging.preview import preview_async_logging, preview_logging
 # that GitHub issue.
 
 
-__all__ = ("cli",)
+__all__ = ("run",)
 
 
 PROG_NAME = "pyckaxe"
 
 
 @click.group()
-@click.version_option(
-    version=__version__,
-    prog_name=PROG_NAME,
-)
+@click.version_option(__version__, "-v", "--version")
 @click.option(
     "-l",
     "--log",
@@ -54,3 +51,7 @@ def cli_test_log():
 @asyncify
 async def cli_test_async():
     await preview_async_logging()
+
+
+def run():
+    cli(prog_name=PROG_NAME)
