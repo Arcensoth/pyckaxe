@@ -50,9 +50,6 @@ class ResourceLocation(CommandToken, Generic[ResourceType]):
     def __hash__(self) -> int:
         return hash(self.name)
 
-    def __eq__(self, o: object) -> bool:
-        return isinstance(o, ResourceLocation) and self.name == o.name
-
     def __call__(self, pack_context: PackContext) -> Coroutine[Any, Any, ResourceType]:
         return self.resolve_resource(pack_context)
 

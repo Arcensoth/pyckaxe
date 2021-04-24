@@ -60,14 +60,6 @@ class Block:
     def __hash__(self) -> int:
         return hash(str(self))
 
-    def __eq__(self, other: Any) -> bool:
-        return (
-            isinstance(other, self.__class__)
-            and (other.name == self.name)
-            and (other.state == self.state)
-            and (other.data == self.data)
-        )
-
     def _str_parts(self) -> Iterable[str]:
         yield self.name
         if self.state is not None:

@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from pyckaxe.text_component import TextComponent
+from pyckaxe.lib.text_component import TextComponent
 
 
 class InvalidPackMetaError(Exception):

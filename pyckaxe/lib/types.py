@@ -1,7 +1,5 @@
 from typing import Dict, List, Tuple, Union
 
-from typing_extensions import TypeAlias
-
 __all__ = ("JsonValue",)
 
 # +-------------------+---------------+
@@ -21,8 +19,7 @@ __all__ = ("JsonValue",)
 # +-------------------+---------------+
 # | None              | null          |
 # +-------------------+---------------+
-
-JsonValue: TypeAlias = Union[
+JsonValue = Union[
     Dict[str, "JsonValue"],
     List["JsonValue"],
     Tuple["JsonValue", ...],

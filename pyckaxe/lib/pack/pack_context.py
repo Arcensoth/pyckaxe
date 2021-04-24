@@ -9,14 +9,8 @@ class PackContext:
     def __str__(self) -> str:
         return self.name
 
-    def __repr__(self) -> str:
-        return f"<{self.__class__.__name__} {self.name}>"
-
     def __hash__(self) -> int:
         return hash(self.path)
-
-    def __eq__(self, o: object) -> bool:
-        return isinstance(o, PackContext) and self.path == o.path
 
     @property
     def name(self) -> str:

@@ -53,9 +53,6 @@ class Coordinate:
     def __hash__(self) -> int:
         return hash(str(self))
 
-    def __eq__(self, other: Any) -> bool:
-        return other.__eq__(self.value)
-
     def __lt__(self, other: Any) -> bool:
         return other.__lt__(self.value)
 

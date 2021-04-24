@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, List, Tuple, Union
+from typing import List, Tuple, Union
 
 from pyckaxe.lib.coordinate import Coordinate, CoordinateConvertible
 
@@ -63,14 +63,6 @@ class Position:
 
     def __hash__(self) -> int:
         return hash(str(self))
-
-    def __eq__(self, other: Any) -> bool:
-        return (
-            isinstance(other, Position)
-            and (other.x == self.x)
-            and (other.y == self.y)
-            and (other.z == self.z)
-        )
 
     def __invert__(self) -> Position:
         return self.__class__(~self.x, ~self.y, ~self.z)
