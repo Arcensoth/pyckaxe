@@ -70,6 +70,7 @@ class ResourceResolver(Generic[ResourceType]):
         match: str = r"*",
     ) -> AsyncIterable[PhysicallyLocatedResource[ResourceType]]:
         """ Yield all resources matching `match` in the registry. """
+        # TODO Should glob be async (in batches)? #async-file-io
         for path in self.path.rglob(match):
             if path.is_file():
                 rel_path = path.relative_to(self.path)

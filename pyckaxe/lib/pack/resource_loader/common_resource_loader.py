@@ -63,6 +63,7 @@ class CommonResourceLoader(ABC, Generic[ResourceType, RawType]):
     ) -> List[Path]:
         """ Get all file paths matching `location`. """
         # Since glob isn't expressive enough, we need to do a second pass with regex.
+        # TODO Should glob be async? #async-file-io
         pattern = re.compile(r"^" + location.path.name + r"(?:\.[^\.]*)?$")
         all_paths = [path for path in location.path.parent.glob("*") if path.is_file()]
         matching_paths = [p for p in all_paths if pattern.match(p.name)]
