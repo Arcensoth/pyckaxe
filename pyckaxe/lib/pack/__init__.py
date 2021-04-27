@@ -7,11 +7,11 @@ from .physical_pack import *
 from .physical_registry_location import *
 from .physical_resource_location import *
 from .registry_location import *
-from .resource_build_context import *
 from .resource_dumper import *
 from .resource_loader import *
 from .resource_location import *
 from .resource_or_location import *
+from .resource_processing_context import *
 from .resource_resolver import *
 from .resource_resolver_set import *
 from .writable_pack import *
