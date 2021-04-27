@@ -2,7 +2,7 @@ from typing import Protocol, TypeVar
 
 from pyckaxe.lib.pack.abc.resource import Resource
 
-__all__ = ("ResourceSerializer",)
+__all__ = ("ResourceDeserializer",)
 
 
 ResourceType = TypeVar("ResourceType", bound=Resource, covariant=True)
