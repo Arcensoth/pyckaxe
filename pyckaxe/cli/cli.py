@@ -2,8 +2,8 @@ import click
 
 from pyckaxe import __version__
 from pyckaxe.cli.utils import asyncify
-from pyckaxe.logging import LOG_LEVELS, setup_logging
-from pyckaxe.logging.preview import preview_async_logging, preview_logging
+from pyckaxe.utils import LOG_LEVELS, setup_logging
+from pyckaxe.utils.logging.preview import preview_async_logging, preview_logging
 
 # NOTE We need to support asyncio ourselves.
 # See: https://github.com/pallets/click/issues/85

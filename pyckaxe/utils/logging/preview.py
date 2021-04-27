@@ -1,7 +1,7 @@
 import asyncio
 import random
 
-from pyckaxe.logging import get_logger
+from pyckaxe.utils.logging import get_logger
 
 
 def preview_logging():
