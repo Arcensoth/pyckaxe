@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
-from typing import AsyncIterable, Dict, Type, TypeVar, cast
+from typing import AsyncIterable, Dict, Tuple, Type, TypeVar, cast
 
 from pyckaxe.lib.pack.abc.resource import Resource
-from pyckaxe.lib.pack.physically_located_resource import PhysicallyLocatedResource
+from pyckaxe.lib.pack.physical_resource_location import PhysicalResourceLocation
 from pyckaxe.lib.pack.resource_location import ResourceLocation
 from pyckaxe.lib.pack.resource_resolver import ResourceResolver
 
@@ -67,6 +67,7 @@ class ResourceResolverSet:
     async def resolve_resource(
         self, resource_type: Type[ResourceType], location: ResourceLocation
     ) -> ResourceType:
+        """ Resolve `location` into a resource. """
         try:
             resolver = self.get_resolver_or_error(resource_type)
             resource = await resolver.resolve_resource(location)
@@ -80,6 +81,7 @@ class ResourceResolverSet:
         self,
         resource_type: Type[ResourceType],
         match: str = r"*",
-    ) -> AsyncIterable[PhysicallyLocatedResource[ResourceType]]:
+    ) -> AsyncIterable[Tuple[ResourceType, PhysicalResourceLocation]]:
+        """ Yield all matching (resource, location) pairs in the registry. """
         resolver = self.get_resolver_or_error(resource_type)
         return resolver.scan(match)

@@ -1,12 +1,11 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import AsyncIterable, Generic, TypeVar
+from typing import AsyncIterable, Generic, Tuple, TypeVar
 
 from pyckaxe.lib.pack.abc.resource import Resource
 from pyckaxe.lib.pack.physical_namespace import PhysicalNamespace
 from pyckaxe.lib.pack.physical_registry_location import PhysicalRegistryLocation
 from pyckaxe.lib.pack.physical_resource_location import PhysicalResourceLocation
-from pyckaxe.lib.pack.physically_located_resource import PhysicallyLocatedResource
 from pyckaxe.lib.pack.resource_loader.abc.resource_loader import ResourceLoader
 from pyckaxe.lib.pack.resource_location import ResourceLocation
 
@@ -68,8 +67,8 @@ class ResourceResolver(Generic[ResourceType]):
     async def scan(
         self,
         match: str = r"*",
-    ) -> AsyncIterable[PhysicallyLocatedResource[ResourceType]]:
-        """ Yield all resources matching `match` in the registry. """
+    ) -> AsyncIterable[Tuple[ResourceType, PhysicalResourceLocation]]:
+        """ Yield all matching (resource, location) pairs in the registry. """
         # TODO Should glob be async (in batches)? #async-file-io
         for path in self.path.rglob(match):
             if path.is_file():
@@ -81,4 +80,4 @@ class ResourceResolver(Generic[ResourceType]):
                     registry_location=self.registry_location,
                 )
                 resource = await self.loader(physical_location)
-                yield PhysicallyLocatedResource(resource, physical_location)
+                yield resource, physical_location

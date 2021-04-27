@@ -1,5 +1,4 @@
 from .abc import *
-from .located_resource import *
 from .namespace import *
 from .pack_context import *
 from .pack_meta import *
@@ -7,7 +6,6 @@ from .physical_namespace import *
 from .physical_pack import *
 from .physical_registry_location import *
 from .physical_resource_location import *
-from .physically_located_resource import *
 from .registry_location import *
 from .resource_build_context import *
 from .resource_dumper import *
