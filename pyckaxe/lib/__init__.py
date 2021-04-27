@@ -1,3 +1,5 @@
+""" Contains generalized representations of core Minecraft concepts. """
+
 from .block import *
 from .block_state import *
 from .command import *
