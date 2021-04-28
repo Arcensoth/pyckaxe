@@ -1,9 +1,22 @@
 from dataclasses import dataclass, field
-from typing import AsyncIterable, Dict, Iterator, Tuple, Type, TypeVar, cast
+from typing import (
+    Any,
+    AsyncIterable,
+    Coroutine,
+    Dict,
+    Iterator,
+    Tuple,
+    Type,
+    TypeVar,
+    cast,
+)
 
 from pyckaxe.lib.pack.abc.resource import Resource
 from pyckaxe.lib.pack.physical_resource_location import PhysicalResourceLocation
-from pyckaxe.lib.pack.resource_location import ResourceLocation
+from pyckaxe.lib.pack.resource_location import (
+    ClassifiedResourceLocation,
+    ResourceLocation,
+)
 from pyckaxe.lib.pack.resource_resolver import ResourceResolver
 
 __all__ = (
@@ -82,13 +95,20 @@ class ResourceResolverSet:
     def __iter__(self) -> Iterator[ResourceResolver[Resource]]:
         return self._resolvers.values().__iter__()
 
-    async def resolve_resource(
-        self, resource_type: Type[ResourceType], location: ResourceLocation
+    def __call__(
+        self, cl_location: ClassifiedResourceLocation[ResourceType]
+    ) -> Coroutine[ResourceType, Any, Any]:
+        return self.resolve(cl_location)
+
+    async def resolve(
+        self, cl_location: ClassifiedResourceLocation[ResourceType]
     ) -> ResourceType:
-        """ Resolve `location` into a resource. """
+        """ Resolve `cl_location` into a resource. """
+        resource_type = cl_location.resource_class
+        location = ResourceLocation.declassify(cl_location)
         try:
             resolver = self[resource_type]
-            resource = await resolver.resolve_resource(location)
+            resource = await resolver(location)
             if isinstance(resource, resource_type):
                 return resource
             raise WrongResourceResolvedError(resource_type, resource)
