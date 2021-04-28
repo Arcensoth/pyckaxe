@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import AsyncIterable, Dict, Tuple, Type, TypeVar, cast
+from typing import AsyncIterable, Dict, Iterator, Tuple, Type, TypeVar, cast
 
 from pyckaxe.lib.pack.abc.resource import Resource
 from pyckaxe.lib.pack.physical_resource_location import PhysicalResourceLocation
@@ -54,33 +54,39 @@ class ResourceResolverSet:
     This class helps manage inter-resource dependency by resolving and loading
     `ClassifiedResourceLocation`s into their respective `Resource`s using a
     configured set of `ResourceResolver`s.
+
+    This class works similarly to `MutableMapping` but not identically.
     """
 
-    resolvers: Dict[Type[Resource], ResourceResolver[Resource]] = field(
+    _resolvers: Dict[Type[Resource], ResourceResolver[Resource]] = field(
         default_factory=dict
     )
 
     def __setitem__(
         self, key: Type[ResourceType], value: ResourceResolver[ResourceType]
     ):
-        self.resolvers[key] = value
+        self._resolvers.__setitem__(key, value)
 
-    def get_resolver_or_error(
-        self, resource_type: Type[ResourceType]
-    ) -> ResourceResolver[ResourceType]:
-        resolver = self.resolvers.get(resource_type)
-        if resolver is not None:
-            # NOTE Apparently isinstance isn't good enough for the type-checker?
-            resolver = cast(ResourceResolver[ResourceType], resolver)
-            return resolver
-        raise NoResolverAvailableError(resource_type)
+    def __getitem__(self, key: Type[ResourceType]) -> ResourceResolver[ResourceType]:
+        if resolver := self._resolvers.get(key):
+            return cast(ResourceResolver[ResourceType], resolver)
+        raise NoResolverAvailableError(key)
+
+    def __delitem__(self, key: Type[ResourceType]):
+        self._resolvers.__delitem__(key)
+
+    def __len__(self):
+        return self._resolvers.__len__()
+
+    def __iter__(self) -> Iterator[ResourceResolver[Resource]]:
+        return self._resolvers.values().__iter__()
 
     async def resolve_resource(
         self, resource_type: Type[ResourceType], location: ResourceLocation
     ) -> ResourceType:
         """ Resolve `location` into a resource. """
         try:
-            resolver = self.get_resolver_or_error(resource_type)
+            resolver = self[resource_type]
             resource = await resolver.resolve_resource(location)
             if isinstance(resource, resource_type):
                 return resource
@@ -94,5 +100,5 @@ class ResourceResolverSet:
         match: str = r"*",
     ) -> AsyncIterable[Tuple[ResourceType, PhysicalResourceLocation]]:
         """ Yield all matching (resource, location) pairs in the registry. """
-        resolver = self.get_resolver_or_error(resource_type)
+        resolver = self[resource_type]
         return resolver.scan(match)
