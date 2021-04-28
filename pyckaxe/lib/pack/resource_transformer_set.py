@@ -65,13 +65,18 @@ class ResourceTransformerSet:
     def __iter__(self) -> Iterator[ResourceTransformer[Resource]]:
         return self._transformers.values().__iter__()
 
+    def __call__(
+        self, ctx: ResourceProcessingContext[ResourceType]
+    ) -> AsyncIterable[Tuple[Resource, ResourceLocation]]:
+        return self.transform(ctx)
+
     async def transform(
         self,
-        resource_type: Type[ResourceType],
         ctx: ResourceProcessingContext[ResourceType],
     ) -> AsyncIterable[Tuple[Resource, ResourceLocation]]:
         """ Turn the input resource into any number of output resources. """
         try:
+            resource_type = type(ctx.resource)
             transformer = self[resource_type]
             async for resource, location in transformer(ctx):
                 yield resource, location
