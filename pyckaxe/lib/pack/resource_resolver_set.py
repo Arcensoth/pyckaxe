@@ -1,23 +1,12 @@
 from dataclasses import dataclass, field
-from typing import (
-    Any,
-    AsyncIterable,
-    Coroutine,
-    Dict,
-    Iterator,
-    Tuple,
-    Type,
-    TypeVar,
-    cast,
-)
+from typing import Any, Coroutine, Dict, Iterator, Type, TypeVar, cast
 
 from pyckaxe.lib.pack.abc.resource import Resource
-from pyckaxe.lib.pack.physical_resource_location import PhysicalResourceLocation
+from pyckaxe.lib.pack.abc.resource_resolver import ResourceResolver
 from pyckaxe.lib.pack.resource_location import (
     ClassifiedResourceLocation,
     ResourceLocation,
 )
-from pyckaxe.lib.pack.resource_resolver import ResourceResolver
 
 __all__ = (
     "ResourceResolverError",
@@ -114,12 +103,3 @@ class ResourceResolverSet:
             raise WrongResourceResolvedError(resource_type, resource)
         except Exception as ex:
             raise FailedToResolveResourceError(location) from ex
-
-    def scan(
-        self,
-        resource_type: Type[ResourceType],
-        match: str = r"*",
-    ) -> AsyncIterable[Tuple[ResourceType, PhysicalResourceLocation]]:
-        """ Yield all matching (resource, location) pairs in the registry. """
-        resolver = self[resource_type]
-        return resolver.scan(match)

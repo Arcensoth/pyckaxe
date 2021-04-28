@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, AsyncIterable, Coroutine, Generic, Tuple, TypeVar
+from typing import Any, Coroutine, Generic, TypeVar
 
 from pyckaxe.lib.pack.abc.resource import Resource
 from pyckaxe.lib.pack.physical_namespace import PhysicalNamespace
@@ -9,18 +9,15 @@ from pyckaxe.lib.pack.physical_resource_location import PhysicalResourceLocation
 from pyckaxe.lib.pack.resource_loader.abc.resource_loader import ResourceLoader
 from pyckaxe.lib.pack.resource_location import ResourceLocation
 
-__all__ = ("ResourceResolver",)
+__all__ = ("CommonResourceResolver",)
 
 
 ResourceType = TypeVar("ResourceType", bound=Resource)
 
 
-# TODO Abstract `ResourceResolver` into a callable protocol? #refactor
-#   Then we can turn the implementation here into `CommonResourceResolver`.
-
-
+# @implements ResourceResolver
 @dataclass
-class ResourceResolver(Generic[ResourceType]):
+class CommonResourceResolver(Generic[ResourceType]):
     """
     Resolves and loads a resource from a resource location.
 
@@ -33,16 +30,17 @@ class ResourceResolver(Generic[ResourceType]):
 
     Attributes
     ----------
-    loader
-        Loads and returns a resource, given an absolute resource location.
     registry_location
         An absolute registry location used to resolve relative resource locations into
         absolute form.
+    loader
+        Loads and returns a resource, given an absolute resource location.
     """
 
-    loader: ResourceLoader[ResourceType]
     registry_location: PhysicalRegistryLocation
+    loader: ResourceLoader[ResourceType]
 
+    # @implements ResourceResolver
     def __call__(self, location: ResourceLocation) -> Coroutine[ResourceType, Any, Any]:
         return self.resolve_resource(location)
 
@@ -70,21 +68,3 @@ class ResourceResolver(Generic[ResourceType]):
         physical_location = self.resolve_location(location)
         resource = await self.loader(physical_location)
         return resource
-
-    async def scan(
-        self,
-        match: str = r"*",
-    ) -> AsyncIterable[Tuple[ResourceType, PhysicalResourceLocation]]:
-        """ Yield all matching (resource, location) pairs in the registry. """
-        # TODO Should glob be async (in batches)? #async-file-io
-        for path in self.path.rglob(match):
-            if path.is_file():
-                rel_path = path.relative_to(self.path)
-                parts_without_ext = (*(rel_path.parts[:-1]), rel_path.stem)
-                physical_location = PhysicalResourceLocation(
-                    namespace=self.namespace,
-                    parts=parts_without_ext,
-                    registry_location=self.registry_location,
-                )
-                resource = await self.loader(physical_location)
-                yield resource, physical_location
