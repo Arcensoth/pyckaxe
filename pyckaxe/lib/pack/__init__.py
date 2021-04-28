@@ -15,5 +15,6 @@ from .resource_location import *
 from .resource_or_location import *
 from .resource_processing_context import *
 from .resource_resolver_set import *
+from .resource_scanner_set import *
 from .resource_transformer_set import *
 from .writable_pack import *
