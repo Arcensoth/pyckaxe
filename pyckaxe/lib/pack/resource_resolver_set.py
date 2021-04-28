@@ -48,11 +48,22 @@ class WrongResourceResolvedError(ResourceResolverError):
 
 @dataclass
 class ResourceResolverSet:
-    """ A group of `ResourceResolver`s for resolving several types of resources. """
+    """
+    A group of `ResourceResolver`s for resolving several types of resources.
+
+    This class helps manage inter-resource dependency by resolving and loading
+    `ClassifiedResourceLocation`s into their respective `Resource`s using a
+    configured set of `ResourceResolver`s.
+    """
 
     resolvers: Dict[Type[Resource], ResourceResolver[Resource]] = field(
         default_factory=dict
     )
+
+    def __setitem__(
+        self, key: Type[ResourceType], value: ResourceResolver[ResourceType]
+    ):
+        self.resolvers[key] = value
 
     def get_resolver_or_error(
         self, resource_type: Type[ResourceType]
