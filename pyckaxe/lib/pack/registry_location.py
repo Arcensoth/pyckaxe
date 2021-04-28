@@ -22,6 +22,9 @@ class RegistryLocation:
     def __hash__(self) -> int:
         return hash(self.name)
 
+    def __truediv__(self: SelfType, other: str) -> SelfType:
+        return self.extend(other)
+
     def extend(self: SelfType, *parts: str) -> SelfType:
         return replace(self, parts=(*self.parts, *parts))
 

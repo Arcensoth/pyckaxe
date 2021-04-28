@@ -46,6 +46,9 @@ class ResourceLocation:
     ) -> ClassifiedResourceLocation[ResourceType]:
         return self.classify(other)
 
+    def __truediv__(self: SelfType, other: str) -> SelfType:
+        return self.extend(other)
+
     @property
     def trail(self) -> str:
         return "/".join(self.parts)
