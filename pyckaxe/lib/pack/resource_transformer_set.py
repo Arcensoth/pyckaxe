@@ -51,8 +51,9 @@ class ResourceTransformerSet:
         self._transformers[key] = cast(ResourceTransformer[Resource], value)
 
     def __getitem__(self, key: Type[ResourceType]) -> ResourceTransformer[ResourceType]:
-        if transformer := self._transformers.get(key):
-            return transformer
+        for cls in key.mro():
+            if transformer := self._transformers.get(cls):
+                return transformer
         raise NoTransformerAvailableError(key)
 
     def __delitem__(self, key: Type[ResourceType]):

@@ -68,8 +68,9 @@ class ResourceResolverSet:
         self._resolvers.__setitem__(key, value)
 
     def __getitem__(self, key: Type[ResourceType]) -> ResourceResolver[ResourceType]:
-        if resolver := self._resolvers.get(key):
-            return cast(ResourceResolver[ResourceType], resolver)
+        for cls in key.mro():
+            if resolver := self._resolvers.get(cls):
+                return cast(ResourceResolver[ResourceType], resolver)
         raise NoResolverAvailableError(key)
 
     def __delitem__(self, key: Type[ResourceType]):
