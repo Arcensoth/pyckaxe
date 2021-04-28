@@ -85,16 +85,15 @@ class ResourceResolverSet:
         return self._resolvers.values().__iter__()
 
     def __call__(
-        self, cl_location: ClassifiedResourceLocation[ResourceType]
+        self, location: ClassifiedResourceLocation[ResourceType]
     ) -> Coroutine[ResourceType, Any, Any]:
-        return self.resolve(cl_location)
+        return self.resolve(location)
 
     async def resolve(
-        self, cl_location: ClassifiedResourceLocation[ResourceType]
+        self, location: ClassifiedResourceLocation[ResourceType]
     ) -> ResourceType:
-        """ Resolve `cl_location` into a resource. """
-        resource_type = cl_location.resource_class
-        location = ResourceLocation.declassify(cl_location)
+        """ Resolve a resource from a resource location. """
+        resource_type = location.resource_class
         try:
             resolver = self[resource_type]
             resource = await resolver(location)

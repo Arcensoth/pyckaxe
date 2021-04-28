@@ -44,6 +44,6 @@ class ResourceProcessingContext(Generic[ResourceType]):
         return self.resolve_resource(key)
 
     async def resolve_resource(
-        self, cl_location: ClassifiedResourceLocation[ResolveResourceType]
+        self, location: ClassifiedResourceLocation[ResolveResourceType]
     ) -> ResolveResourceType:
-        return await self.resolver_set(cl_location)
+        return await self.resolver_set(location)

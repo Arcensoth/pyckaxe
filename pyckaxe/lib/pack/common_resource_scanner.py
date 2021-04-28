@@ -55,9 +55,9 @@ class CommonResourceScanner(Generic[ResourceType]):
             if path.is_file():
                 rel_path = path.relative_to(self.path)
                 parts_without_ext = (*(rel_path.parts[:-1]), rel_path.stem)
-                cl_location = ClassifiedResourceLocation[ResourceType](
+                location = ClassifiedResourceLocation[ResourceType](
                     namespace=self.namespace,
                     parts=parts_without_ext,
                     resource_class=self.resource_class,
                 )
-                yield cl_location
+                yield location

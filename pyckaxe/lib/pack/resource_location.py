@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from dataclasses import dataclass, replace
 from typing import Any, Generic, Tuple, Type, TypeVar
 
@@ -10,11 +12,14 @@ __all__ = (
 )
 
 
-SelfType = TypeVar("SelfType", bound="_ResourceLocationBase")
+SelfType = TypeVar("SelfType", bound="ResourceLocation")
+ResourceType = TypeVar("ResourceType", bound=Resource)
 
 
 @dataclass
-class _ResourceLocationBase:
+class ResourceLocation:
+    """ A relative resource location, independent of any physical location. """
+
     namespace: Namespace
     parts: Tuple[str, ...]
 
@@ -24,14 +29,22 @@ class _ResourceLocationBase:
         parts: Tuple[str, ...] = tuple(name.split(":")[1].split("/"))
         return cls(namespace=namespace, parts=parts)
 
+    @classmethod
+    def declassify(
+        cls, classified: ClassifiedResourceLocation[Any]
+    ) -> "ResourceLocation":
+        return cls(classified.namespace, classified.parts)
+
     def __str__(self) -> str:
         return self.name
 
     def __hash__(self) -> int:
         return hash(self.name)
 
-    def extend(self: SelfType, *parts: str) -> SelfType:
-        return replace(self, parts=(*self.parts, *parts))
+    def __rmatmul__(
+        self, other: Type[ResourceType]
+    ) -> ClassifiedResourceLocation[ResourceType]:
+        return self.classify(other)
 
     @property
     def trail(self) -> str:
@@ -41,35 +54,19 @@ class _ResourceLocationBase:
     def name(self) -> str:
         return f"{self.namespace}:{self.trail}"
 
-
-ResourceType = TypeVar("ResourceType", bound=Resource)
-
-
-@dataclass
-class ClassifiedResourceLocation(_ResourceLocationBase, Generic[ResourceType]):
-    """
-    A resource location that is aware of the type of underlying resource.
-    """
-
-    resource_class: Type[ResourceType]
-
-
-@dataclass
-class ResourceLocation(_ResourceLocationBase):
-    """ A relative resource location, independent of any physical location. """
-
-    @classmethod
-    def declassify(
-        cls, classified: ClassifiedResourceLocation[Any]
-    ) -> "ResourceLocation":
-        return cls(classified.namespace, classified.parts)
-
-    def __rmatmul__(
-        self, other: Type[ResourceType]
-    ) -> ClassifiedResourceLocation[ResourceType]:
-        return self.classify(other)
+    def extend(self: SelfType, *parts: str) -> SelfType:
+        return replace(self, parts=(*self.parts, *parts))
 
     def classify(
         self, resource_class: Type[ResourceType]
     ) -> ClassifiedResourceLocation[ResourceType]:
         return ClassifiedResourceLocation(self.namespace, self.parts, resource_class)
+
+
+@dataclass
+class ClassifiedResourceLocation(ResourceLocation, Generic[ResourceType]):
+    """
+    A resource location that is aware of the type of underlying resource.
+    """
+
+    resource_class: Type[ResourceType]
