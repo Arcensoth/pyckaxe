@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Dict, MutableMapping, Union, cast
 
 from pyckaxe.lib.nbt import NbtCompound, NbtString
@@ -14,7 +14,10 @@ BlockStateValue = Union[bool, int, float, str]
 
 @dataclass
 class BlockState(MutableMapping[str, BlockStateValue]):
-    _map: Dict[str, BlockStateValue]
+    _map: Dict[str, BlockStateValue] = field(init=False)
+
+    def __init__(self, **state: BlockStateValue):
+        self._map = state.copy()
 
     def __str__(self) -> str:
         innards = ",".join(f"{k}={v}" for k, v in self._map.items())
