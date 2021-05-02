@@ -7,13 +7,19 @@ from pyckaxe.lib.pack.abc.resource import Resource
 from pyckaxe.lib.pack.namespace import Namespace
 
 __all__ = (
-    "ClassifiedResourceLocation",
+    "InvalidResourceLocation",
     "ResourceLocation",
+    "ClassifiedResourceLocation",
 )
 
 
 SelfType = TypeVar("SelfType", bound="ResourceLocation")
 ResourceType = TypeVar("ResourceType", bound=Resource)
+
+
+class InvalidResourceLocation(Exception):
+    def __init__(self, value: str):
+        super().__init__(f"Invalid resource location: {value}")
 
 
 @dataclass
@@ -25,9 +31,12 @@ class ResourceLocation:
 
     @classmethod
     def from_string(cls: Type[SelfType], name: str) -> SelfType:
-        namespace = Namespace(name.split(":")[0])
-        parts: Tuple[str, ...] = tuple(name.split(":")[1].split("/"))
-        return cls(namespace=namespace, parts=parts)
+        try:
+            namespace = Namespace(name.split(":")[0])
+            parts: Tuple[str, ...] = tuple(name.split(":")[1].split("/"))
+            return cls(namespace=namespace, parts=parts)
+        except Exception as ex:
+            raise InvalidResourceLocation(name) from ex
 
     @classmethod
     def declassify(
