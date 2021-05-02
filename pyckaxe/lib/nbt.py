@@ -1,5 +1,5 @@
 import re
-from typing import Dict, List, Tuple, Union
+from typing import Any, Dict, List, Tuple, Union, cast
 
 from nbtlib.path import Path as NbtPath
 from nbtlib.tag import Base as NbtBase
@@ -28,6 +28,7 @@ __all__ = (
     "NbtConvertible",
     "NbtPathConvertible",
     "to_nbt",
+    "to_nbt_compound",
     "to_nbt_path",
 )
 
@@ -51,7 +52,7 @@ NbtConvertible = Union[
 NbtPathConvertible = Union[NbtPath, str]
 
 
-def to_nbt(value: NbtConvertible):
+def to_nbt(value: Any) -> NbtBase:
     if isinstance(value, NbtBase):
         return value
     if isinstance(value, str):
@@ -73,9 +74,19 @@ def to_nbt(value: NbtConvertible):
     if isinstance(value, float):
         return NbtFloat(value)
     if isinstance(value, dict):
+        value = cast(Dict[str, Any], value)
         return NbtCompound({k: to_nbt(v) for k, v in value.items()})
-    assert isinstance(value, (list, tuple))
-    return NbtList([to_nbt(v) for v in value])
+    if isinstance(value, (list, tuple)):
+        value = cast(List[Any], value)
+        return NbtList([to_nbt(v) for v in value])
+    raise ValueError(f"Cannot convert value to NBT: {value}")
+
+
+def to_nbt_compound(value: Dict[str, Any]) -> NbtCompound:
+    nbt = to_nbt(value)
+    if isinstance(nbt, NbtCompound):
+        return nbt
+    raise ValueError(f"Cannot convert value to NBT compound: {value}")
 
 
 def to_nbt_path(value: NbtPathConvertible) -> NbtPath:
