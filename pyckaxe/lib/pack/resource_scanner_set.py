@@ -13,7 +13,7 @@ class ResourceScannerSet:
     A group of `ResourceScanner`s for scanning several types of resources.
     """
 
-    _scanners: List[ResourceScanner[Resource]] = field(default_factory=list)
+    _scanners: List[ResourceScanner[Resource]] = field(init=False)
 
     def __init__(self, *scanners: ResourceScanner[Resource]):
         self._scanners = list(scanners)
