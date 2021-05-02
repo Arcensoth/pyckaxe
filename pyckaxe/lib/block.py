@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Dict, Iterable, Optional, Union
+from typing import Dict, Iterable, Optional, Union
 
 from pyckaxe.lib.block_state import BlockState
-from pyckaxe.lib.nbt import NbtCompound, to_nbt
+from pyckaxe.lib.nbt import NbtCompound
 from pyckaxe.lib.types import JsonValue
 
 __all__ = (
@@ -13,11 +13,7 @@ __all__ = (
 )
 
 
-BlockConvertible = Union[
-    "Block",
-    str,
-    Dict[str, Any],
-]
+BlockConvertible = Union["Block", str]
 
 
 @dataclass
@@ -30,29 +26,12 @@ class Block:
     def convert(cls, value: BlockConvertible) -> Block:
         if isinstance(value, cls):
             return value
-        if isinstance(value, str):
-            return cls.from_string(value)
-        assert isinstance(value, dict)
-        return cls.from_json(value)
+        assert isinstance(value, str)
+        return cls.from_string(value)
 
     @classmethod
     def from_string(cls, s: str) -> Block:
         return cls(name=s)
-
-    @classmethod
-    def from_json(cls, d: Dict[str, Any]) -> Block:
-        # name
-        name = d["block"]
-        assert isinstance(name, str)
-        # state
-        raw_state = d.get("state")
-        state = BlockState(raw_state) if raw_state is not None else None
-        # data
-        raw_data = d.get("data")
-        data = to_nbt(raw_data) if raw_data is not None else None
-        if data is not None:
-            assert isinstance(data, NbtCompound)
-        return cls(name=name, state=state, data=data)
 
     def __str__(self) -> str:
         return "".join(self._str_parts())
@@ -63,7 +42,7 @@ class Block:
     def _str_parts(self) -> Iterable[str]:
         yield self.name
         if self.state is not None:
-            yield self.state.to_command_token()
+            yield str(self.state)
         if self.data is not None:
             yield str(self.data.snbt())
 
