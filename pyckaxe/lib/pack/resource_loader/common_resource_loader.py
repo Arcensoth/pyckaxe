@@ -101,5 +101,5 @@ class CommonResourceLoader(ABC, Generic[ResourceType, RawType]):
     # @implements ResourceLoader
     def __call__(
         self, location: PhysicalResourceLocation
-    ) -> Coroutine[ResourceType, Any, Any]:
+    ) -> Coroutine[None, None, ResourceType]:
         return self.load(location)

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Coroutine, Generic, TypeVar
+from typing import Coroutine, Generic, TypeVar
 
 from pyckaxe.lib.pack.abc.resource import Resource
 from pyckaxe.lib.pack.physical_namespace import PhysicalNamespace
@@ -41,7 +41,9 @@ class CommonResourceResolver(Generic[ResourceType]):
     loader: ResourceLoader[ResourceType]
 
     # @implements ResourceResolver
-    def __call__(self, location: ResourceLocation) -> Coroutine[ResourceType, Any, Any]:
+    def __call__(
+        self, location: ResourceLocation
+    ) -> Coroutine[None, None, ResourceType]:
         return self.resolve_resource(location)
 
     @property

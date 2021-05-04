@@ -90,5 +90,5 @@ class CommonResourceDumper(ABC, Generic[ResourceType, RawType]):
     # @implements ResourceDumper
     def __call__(
         self, resource: ResourceType, location: PhysicalResourceLocation
-    ) -> Coroutine[Any, Any, Any]:
+    ) -> Coroutine[None, None, None]:
         return self.dump(resource, location)

@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Any, Coroutine, Dict, Iterator, Type, TypeVar, cast
+from typing import Coroutine, Dict, Iterator, Type, TypeVar, cast
 
 from pyckaxe.lib.pack.abc.resource import Resource
 from pyckaxe.lib.pack.abc.resource_resolver import ResourceResolver
@@ -86,7 +86,7 @@ class ResourceResolverSet:
 
     def __call__(
         self, location: ClassifiedResourceLocation[ResourceType]
-    ) -> Coroutine[ResourceType, Any, Any]:
+    ) -> Coroutine[None, None, ResourceType]:
         return self.resolve(location)
 
     async def resolve(
