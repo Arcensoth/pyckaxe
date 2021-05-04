@@ -9,6 +9,7 @@ from .physical_pack import *
 from .physical_registry_location import *
 from .physical_resource_location import *
 from .registry_location import *
+from .resource_cache import *
 from .resource_dumper import *
 from .resource_loader import *
 from .resource_location import *
