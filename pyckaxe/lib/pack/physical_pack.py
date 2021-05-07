@@ -50,22 +50,19 @@ class PhysicalPack:
             namespace = PhysicalNamespace(namespace_dir.name, namespace_dir)
             yield namespace
 
-    async def iter_all_registry_locations(
-        self,
+    async def iter_registries(
+        self, *parts: str
     ) -> AsyncIterable[PhysicalRegistryLocation]:
         async for namespace in self.iter_namespaces():
-            registry_dirs = [f for f in namespace.path.iterdir() if f.is_dir()]
-            for registry_dir in registry_dirs:
-                registry_parts = (registry_dir.name,)
+            registry_path = namespace.path.joinpath(*parts)
+            if registry_path.is_dir():
+                delta = registry_path.relative_to(namespace.path)
+                registry_parts = delta.parts
                 registry_location = PhysicalRegistryLocation(namespace, registry_parts)
                 yield registry_location
 
-    async def iter_registry_locations_with_name(
-        self, registry_name: str
-    ) -> AsyncIterable[PhysicalRegistryLocation]:
-        async for namespace in self.iter_namespaces():
-            registry_dir = namespace.path / registry_name
-            if registry_dir.exists():
-                registry_parts = (registry_dir.name,)
-                registry_location = PhysicalRegistryLocation(namespace, registry_parts)
-                yield registry_location
+    async def get_registries(self, *parts: str) -> List[PhysicalRegistryLocation]:
+        return [
+            registry_location
+            async for registry_location in self.iter_registries(*parts)
+        ]
