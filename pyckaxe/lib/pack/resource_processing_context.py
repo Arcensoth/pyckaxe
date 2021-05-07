@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Coroutine, Generic, TypeVar
+from typing import Coroutine, Generic, TypeVar, Union
 
 from pyckaxe.lib.pack.abc.resource import Resource
 from pyckaxe.lib.pack.resource_location import (
@@ -39,9 +39,21 @@ class ResourceProcessingContext(Generic[ResourceType]):
     location: ResourceLocation
 
     def __getitem__(
-        self, key: ClassifiedResourceLocation[ResolveResourceType]
+        self,
+        key: Union[
+            ClassifiedResourceLocation[ResolveResourceType],
+            ResolveResourceType,
+        ],
     ) -> Coroutine[None, None, ResolveResourceType]:
-        return self.resolve_resource(key)
+        if isinstance(key, ClassifiedResourceLocation):
+            return self.resolve_resource(key)
+        assert isinstance(key, Resource)
+        return self.return_resource(key)
+
+    async def return_resource(
+        self, resource: ResolveResourceType
+    ) -> ResolveResourceType:
+        return resource
 
     async def resolve_resource(
         self, location: ClassifiedResourceLocation[ResolveResourceType]
