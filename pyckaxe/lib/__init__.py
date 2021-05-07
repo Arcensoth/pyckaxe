@@ -9,5 +9,6 @@ from .nbt import *
 from .nbt_serializable import *
 from .pack import *
 from .position import *
+from .resource import *
 from .text_component import *
 from .types import *
