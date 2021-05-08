@@ -1,21 +1,13 @@
 from dataclasses import dataclass, field
-from typing import Any, Dict, Iterable, List, Set, Tuple
+from typing import Dict, Iterable, List, Set, Tuple
 
 from pyckaxe.lib.block import Block
 from pyckaxe.lib.position import Position
-from pyckaxe.lib.resource.structure.structure import Structure
 
 __all__ = (
-    "BlockMapPaletteEntry",
     "BlockMapEntry",
     "BlockMap",
 )
-
-
-@dataclass
-class BlockMapPaletteEntry:
-    index: int
-    block: Block
 
 
 @dataclass
@@ -71,55 +63,7 @@ class BlockMap:
         for offset, other_entry in other.walk():
             self.set_entry(position + offset, other_entry)
 
-    def to_structure(self) -> Structure:
-        # Create the flat list of output blocks, building a minimal palette as we go.
-        palette_map: Dict[str, BlockMapPaletteEntry] = {}
-        output_blocks: List[Any] = []
-        for position, entry in self.walk():
-            block = entry.block
-            # Grab the corresponding palette entry from the palette map.
-            palette_map_key = (
-                block.name if block.state is None else f"{block.name}{block.state}"
-            )
-            palette_map_entry = palette_map.get(palette_map_key)
-            if palette_map_entry is None:
-                # Create a new entry in the palette map for new block-state combos.
-                palette_map_entry = BlockMapPaletteEntry(
-                    index=len(palette_map), block=block
-                )
-                palette_map[palette_map_key] = palette_map_entry
-            # Create and append a new block entry using the palette entry's index.
-            output_block_entry: Dict[str, Any] = {
-                "state": palette_map_entry.index,
-                "pos": position.unpack_floats(),
-            }
-            if block.data:
-                # Remember that NBT is part of the block entry, not the palette.
-                output_block_entry["nbt"] = block.data
-            output_blocks.append(output_block_entry)
-
-        # Convert the palette map into the output palette list, sorted by index.
-        sorted_palette_map_entries = sorted(
-            palette_map.values(), key=lambda entry: entry.index
-        )
-        output_palette: List[Any] = []
-        for palette_map_entry in sorted_palette_map_entries:
-            block_name = palette_map_entry.block.name
-            block_state = palette_map_entry.block.state
-            output_palette_entry: Dict[str, Any] = {"Name": block_name}
-            if block_state:
-                output_palette_entry["Properties"] = block_state.to_nbt()
-            output_palette.append(output_palette_entry)
-
-        # Create and return the final output structure.
-        structure = Structure(
-            size=self.size,
-            palette=output_palette,
-            blocks=output_blocks,
-        )
-        return structure
-
-    def to_ascii(self):
+    def to_ascii(self) -> str:
         symbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         next_symbol_index = 0
         symbol_by_palette_key: Dict[str, str] = {}
