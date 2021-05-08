@@ -23,4 +23,4 @@ class TextResourceDumper(CommonResourceDumper[ResourceType, str]):
     # @implements CommonResourceDumper
     async def _dump_raw(self, raw: str, location: PhysicalResourceLocation):
         path = await self._get_path_to_dump(location)
-        await dump_text_async(raw, path, **self.options)
+        await dump_text_async(raw, path, self.options)

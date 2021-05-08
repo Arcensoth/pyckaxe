@@ -1,6 +1,6 @@
 import asyncio
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict
 
 from pyckaxe.lib.types import JsonValue
 
@@ -26,7 +26,10 @@ class YamlNotInstalledError(Exception):
         super().__init__(f"PyYAML must be installed to load/dump YAML file at: {path}")
 
 
-def load_yaml(path: Path, **options: Any) -> JsonValue:
+def load_yaml(
+    path: Path,
+    options: Dict[str, Any] = {},
+) -> JsonValue:
     """ Load a YAML file synchronously. """
     if not _is_yaml_installed:
         raise YamlNotInstalledError(path)
@@ -34,26 +37,33 @@ def load_yaml(path: Path, **options: Any) -> JsonValue:
         return yaml.safe_load(fp, **options)
 
 
-def dump_yaml(data: JsonValue, path: Path, mkdir: bool = False, **options: Any):
+def dump_yaml(
+    data: JsonValue,
+    path: Path,
+    options: Dict[str, Any] = {},
+):
     """ Dump a YAML file synchronously. """
     if not _is_yaml_installed:
         raise YamlNotInstalledError(path)
-    if mkdir:
-        path.mkdir(parents=True, exist_ok=True)
     with path.open("w") as fp:
         yaml.safe_dump(data, fp, **options)
 
 
-async def load_yaml_async(path: Path, **options: Any) -> JsonValue:
+async def load_yaml_async(
+    path: Path,
+    options: Dict[str, Any] = {},
+) -> JsonValue:
     """ Load a YAML file asynchronously. """
     loop = asyncio.get_running_loop()
-    data = await loop.run_in_executor(None, load_yaml, path, **options)
+    data = await loop.run_in_executor(None, load_yaml, path, options)
     return data
 
 
 async def dump_yaml_async(
-    data: JsonValue, path: Path, mkdir: bool = False, **options: Any
+    data: JsonValue,
+    path: Path,
+    options: Dict[str, Any] = {},
 ):
     """ Dump a YAML file asynchronously. """
     loop = asyncio.get_running_loop()
-    await loop.run_in_executor(None, dump_yaml, data, path, mkdir, **options)
+    await loop.run_in_executor(None, dump_yaml, data, path, options)

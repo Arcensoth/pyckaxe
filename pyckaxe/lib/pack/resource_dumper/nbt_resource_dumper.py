@@ -24,4 +24,4 @@ class NbtResourceDumper(CommonResourceDumper[ResourceType, NbtCompound]):
     # @implements CommonResourceDumper
     async def _dump_raw(self, raw: NbtCompound, location: PhysicalResourceLocation):
         path = await self._get_path_to_dump(location)
-        await dump_nbt_async(raw, path, **self.options)
+        await dump_nbt_async(raw, path, self.options)
