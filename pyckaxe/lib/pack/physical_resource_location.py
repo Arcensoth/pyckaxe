@@ -1,7 +1,8 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Tuple
 
-from pyckaxe.lib.pack.physical_namespace import PhysicalNamespace
+from pyckaxe.lib.pack.namespace import Namespace
 from pyckaxe.lib.pack.physical_registry_location import PhysicalRegistryLocation
 from pyckaxe.lib.pack.resource_location import ResourceLocation
 
@@ -12,8 +13,13 @@ __all__ = ("PhysicalResourceLocation",)
 class PhysicalResourceLocation(ResourceLocation):
     """ An absolute resource location, tied to an absolute registry location. """
 
-    namespace: PhysicalNamespace
+    parts: Tuple[str, ...]
     registry_location: PhysicalRegistryLocation
+
+    namespace: Namespace = field(init=False)
+
+    def __post_init__(self):
+        self.namespace = self.registry_location.namespace
 
     @property
     def path(self) -> Path:

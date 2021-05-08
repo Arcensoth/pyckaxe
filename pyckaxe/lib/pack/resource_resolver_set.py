@@ -51,13 +51,11 @@ class WrongResourceResolvedError(ResourceResolverError):
 @dataclass
 class ResourceResolverSet:
     """
-    A group of `ResourceResolver`s for resolving several types of resources.
+    Delegates a `ResourceResolver` based on the type of `ClassifiedResourceLocation`.
 
     This class helps manage inter-resource dependency by resolving and loading
     `ClassifiedResourceLocation`s into their respective `Resource`s using a
     configured set of `ResourceResolver`s.
-
-    This class works similarly to `MutableMapping` but not identically.
     """
 
     _resolvers: Dict[Type[Resource], ResourceResolver[Resource]] = field(
@@ -92,7 +90,7 @@ class ResourceResolverSet:
     async def resolve(
         self, location: ClassifiedResourceLocation[ResourceType]
     ) -> ResourceType:
-        """ Resolve a resource from a resource location. """
+        """ Resolve a `Resource` from a `ClassifiedResourceLocation`. """
         resource_type = location.resource_class
         try:
             resolver = self[resource_type]

@@ -10,7 +10,7 @@ __all__ = ("ResourceScannerSet",)
 @dataclass
 class ResourceScannerSet:
     """
-    A group of `ResourceScanner`s for scanning several types of resources.
+    Scans for several types of `Resource` using a group of `ResourceScanner`s.
     """
 
     _scanners: List[ResourceScanner[Resource]] = field(init=False)

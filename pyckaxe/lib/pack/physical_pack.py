@@ -47,7 +47,7 @@ class PhysicalPack:
             namespace_dirs.extend(assets_dirs)
         # combine them all
         for namespace_dir in namespace_dirs:
-            namespace = PhysicalNamespace(namespace_dir.name, namespace_dir)
+            namespace = PhysicalNamespace(path=namespace_dir)
             yield namespace
 
     async def iter_registries(
@@ -58,7 +58,9 @@ class PhysicalPack:
             if registry_path.is_dir():
                 delta = registry_path.relative_to(namespace.path)
                 registry_parts = delta.parts
-                registry_location = PhysicalRegistryLocation(namespace, registry_parts)
+                registry_location = PhysicalRegistryLocation(
+                    namespace=namespace, parts=registry_parts
+                )
                 yield registry_location
 
     async def get_registries(self, *parts: str) -> List[PhysicalRegistryLocation]:

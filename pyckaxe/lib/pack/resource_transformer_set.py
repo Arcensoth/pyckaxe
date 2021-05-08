@@ -36,9 +36,7 @@ class NoTransformerAvailableError(ResourceTransformerError):
 @dataclass
 class ResourceTransformerSet:
     """
-    A group of `ResourceTransformer`s for transforming several types of resources.
-
-    This class works similarly to `MutableMapping` but not identically.
+    Delegates a `ResourceTransformer` based on the type of `Resource`.
     """
 
     _transformers: Dict[Type[Resource], ResourceTransformer[Resource]] = field(
@@ -75,8 +73,8 @@ class ResourceTransformerSet:
         ctx: ResourceProcessingContext[ResourceType],
     ) -> AsyncIterable[Tuple[Resource, ResourceLocation]]:
         """ Turn the input resource into any number of output resources. """
+        resource_type = type(ctx.resource)
         try:
-            resource_type = type(ctx.resource)
             transformer = self[resource_type]
             async for resource, location in transformer(ctx):
                 yield resource, location

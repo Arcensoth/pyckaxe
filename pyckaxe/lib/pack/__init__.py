@@ -1,4 +1,5 @@
 from .abc import *
+from .common_resource_location_resolver import *
 from .common_resource_resolver import *
 from .common_resource_scanner import *
 from .namespace import *
@@ -11,8 +12,10 @@ from .physical_resource_location import *
 from .registry_location import *
 from .resource_cache import *
 from .resource_dumper import *
+from .resource_dumper_set import *
 from .resource_loader import *
 from .resource_location import *
+from .resource_location_resolver_set import *
 from .resource_or_location import *
 from .resource_processing_context import *
 from .resource_resolver_set import *

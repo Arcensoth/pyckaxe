@@ -1,17 +1,32 @@
 from dataclasses import dataclass
 
+from pyckaxe.lib.pack.abc.resource import Resource
 from pyckaxe.lib.pack.physical_pack import PhysicalPack
+from pyckaxe.lib.pack.resource_dumper_set import ResourceDumperSet
+from pyckaxe.lib.pack.resource_location import ResourceLocation
+from pyckaxe.lib.pack.resource_location_resolver_set import ResourceLocationResolverSet
 
 __all__ = ("WritablePack",)
 
 
 @dataclass
 class WritablePack(PhysicalPack):
-    """ A pack that has a physical, writable directory associated with it. """
+    """
+    A pack that has a physical, writable directory associated with it.
 
-    # TODO Idea: use __setitem__ with location as the key and resource as thr value.
+    Attributes
+    ----------
+    location_resolvers
+        Resolves different types of absolute resource locations from relative ones.
+    dumpers
+        Delegates to a different `ResourceDumper` based on the type of `Resource`.
+    """
 
-    # DELETEME still used?
-    # async def add(self, located_resource: LocatedResource, **options):
-    #     partial_path = located_resource.location.resolve_path(self.context)
-    #     await located_resource.resource.dump(partial_path, **options)
+    location_resolvers: ResourceLocationResolverSet
+    dumpers: ResourceDumperSet
+
+    async def dump(self, resource: Resource, location: ResourceLocation):
+        resource_type = type(resource)
+        classified_location = resource_type @ location
+        physical_location = self.location_resolvers(classified_location)
+        await self.dumpers(resource, physical_location)

@@ -14,7 +14,3 @@ class Namespace:
 
     def __hash__(self) -> int:
         return hash(self.name)
-
-    # DELETEME still used?
-    # def resolve_path(self, pack_context: PackContext) -> Path:
-    #     return Path(pack_context.data_path / self.name)

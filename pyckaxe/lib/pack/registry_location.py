@@ -28,11 +28,6 @@ class RegistryLocation:
     def extend(self: SelfType, *parts: str) -> SelfType:
         return replace(self, parts=(*self.parts, *parts))
 
-    # DELETEME still used?
-    # def resolve_path(self, pack_context: PackContext) -> Path:
-    #     namespace_path = self.namespace.resolve_path(pack_context)
-    #     return Path(namespace_path.joinpath(*self.parts))
-
     @property
     def name(self) -> str:
         parts_str = "/".join(self.parts)
