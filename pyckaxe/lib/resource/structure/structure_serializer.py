@@ -46,8 +46,8 @@ class StructureSerializer:
                 "Name": palette_entry.block.name,
             }
             if palette_entry.block.state:
-                serialized_block_state = palette_entry.block.state.to_json()
-                serialized_palette_entry["Properties"] = serialized_block_state
+                block_state_nbt = palette_entry.block.state.to_nbt()
+                serialized_palette_entry["Properties"] = block_state_nbt
             serialized_palette.append(serialized_palette_entry)
         return serialized_palette
 
