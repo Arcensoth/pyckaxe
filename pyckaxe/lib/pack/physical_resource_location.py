@@ -20,7 +20,7 @@ class PhysicalResourceLocation(ResourceLocation):
 
     def __post_init__(self):
         # TODO #post-init-frozen #refactor
-        setattr(self, "namespace", self.registry_location.namespace)
+        object.__setattr__(self, "namespace", self.registry_location.namespace)
 
     @property
     def path(self) -> Path:
