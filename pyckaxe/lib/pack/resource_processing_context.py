@@ -15,7 +15,7 @@ ResourceType = TypeVar("ResourceType", bound=Resource)
 ResolveResourceType = TypeVar("ResolveResourceType", bound=Resource)
 
 
-@dataclass
+@dataclass(frozen=True)
 class ResourceProcessingContext(Generic[ResourceType]):
     """
     Contains information that can be used to process a resource in different ways.
