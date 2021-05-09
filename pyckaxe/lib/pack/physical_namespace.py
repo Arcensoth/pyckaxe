@@ -17,3 +17,9 @@ class PhysicalNamespace(Namespace):
     def __post_init__(self):
         # TODO #post-init-frozen #refactor
         object.__setattr__(self, "name", self.path.name)
+
+    def __str__(self) -> str:
+        return self.name
+
+    def __repr__(self) -> str:
+        return str(self)

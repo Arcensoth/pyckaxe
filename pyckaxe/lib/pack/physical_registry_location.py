@@ -15,6 +15,12 @@ class PhysicalRegistryLocation(RegistryLocation):
     namespace: PhysicalNamespace
     parts: Tuple[str, ...]
 
+    def __str__(self) -> str:
+        return self.name
+
+    def __repr__(self) -> str:
+        return str(self)
+
     @property
     def path(self) -> Path:
         return self.namespace.path.joinpath(*self.parts)

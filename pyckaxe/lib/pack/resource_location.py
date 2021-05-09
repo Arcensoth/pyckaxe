@@ -47,6 +47,9 @@ class ResourceLocation:
     def __str__(self) -> str:
         return self.name
 
+    def __repr__(self) -> str:
+        return str(self)
+
     def __truediv__(self: SelfType, other: str) -> SelfType:
         return self.extend(other)
 
