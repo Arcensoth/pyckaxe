@@ -9,7 +9,7 @@ from pyckaxe.lib.pack.resource_location import ResourceLocation
 __all__ = ("PhysicalResourceLocation",)
 
 
-@dataclass
+@dataclass(frozen=True)
 class PhysicalResourceLocation(ResourceLocation):
     """ An absolute resource location, tied to an absolute registry location. """
 
@@ -19,7 +19,8 @@ class PhysicalResourceLocation(ResourceLocation):
     namespace: Namespace = field(init=False)
 
     def __post_init__(self):
-        self.namespace = self.registry_location.namespace
+        # TODO #post-init-frozen #refactor
+        setattr(self, "namespace", self.registry_location.namespace)
 
     @property
     def path(self) -> Path:

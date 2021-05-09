@@ -6,7 +6,7 @@ from pyckaxe.lib.pack.namespace import Namespace
 __all__ = ("PhysicalNamespace",)
 
 
-@dataclass
+@dataclass(frozen=True)
 class PhysicalNamespace(Namespace):
     """ An absolute namespace, tied to a physical path. """
 
@@ -15,4 +15,5 @@ class PhysicalNamespace(Namespace):
     name: str = field(init=False)
 
     def __post_init__(self):
-        self.name = self.path.name
+        # TODO #post-init-frozen #refactor
+        setattr(self, "name", self.path.name)

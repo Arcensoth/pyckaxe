@@ -8,7 +8,7 @@ from pyckaxe.lib.pack.registry_location import RegistryLocation
 __all__ = ("PhysicalRegistryLocation",)
 
 
-@dataclass
+@dataclass(frozen=True)
 class PhysicalRegistryLocation(RegistryLocation):
     """ An absolute registry location, tied to an absolute namespace. """
 

@@ -9,7 +9,7 @@ __all__ = ("RegistryLocation",)
 SelfType = TypeVar("SelfType", bound="RegistryLocation")
 
 
-@dataclass
+@dataclass(frozen=True)
 class RegistryLocation:
     """ A relative registry location, independent of any physical location. """
 
@@ -18,9 +18,6 @@ class RegistryLocation:
 
     def __str__(self) -> str:
         return self.name
-
-    def __hash__(self) -> int:
-        return hash(self.name)
 
     def __truediv__(self: SelfType, other: str) -> SelfType:
         return self.extend(other)

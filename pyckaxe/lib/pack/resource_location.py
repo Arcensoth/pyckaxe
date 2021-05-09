@@ -22,7 +22,7 @@ class InvalidResourceLocation(Exception):
         super().__init__(f"Invalid resource location: {value}")
 
 
-@dataclass
+@dataclass(frozen=True)
 class ResourceLocation:
     """ A relative resource location, independent of any physical location. """
 
@@ -47,16 +47,13 @@ class ResourceLocation:
     def __str__(self) -> str:
         return self.name
 
-    def __hash__(self) -> int:
-        return hash(self.name)
+    def __truediv__(self: SelfType, other: str) -> SelfType:
+        return self.extend(other)
 
     def __rmatmul__(
         self, other: Type[ResourceType]
     ) -> ClassifiedResourceLocation[ResourceType]:
         return self.classify(other)
-
-    def __truediv__(self: SelfType, other: str) -> SelfType:
-        return self.extend(other)
 
     @property
     def trail(self) -> str:
@@ -75,7 +72,7 @@ class ResourceLocation:
         return ClassifiedResourceLocation(self.namespace, self.parts, resource_class)
 
 
-@dataclass
+@dataclass(frozen=True)
 class ClassifiedResourceLocation(ResourceLocation, Generic[ResourceType]):
     """
     A resource location that is aware of the type of underlying resource.
