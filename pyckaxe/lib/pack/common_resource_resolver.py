@@ -52,7 +52,7 @@ class CommonResourceResolver(Generic[ResourceType]):
         # Load the resource.
         resource = await self.loader(location)
         # If a cache is present, add the newly-loaded resource.
-        if self.cache:
+        if self.cache is not None:
             self.cache[location] = resource
         # Return the newly-loaded resource.
         return resource
@@ -62,7 +62,9 @@ class CommonResourceResolver(Generic[ResourceType]):
         # Resolve the (possibly relative) resource location into an absolute one.
         physical_location = self.location_resolver(location)
         # If this resource is already cached, return it.
-        if self.cache and (cached := self.cache.get(location)):
-            return cached
+        if self.cache is not None:
+            cached = self.cache.get(physical_location)
+            if cached is not None:
+                return cached
         # Otherwise, reload the resource.
         return await self._reload_resource(physical_location)
