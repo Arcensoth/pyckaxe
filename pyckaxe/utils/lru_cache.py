@@ -1,4 +1,4 @@
-from typing import Dict, MutableMapping, TypeVar
+from typing import Dict, MutableMapping, Optional, TypeVar
 
 __all__ = ("LRUCache",)
 
@@ -19,14 +19,14 @@ class LRUCache(MutableMapping[KT, VT]):
         The internal cache, using a dictionary.
     """
 
-    def __init__(self, size: int):
-        self.size: int = size
+    def __init__(self, size: Optional[int]):
+        self.size: Optional[int] = size
         self._cache: Dict[KT, VT] = {}
 
     # @implements MutableMapping
     def __setitem__(self, key: KT, value: VT):
         # If we've hit max size, remove the first (and least-recently used) item.
-        if len(self._cache) >= self.size:
+        if (self.size is not None) and len(self._cache) >= self.size:
             key_to_remove = next(iter(self._cache.keys()))
             del self._cache[key_to_remove]
         self._cache.__setitem__(key, value)
