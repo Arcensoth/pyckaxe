@@ -45,13 +45,6 @@ class CommonResourceResolver(Generic[ResourceType]):
     ) -> Coroutine[None, None, ResourceType]:
         return self.resolve(location)
 
-    def _get_cached_resource(
-        self, location: PhysicalResourceLocation
-    ) -> Optional[ResourceType]:
-        """ Get a resource from the cache, if any. """
-        if self.cache:
-            return self.cache.get(location)
-
     async def _reload_resource(
         self, location: PhysicalResourceLocation
     ) -> ResourceType:
@@ -69,7 +62,7 @@ class CommonResourceResolver(Generic[ResourceType]):
         # Resolve the (possibly relative) resource location into an absolute one.
         physical_location = self.location_resolver(location)
         # If this resource is already cached, return it.
-        if cached := self._get_cached_resource(physical_location):
+        if self.cache and (cached := self.cache.get(location)):
             return cached
         # Otherwise, reload the resource.
         return await self._reload_resource(physical_location)
