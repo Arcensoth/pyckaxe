@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Coroutine, Generic, Optional, TypeVar
+from typing import Coroutine, Generic, TypeVar
 
 from pyckaxe.lib.pack.abc.resource import Resource
 from pyckaxe.lib.pack.abc.resource_location_resolver import ResourceLocationResolver
@@ -32,12 +32,12 @@ class CommonResourceResolver(Generic[ResourceType]):
     loader
         Loads and returns a resource, given an absolute resource location.
     cache
-        An optional cache of resources to reduce the number of loads.
+        An in-memory cache of resources to reduce the number of loads.
     """
 
     location_resolver: ResourceLocationResolver
     loader: ResourceLoader[ResourceType]
-    cache: Optional[ResourceCache[ResourceType]] = None
+    cache: ResourceCache[ResourceType]
 
     # @implements ResourceResolver
     def __call__(
@@ -51,9 +51,8 @@ class CommonResourceResolver(Generic[ResourceType]):
         """ Load a resource regardless of the state of the cache. """
         # Load the resource.
         resource = await self.loader(location)
-        # If a cache is present, add the newly-loaded resource.
-        if self.cache is not None:
-            self.cache[location] = resource
+        # Add the newly-loaded resource to the cache.
+        self.cache[location] = resource
         # Return the newly-loaded resource.
         return resource
 
@@ -62,9 +61,7 @@ class CommonResourceResolver(Generic[ResourceType]):
         # Resolve the (possibly relative) resource location into an absolute one.
         physical_location = self.location_resolver(location)
         # If this resource is already cached, return it.
-        if self.cache is not None:
-            cached = self.cache.get(physical_location)
-            if cached is not None:
-                return cached
+        if (cached := self.cache.get(physical_location)) is not None:
+            return cached
         # Otherwise, reload the resource.
         return await self._reload_resource(physical_location)

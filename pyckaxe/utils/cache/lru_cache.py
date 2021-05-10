@@ -1,4 +1,5 @@
-from typing import Dict, MutableMapping, Optional, TypeVar
+import itertools
+from typing import Dict, Iterator, MutableMapping, TypeVar
 
 __all__ = ("LRUCache",)
 
@@ -7,9 +8,12 @@ KT = TypeVar("KT")
 VT = TypeVar("VT")
 
 
+# @implements Cache
 class LRUCache(MutableMapping[KT, VT]):
     """
-    A LRU cache implemented using dictionary insertion order.
+    A simple LRU cache implemented using dictionary insertion order.
+
+    Requires a positive integer `size` to be explicitly passed.
 
     Attributes
     ----------
@@ -19,17 +23,22 @@ class LRUCache(MutableMapping[KT, VT]):
         The internal cache, using a dictionary.
     """
 
-    def __init__(self, size: Optional[int]):
-        self.size: Optional[int] = size
+    def __init__(self, size: int):
+        if size <= 0:
+            raise ValueError("size must be a positive integer")
+        self.size: int = size
         self._cache: Dict[KT, VT] = {}
 
     # @implements MutableMapping
     def __setitem__(self, key: KT, value: VT):
         # If we've hit max size, remove the first (and least-recently used) item.
-        if (self.size is not None) and len(self._cache) >= self.size:
-            key_to_remove = next(iter(self._cache.keys()))
-            del self._cache[key_to_remove]
-        self._cache.__setitem__(key, value)
+        shrink_by = len(self._cache) + 1 - self.size
+        if shrink_by > 0:
+            # Get the keys first, so we aren't mutating the dict during iteration.
+            keys_to_remove = list(itertools.islice(self._cache.keys(), shrink_by))
+            for key_to_remove in keys_to_remove:
+                del self._cache[key_to_remove]
+        self._cache[key] = value
 
     # @implements MutableMapping
     def __getitem__(self, key: KT) -> VT:
@@ -41,12 +50,12 @@ class LRUCache(MutableMapping[KT, VT]):
 
     # @implements MutableMapping
     def __delitem__(self, key: KT):
-        self._cache.__delitem__(key)
+        del self._cache[key]
 
     # @implements MutableMapping
-    def __len__(self):
-        return self._cache.__len__()
+    def __len__(self) -> int:
+        return len(self._cache)
 
     # @implements MutableMapping
-    def __iter__(self):
-        return self._cache.__iter__()
+    def __iter__(self) -> Iterator[KT]:
+        return iter(self._cache)
