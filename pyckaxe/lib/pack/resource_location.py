@@ -32,8 +32,9 @@ class ResourceLocation:
     @classmethod
     def from_string(cls: Type[SelfType], name: str) -> SelfType:
         try:
-            namespace = Namespace(name.split(":")[0])
-            parts: Tuple[str, ...] = tuple(name.split(":")[1].split("/"))
+            namespace_str, _, parts_str = name.partition(":")
+            namespace = Namespace(namespace_str)
+            parts = tuple(parts_str.split("/"))
             return cls(namespace=namespace, parts=parts)
         except Exception as ex:
             raise InvalidResourceLocation(name) from ex
