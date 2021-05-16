@@ -70,11 +70,17 @@ class Position:
     def __hash__(self) -> int:
         return hash(str(self))
 
-    def __invert__(self) -> Position:
-        return self.__class__(~self.x, ~self.y, ~self.z)
-
     def __neg__(self) -> Position:
         return self.__class__(-self.x, -self.y, -self.z)
+
+    def __pos__(self) -> Position:
+        return self.__class__(+self.x, +self.y, +self.z)
+
+    def __abs__(self) -> Position:
+        return self.__class__(abs(self.x), abs(self.y), abs(self.z))
+
+    def __invert__(self) -> Position:
+        return self.__class__(~self.x, ~self.y, ~self.z)
 
     def __add__(self, other: PositionConvertible) -> Position:
         other_position = Position.convert(other)

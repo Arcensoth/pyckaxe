@@ -65,6 +65,12 @@ class Coordinate:
     def __neg__(self) -> Coordinate:
         return Coordinate(-self.value, sign=self.sign)
 
+    def __pos__(self) -> Coordinate:
+        return self.absolute()
+
+    def __abs__(self) -> Coordinate:
+        return Coordinate(abs(self.value), sign=self.sign)
+
     def __invert__(self) -> Coordinate:
         return self.relative()
 
