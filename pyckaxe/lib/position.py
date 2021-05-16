@@ -14,7 +14,13 @@ __all__ = (
 PositionAsTuple = Tuple[
     CoordinateConvertible, CoordinateConvertible, CoordinateConvertible
 ]
-PositionAsList = List[CoordinateConvertible]
+PositionAsList = Union[
+    List[int],
+    List[float],
+    List[Union[int, float]],
+    List[Coordinate],
+    List[CoordinateConvertible],
+]
 PositionConvertible = Union[
     "Position",
     PositionAsTuple,
