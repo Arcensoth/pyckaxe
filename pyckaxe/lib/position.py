@@ -171,3 +171,15 @@ class Position:
 
     def local(self) -> Position:
         return self.__class__(self.x.local(), self.y.local(), self.z.local())
+
+
+ORIGIN: Position = Position.from_xyz(0, 0, 0)
+HERE: Position = ORIGIN.relative()
+THERE: Position = ORIGIN.local()
+
+NORTH = Position.from_xyz(0, 0, -1)
+SOUTH = Position.from_xyz(0, 0, 1)
+WEST = Position.from_xyz(-1, 0, 0)
+EAST = Position.from_xyz(1, 0, 0)
+DOWN = Position.from_xyz(0, -1, 0)
+UP = Position.from_xyz(0, 1, 0)
