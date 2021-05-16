@@ -33,6 +33,9 @@ class Block:
     def from_string(cls, s: str) -> Block:
         return cls(name=s)
 
+    def __repr__(self) -> str:
+        return str(self)
+
     def __str__(self) -> str:
         return "".join(self._str_parts())
 
