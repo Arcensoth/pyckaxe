@@ -2,6 +2,7 @@
 
 from .block import *
 from .block_state import *
+from .breadcrumb import *
 from .command import *
 from .coordinate import *
 from .json_serializable import *
