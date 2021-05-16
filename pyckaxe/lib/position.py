@@ -22,7 +22,7 @@ PositionConvertible = Union[
 ]
 
 
-@dataclass
+@dataclass(frozen=True)
 class Position:
     x: Coordinate
     y: Coordinate

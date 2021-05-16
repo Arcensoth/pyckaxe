@@ -22,7 +22,7 @@ class CoordinateSign(Enum):
     LOCAL = "local"
 
 
-@dataclass
+@dataclass(frozen=True)
 class Coordinate:
     value: float
     sign: CoordinateSign = CoordinateSign.ABSOLUTE
