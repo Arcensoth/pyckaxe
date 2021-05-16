@@ -85,6 +85,9 @@ class Position:
         )
         return new_position
 
+    def __radd__(self, other: PositionConvertible) -> Position:
+        return self.__add__(other)
+
     def __sub__(self, other: PositionConvertible) -> Position:
         other_position = Position.convert(other)
         new_position = self.__class__(
@@ -100,6 +103,9 @@ class Position:
             self.y * other,
             self.z * other,
         )
+
+    def __rmul__(self, other: CoordinateConvertible) -> Position:
+        return self.__mul__(other)
 
     def __truediv__(self, other: CoordinateConvertible) -> Position:
         return self.__class__(

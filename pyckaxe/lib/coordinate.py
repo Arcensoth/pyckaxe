@@ -73,6 +73,9 @@ class Coordinate:
         new_coord = Coordinate(self.value + other_coord.value, sign=self.sign)
         return new_coord
 
+    def __radd__(self, other: CoordinateConvertible) -> Coordinate:
+        return self.__add__(other)
+
     def __sub__(self, other: CoordinateConvertible) -> Coordinate:
         other_coord = Coordinate.convert(other)
         new_coord = Coordinate(self.value - other_coord.value, sign=self.sign)
@@ -82,6 +85,9 @@ class Coordinate:
         other_coord = Coordinate.convert(other)
         new_coord = Coordinate(self.value * other_coord.value, sign=self.sign)
         return new_coord
+
+    def __rmul__(self, other: CoordinateConvertible) -> Coordinate:
+        return self.__mul__(other)
 
     def __floordiv__(self, other: CoordinateConvertible) -> Coordinate:
         other_coord = Coordinate.convert(other)
