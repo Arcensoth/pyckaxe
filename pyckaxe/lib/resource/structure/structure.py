@@ -2,10 +2,10 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Type, TypeVar
 
 from pyckaxe.lib.block import Block
+from pyckaxe.lib.block_map import BlockMap
 from pyckaxe.lib.nbt import NbtCompound
 from pyckaxe.lib.pack.abc.resource import Resource
 from pyckaxe.lib.position import Position
-from pyckaxe.lib.resource.structure.block_map import BlockMap
 
 __all__ = ("Structure",)
 
@@ -44,8 +44,7 @@ class Structure(Resource):
         # Create the flat list of blocks, building a minimal palette as we go.
         palette_map: Dict[str, StructurePaletteEntry] = {}
         blocks: List[StructureBlockEntry] = []
-        for position, entry in block_map.walk():
-            block = entry.block
+        for position, block in block_map:
             # Grab the corresponding palette entry from the palette map.
             palette_map_key = (
                 block.name if block.state is None else f"{block.name}{block.state}"
@@ -82,7 +81,5 @@ class Structure(Resource):
         for block_entry in self.blocks:
             palette_index = block_entry.state
             palette_entry = self.palette[palette_index]
-            block_map.set_block(
-                block_entry.pos, palette_entry.block, str(palette_index)
-            )
+            block_map[block_entry.pos] = palette_entry.block
         return block_map
