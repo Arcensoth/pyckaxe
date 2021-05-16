@@ -94,6 +94,41 @@ class Position:
         )
         return new_position
 
+    def __mul__(self, other: CoordinateConvertible) -> Position:
+        return self.__class__(
+            self.x * other,
+            self.y * other,
+            self.z * other,
+        )
+
+    def __truediv__(self, other: CoordinateConvertible) -> Position:
+        return self.__class__(
+            self.x / other,
+            self.y / other,
+            self.z / other,
+        )
+
+    def __floordiv__(self, other: CoordinateConvertible) -> Position:
+        return self.__class__(
+            self.x // other,
+            self.y // other,
+            self.z // other,
+        )
+
+    def __mod__(self, other: CoordinateConvertible) -> Position:
+        return self.__class__(
+            self.x % other,
+            self.y % other,
+            self.z % other,
+        )
+
+    def __pow__(self, other: CoordinateConvertible) -> Position:
+        return self.__class__(
+            self.x ** other,
+            self.y ** other,
+            self.z ** other,
+        )
+
     def unpack(self) -> Tuple[Coordinate, Coordinate, Coordinate]:
         return self.x, self.y, self.z
 

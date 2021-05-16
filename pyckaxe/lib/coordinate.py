@@ -83,6 +83,26 @@ class Coordinate:
         new_coord = Coordinate(self.value * other_coord.value, sign=self.sign)
         return new_coord
 
+    def __floordiv__(self, other: CoordinateConvertible) -> Coordinate:
+        other_coord = Coordinate.convert(other)
+        new_coord = Coordinate(self.value // other_coord.value, sign=self.sign)
+        return new_coord
+
+    def __truediv__(self, other: CoordinateConvertible) -> Coordinate:
+        other_coord = Coordinate.convert(other)
+        new_coord = Coordinate(self.value / other_coord.value, sign=self.sign)
+        return new_coord
+
+    def __mod__(self, other: CoordinateConvertible) -> Coordinate:
+        other_coord = Coordinate.convert(other)
+        new_coord = Coordinate(self.value % other_coord.value, sign=self.sign)
+        return new_coord
+
+    def __pow__(self, other: CoordinateConvertible) -> Coordinate:
+        other_coord = Coordinate.convert(other)
+        new_coord = Coordinate(self.value ** other_coord.value, sign=self.sign)
+        return new_coord
+
     @property
     def is_absolute(self) -> bool:
         return self.sign == CoordinateSign.ABSOLUTE
