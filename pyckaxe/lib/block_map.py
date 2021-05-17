@@ -73,7 +73,7 @@ class BlockMap:
     def _in_bounds(self, x: int, y: int, z: int) -> bool:
         return (
             (x < self.size.x.value)
-            and (y < self.size.z.value)
+            and (y < self.size.y.value)
             and (z < self.size.z.value)
         )
 
