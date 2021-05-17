@@ -8,6 +8,15 @@ from pyckaxe.lib.coordinate import Coordinate, CoordinateConvertible
 __all__ = (
     "PositionConvertible",
     "Position",
+    "ORIGIN",
+    "HERE",
+    "THERE",
+    "NORTH",
+    "SOUTH",
+    "WEST",
+    "EAST",
+    "DOWN",
+    "UP",
 )
 
 
@@ -63,6 +72,9 @@ class Position:
     def from_list(cls, l: PositionAsList) -> Position:
         assert len(l) == 3
         return cls.from_xyz(l[0], l[1], l[2]).relative()
+
+    def __repr__(self) -> str:
+        return str(self)
 
     def __str__(self) -> str:
         return " ".join(str(coord) for coord in (self.x, self.y, self.z))
