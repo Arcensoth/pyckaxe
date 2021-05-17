@@ -177,7 +177,7 @@ class Position:
         return self.x, self.y, self.z
 
     def unpack_floats(self) -> Tuple[float, float, float]:
-        return self.x.value, self.y.value, self.z.value
+        return float(self.x.value), float(self.y.value), float(self.z.value)
 
     def unpack_ints(self) -> Tuple[int, int, int]:
         return int(self.x.value), int(self.y.value), int(self.z.value)
