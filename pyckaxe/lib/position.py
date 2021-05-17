@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import List, Tuple, Union
+from typing import Any, List, Tuple, Union
 
 from pyckaxe.lib.coordinate import Coordinate, CoordinateConvertible
 
 __all__ = (
     "PositionConvertible",
+    "MalformedPosition",
     "Position",
     "ORIGIN",
     "HERE",
@@ -37,6 +38,12 @@ PositionConvertible = Union[
 ]
 
 
+class MalformedPosition(Exception):
+    def __init__(self, message: str, value: Any):
+        self.value: Any = value
+        super().__init__(f"Can't convert value `{value}` to position: {message}")
+
+
 @dataclass(frozen=True)
 class Position:
     x: Coordinate
@@ -51,8 +58,9 @@ class Position:
         if isinstance(value, tuple):
             return cls.from_tuple(value)
         # list -> relative
-        assert isinstance(value, list)
-        return cls.from_list(value)
+        if isinstance(value, list):
+            return cls.from_list(value)
+        raise MalformedPosition(f"Bad type: {type(value)}", value)
 
     @classmethod
     def from_xyz(
@@ -64,14 +72,16 @@ class Position:
         return cls(Coordinate.convert(x), Coordinate.convert(y), Coordinate.convert(z))
 
     @classmethod
-    def from_tuple(cls, t: PositionAsTuple) -> Position:
-        assert len(t) == 3
-        return cls.from_xyz(t[0], t[1], t[2])
+    def from_tuple(cls, value: PositionAsTuple) -> Position:
+        if len(value) != 3:
+            raise MalformedPosition(f"Bad length: {len(value)}", value)
+        return cls.from_xyz(value[0], value[1], value[2])
 
     @classmethod
-    def from_list(cls, l: PositionAsList) -> Position:
-        assert len(l) == 3
-        return cls.from_xyz(l[0], l[1], l[2]).relative()
+    def from_list(cls, value: PositionAsList) -> Position:
+        if len(value) != 3:
+            raise MalformedPosition(f"Bad length: {len(value)}", value)
+        return cls.from_xyz(value[0], value[1], value[2]).relative()
 
     def __repr__(self) -> str:
         return str(self)
