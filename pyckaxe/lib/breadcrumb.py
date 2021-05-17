@@ -8,14 +8,12 @@ class Breadcrumb:
 
     def __init__(self, *parts: Union[str, int]):
         self._parts: Tuple[Union[str, int], ...] = tuple(parts)
-        self._stringified: str = ""
+        self._stringified: str = "<root>"
         for part in parts:
             if isinstance(part, int):
                 self._stringified += f"[{part}]"
             else:
                 self._stringified += f".breadcrumb"
-        if self._stringified.startswith("."):
-            self._stringified = self._stringified[1:]
 
     def __str__(self) -> str:
         return self._stringified
@@ -33,7 +31,9 @@ class Breadcrumb:
         return bool(self._parts)
 
     def __getattribute__(self, name: str) -> Breadcrumb:
-        return Breadcrumb(*self, name)
+        if not name.startswith("_"):
+            return Breadcrumb(*self._parts, name)
+        return super().__getattribute__(name)
 
     def __getitem__(self, key: Union[str, int]) -> Breadcrumb:
-        return Breadcrumb(*self, key)
+        return Breadcrumb(*self._parts, key)
