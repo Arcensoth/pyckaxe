@@ -1,4 +1,6 @@
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Tuple
 
 from pyckaxe.lib.pack.physical_namespace import PhysicalNamespace
 from pyckaxe.lib.pack.physical_registry_location import PhysicalRegistryLocation
@@ -20,7 +22,8 @@ class CommonResourceLocationResolver:
         An absolute registry location used to resolve resource locations.
     """
 
-    registry_location: PhysicalRegistryLocation
+    path: Path
+    parts: Tuple[str, ...]
 
     # @implements ResourceLocationResolver
     def __call__(self, location: ResourceLocation) -> PhysicalResourceLocation:
@@ -29,11 +32,11 @@ class CommonResourceLocationResolver:
     def resolve(self, location: ResourceLocation) -> PhysicalResourceLocation:
         """Resolve an absolute resource location from a relative one."""
         physical_namespace = PhysicalNamespace(
-            path=self.registry_location.namespace.path.parent / location.namespace.name,
+            path=self.path / location.namespace.name,
         )
         physical_registry_location = PhysicalRegistryLocation(
             namespace=physical_namespace,
-            parts=self.registry_location.parts,
+            parts=self.parts,
         )
         return PhysicalResourceLocation(
             parts=location.parts,
