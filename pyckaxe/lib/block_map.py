@@ -85,18 +85,24 @@ class BlockMap:
     def remove_blocks(self, blocks: List[Block]):
         for position, block in self:
             if block in blocks:
-                    del self[position]
-                    continue
+                del self[position]
+                continue
 
     def keep_blocks(self, blocks: List[Block]):
         positions_to_remove: List[Position] = []
         # Collect positions to remove first because we can't mutate during iteration.
         for position, block in self:
             if block in blocks:
-                    continue
+                continue
             positions_to_remove.append(position)
         for position in positions_to_remove:
             del self[position]
+
+    def replace_blocks(self, blocks: List[Block], replacement: Block):
+        for position, block in self:
+            if block in blocks:
+                self[position] = replacement
+                continue
 
     def scan(self, block: Block) -> Iterable[Position]:
         yield from (position for position, b in self if b == block)
