@@ -16,6 +16,8 @@ class WritablePack(PhysicalPack):
 
     Attributes
     ----------
+    path
+        The path to the root of the pack.
     location_resolvers
         Resolves different types of absolute resource locations from relative ones.
     dumpers
