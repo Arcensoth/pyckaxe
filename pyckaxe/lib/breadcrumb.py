@@ -13,7 +13,7 @@ class Breadcrumb:
             if isinstance(part, int):
                 self._stringified += f"[{part}]"
             else:
-                self._stringified += f".breadcrumb"
+                self._stringified += f".{part}"
 
     def __str__(self) -> str:
         return self._stringified
