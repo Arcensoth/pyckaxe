@@ -1,12 +1,33 @@
 from dataclasses import dataclass
+from pathlib import Path
 
 from pyckaxe.lib.pack.abc.resource import Resource
 from pyckaxe.lib.pack.physical_pack import PhysicalPack
+from pyckaxe.lib.pack.physical_resource_location import PhysicalResourceLocation
 from pyckaxe.lib.pack.resource_dumper_set import ResourceDumperSet
 from pyckaxe.lib.pack.resource_location import ResourceLocation
 from pyckaxe.lib.pack.resource_location_resolver_set import ResourceLocationResolverSet
 
-__all__ = ("WritablePack",)
+__all__ = (
+    "RogueResource",
+    "WritablePack",
+)
+
+
+class RogueResource(Exception):
+    def __init__(
+        self,
+        pack_path: Path,
+        physical_location: PhysicalResourceLocation,
+        resource: Resource,
+    ):
+        self.pack_oath: Path = pack_path
+        self.physical_location: PhysicalResourceLocation = physical_location
+        self.resource: Resource = resource
+        super().__init__(
+            f"Attempted to dump a resource to `{physical_location.path}`,"
+            + f" which is outside of the pack at `{pack_path}`"
+        )
 
 
 @dataclass
@@ -31,4 +52,6 @@ class WritablePack(PhysicalPack):
         resource_type = type(resource)
         classified_location = resource_type @ location
         physical_location = self.location_resolvers(classified_location)
+        if self.path not in physical_location.path.parents:
+            raise RogueResource(self.path, physical_location, resource)
         await self.dumpers(resource, physical_location)
