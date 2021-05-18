@@ -84,16 +84,18 @@ class BlockMap:
 
     def remove_blocks(self, blocks: List[Block]):
         for position, block in self:
-            for block_to_remove in blocks:
-                if block == block_to_remove:
+            if block in blocks:
                     del self[position]
                     continue
 
     def keep_blocks(self, blocks: List[Block]):
+        positions_to_remove: List[Position] = []
+        # Collect positions to remove first because we can't mutate during iteration.
         for position, block in self:
-            for block_to_keep in blocks:
-                if block == block_to_keep:
+            if block in blocks:
                     continue
+            positions_to_remove.append(position)
+        for position in positions_to_remove:
             del self[position]
 
     def scan(self, block: Block) -> Iterable[Position]:
