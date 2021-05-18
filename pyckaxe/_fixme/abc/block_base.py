@@ -16,7 +16,7 @@ class BlockBase(CommandToken):
 
     def _command_parts(self) -> Iterable[str]:
         yield self.NAME
-        if (state := self.state()) :
+        if state := self.state():
             yield state.command_tokenize()
         if self.data is not None:
             yield self.data.command_tokenize()

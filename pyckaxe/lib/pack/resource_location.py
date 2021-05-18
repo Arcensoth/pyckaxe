@@ -24,7 +24,7 @@ class InvalidResourceLocation(Exception):
 
 @dataclass(frozen=True)
 class ResourceLocation:
-    """ A relative resource location, independent of any physical location. """
+    """A relative resource location, independent of any physical location."""
 
     namespace: Namespace
     parts: Tuple[str, ...]

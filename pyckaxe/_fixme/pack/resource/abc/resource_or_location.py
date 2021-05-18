@@ -94,7 +94,7 @@ class ResourceOrLocation(Generic[ResourceType, ResourceLocationType]):
         self.resource_location: Optional[ResourceLocationType] = resource_location
 
     def __call__(self, pack_context: PackContext) -> Coroutine[Any, Any, ResourceType]:
-        """ Mimics the call resolution of [ResourceLocation] to be used in the same way. """
+        """Mimics the call resolution of [ResourceLocation] to be used in the same way."""
         return self.resolve_resource(pack_context)
 
     async def resolve_resource(self, pack_context: PackContext) -> ResourceType:

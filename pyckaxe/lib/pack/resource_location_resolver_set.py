@@ -35,7 +35,7 @@ class NoLocationResolverAvailableError(ResourceLocationResolverError):
 
 @dataclass
 class ResourceLocationResolverSet:
-    """ Resolves different types of absolute resource locations from relative ones. """
+    """Resolves different types of absolute resource locations from relative ones."""
 
     _location_resolvers: Dict[Type[Resource], ResourceLocationResolver] = field(
         default_factory=dict
@@ -67,7 +67,7 @@ class ResourceLocationResolverSet:
     def resolve(
         self, location: ClassifiedResourceLocation[Resource]
     ) -> PhysicalResourceLocation:
-        """ Resolve an absolute resource location from a relative one. """
+        """Resolve an absolute resource location from a relative one."""
         resource_type = location.resource_class
         try:
             resolver = self[resource_type]

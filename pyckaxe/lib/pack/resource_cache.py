@@ -17,7 +17,7 @@ ResourceType = TypeVar("ResourceType", bound=Resource)
 
 
 class ResourceCache(Cache[ResourceLocation, ResourceType], Protocol[ResourceType]):
-    """ An in-memory cache of resources to reduce the number of loads. """
+    """An in-memory cache of resources to reduce the number of loads."""
 
 
 # @implements ResourceCache

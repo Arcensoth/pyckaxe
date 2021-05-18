@@ -49,7 +49,7 @@ class CommonResourceScanner(Generic[ResourceType]):
         self,
         match: str = r"*",
     ) -> AsyncIterable[ClassifiedResourceLocation[ResourceType]]:
-        """ Yield all matching locations in the registry. """
+        """Yield all matching locations in the registry."""
         # TODO Should glob be async (in batches)? #async-file-io
         for path in self.path.rglob(match):
             if path.is_file():

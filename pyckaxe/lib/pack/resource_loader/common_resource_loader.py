@@ -61,7 +61,7 @@ class CommonResourceLoader(ABC, Generic[ResourceType, RawType]):
     async def _get_matching_paths(
         self, location: PhysicalResourceLocation
     ) -> List[Path]:
-        """ Get all file paths matching `location`. """
+        """Get all file paths matching `location`."""
         # Since glob isn't expressive enough, we need to do a second pass with regex.
         # TODO Should glob be async? #async-file-io
         pattern = re.compile(r"^" + location.path.name + r"(?:\.[^\.]*)?$")
@@ -86,7 +86,7 @@ class CommonResourceLoader(ABC, Generic[ResourceType, RawType]):
         return paths[0]
 
     async def load(self, location: PhysicalResourceLocation) -> ResourceType:
-        """ Load a `Resource` from `location`. """
+        """Load a `Resource` from `location`."""
         try:
             # Load the raw data from file.
             raw = await self._load_raw(location)

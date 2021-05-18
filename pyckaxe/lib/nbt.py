@@ -56,15 +56,15 @@ def to_nbt(value: Any) -> NbtBase:
     if isinstance(value, NbtBase):
         return value
     if isinstance(value, str):
-        if (match := BYTE_PATTERN.match(value)) :
+        if match := BYTE_PATTERN.match(value):
             return NbtByte(int(match.groups()[0]))
-        if (match := SHORT_PATTERN.match(value)) :
+        if match := SHORT_PATTERN.match(value):
             return NbtShort(int(match.groups()[0]))
-        if (match := LONG_PATTERN.match(value)) :
+        if match := LONG_PATTERN.match(value):
             return NbtLong(int(match.groups()[0]))
-        if (match := FLOAT_PATTERN.match(value)) :
+        if match := FLOAT_PATTERN.match(value):
             return NbtFloat(float(match.groups()[0]))
-        if (match := DOUBLE_PATTERN.match(value)) :
+        if match := DOUBLE_PATTERN.match(value):
             return NbtDouble(float(match.groups()[0]))
         return NbtString(value)
     if isinstance(value, bool):

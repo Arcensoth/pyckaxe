@@ -13,4 +13,4 @@ class ResourceDumper(Protocol[ResourceType]):
     def __call__(
         self, resource: ResourceType, location: PhysicalResourceLocation
     ) -> Coroutine[None, None, None]:
-        """ Dump `resource` to `location`. """
+        """Dump `resource` to `location`."""

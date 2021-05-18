@@ -11,4 +11,4 @@ RawType = TypeVar("RawType", covariant=True)
 
 class ResourceSerializer(Protocol[ResourceType, RawType]):
     def __call__(self, resource: ResourceType) -> RawType:
-        """ Return the raw data representation of `resource`. """
+        """Return the raw data representation of `resource`."""

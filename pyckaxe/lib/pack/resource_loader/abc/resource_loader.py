@@ -13,4 +13,4 @@ class ResourceLoader(Protocol[ResourceType]):
     def __call__(
         self, location: PhysicalResourceLocation
     ) -> Coroutine[None, None, ResourceType]:
-        """ Load a `Resource` from `location`. """
+        """Load a `Resource` from `location`."""

@@ -90,7 +90,7 @@ class ResourceResolverSet:
     async def resolve(
         self, location: ClassifiedResourceLocation[ResourceType]
     ) -> ResourceType:
-        """ Resolve a `Resource` from a `ClassifiedResourceLocation`. """
+        """Resolve a `Resource` from a `ClassifiedResourceLocation`."""
         resource_type = location.resource_class
         try:
             resolver = self[resource_type]

@@ -12,7 +12,7 @@ __all__ = ("PhysicalPack",)
 
 @dataclass
 class PhysicalPack:
-    """ A pack that has a physical, readable directory associated with it. """
+    """A pack that has a physical, readable directory associated with it."""
 
     path: Path
 

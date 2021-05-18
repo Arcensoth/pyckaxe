@@ -27,7 +27,7 @@ class CommonResourceLocationResolver:
         return self.resolve(location)
 
     def resolve(self, location: ResourceLocation) -> PhysicalResourceLocation:
-        """ Resolve an absolute resource location from a relative one. """
+        """Resolve an absolute resource location from a relative one."""
         physical_namespace = PhysicalNamespace(
             path=self.registry_location.namespace.path.parent / location.namespace.name,
         )

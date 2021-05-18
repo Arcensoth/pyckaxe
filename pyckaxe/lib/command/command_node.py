@@ -10,7 +10,7 @@ __all__ = ("CommandNode",)
 
 
 class CommandNode(Command):
-    """ A single node in the parent-child command hierarchy. """
+    """A single node in the parent-child command hierarchy."""
 
     def __init__(self, parent: Optional[CommandNode]):
         self._parent: Optional[CommandNode] = parent

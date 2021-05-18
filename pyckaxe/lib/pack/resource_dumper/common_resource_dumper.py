@@ -74,7 +74,7 @@ class CommonResourceDumper(ABC, Generic[ResourceType, RawType]):
         return path
 
     async def dump(self, resource: ResourceType, location: PhysicalResourceLocation):
-        """ Dump `resource` to `location`. """
+        """Dump `resource` to `location`."""
         try:
             # Serialize the resource.
             raw = self.serializer(resource)

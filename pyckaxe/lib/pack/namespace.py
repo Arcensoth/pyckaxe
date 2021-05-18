@@ -5,7 +5,7 @@ __all__ = ("Namespace",)
 
 @dataclass(frozen=True)
 class Namespace:
-    """ A relative namespace, independent of any physical location. """
+    """A relative namespace, independent of any physical location."""
 
     name: str
 

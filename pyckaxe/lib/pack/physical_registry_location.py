@@ -10,7 +10,7 @@ __all__ = ("PhysicalRegistryLocation",)
 
 @dataclass(frozen=True)
 class PhysicalRegistryLocation(RegistryLocation):
-    """ An absolute registry location, tied to an absolute namespace. """
+    """An absolute registry location, tied to an absolute namespace."""
 
     namespace: PhysicalNamespace
     parts: Tuple[str, ...]

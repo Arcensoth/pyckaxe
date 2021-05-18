@@ -22,7 +22,7 @@ ArgumentType = TypeVar("ArgumentType")
 
 
 class CommandArgument(CommandNode, Generic[ArgumentType]):
-    """ A node in the command hierarchy that resolves to a dynamic argument. """
+    """A node in the command hierarchy that resolves to a dynamic argument."""
 
     _tokenizer: ClassVar[Callable[[ArgumentType], str]] = str
 

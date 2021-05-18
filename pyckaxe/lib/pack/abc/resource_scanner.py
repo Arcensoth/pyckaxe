@@ -13,4 +13,4 @@ class ResourceScanner(Protocol[ResourceType]):
     def __call__(
         self, match: str = ...
     ) -> AsyncIterable[ClassifiedResourceLocation[ResourceType]]:
-        """ Scan for all of a certain type of matching resource. """
+        """Scan for all of a certain type of matching resource."""

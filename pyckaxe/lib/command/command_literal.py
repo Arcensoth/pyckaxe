@@ -12,7 +12,7 @@ SelfType = TypeVar("SelfType", bound="CommandNode")
 
 
 class CommandLiteral(CommandNode):
-    """ A node in the command hierarchy that resolves to a literal string. """
+    """A node in the command hierarchy that resolves to a literal string."""
 
     _literal: ClassVar[str]
 

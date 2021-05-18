@@ -10,4 +10,4 @@ class Command(Iterable[str]):
 
     @abstractmethod
     def __iter__(self) -> Iterator[str]:
-        """ Yield stringified command tokens. """
+        """Yield stringified command tokens."""

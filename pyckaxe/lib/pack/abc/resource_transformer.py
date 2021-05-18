@@ -14,4 +14,4 @@ class ResourceTransformer(Protocol[ResourceType]):
     def __call__(
         self, ctx: ResourceProcessingContext[ResourceType]
     ) -> AsyncIterable[Tuple[Resource, ResourceLocation]]:
-        """ Turn the input resource into any number of output resources. """
+        """Turn the input resource into any number of output resources."""

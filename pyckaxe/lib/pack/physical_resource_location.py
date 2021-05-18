@@ -11,7 +11,7 @@ __all__ = ("PhysicalResourceLocation",)
 
 @dataclass(frozen=True)
 class PhysicalResourceLocation(ResourceLocation):
-    """ An absolute resource location, tied to an absolute registry location. """
+    """An absolute resource location, tied to an absolute registry location."""
 
     parts: Tuple[str, ...]
     registry_location: PhysicalRegistryLocation

@@ -13,4 +13,4 @@ class ResourceResolver(Protocol[ResourceType]):
     def __call__(
         self, location: ResourceLocation
     ) -> Coroutine[None, None, ResourceType]:
-        """ Resolve a resource from a resource location. """
+        """Resolve a resource from a resource location."""

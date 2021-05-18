@@ -8,7 +8,7 @@ __all__ = ("PhysicalNamespace",)
 
 @dataclass(frozen=True)
 class PhysicalNamespace(Namespace):
-    """ An absolute namespace, tied to a physical path. """
+    """An absolute namespace, tied to a physical path."""
 
     path: Path
 

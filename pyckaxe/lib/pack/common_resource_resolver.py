@@ -48,7 +48,7 @@ class CommonResourceResolver(Generic[ResourceType]):
     async def _reload_resource(
         self, location: PhysicalResourceLocation
     ) -> ResourceType:
-        """ Load a resource regardless of the state of the cache. """
+        """Load a resource regardless of the state of the cache."""
         # Load the resource.
         resource = await self.loader(location)
         # Add the newly-loaded resource to the cache.
@@ -57,7 +57,7 @@ class CommonResourceResolver(Generic[ResourceType]):
         return resource
 
     async def resolve(self, location: ResourceLocation) -> ResourceType:
-        """ Resolve `location` into a resource. """
+        """Resolve `location` into a resource."""
         # Resolve the (possibly relative) resource location into an absolute one.
         physical_location = self.location_resolver(location)
         # If this resource is already cached, return it.

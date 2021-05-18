@@ -30,7 +30,7 @@ def load_yaml(
     path: Path,
     options: Dict[str, Any] = {},
 ) -> JsonValue:
-    """ Load a YAML file synchronously. """
+    """Load a YAML file synchronously."""
     if not _is_yaml_installed:
         raise YamlNotInstalledError(path)
     with path.open("r") as fp:
@@ -42,7 +42,7 @@ def dump_yaml(
     path: Path,
     options: Dict[str, Any] = {},
 ):
-    """ Dump a YAML file synchronously. """
+    """Dump a YAML file synchronously."""
     if not _is_yaml_installed:
         raise YamlNotInstalledError(path)
     with path.open("w") as fp:
@@ -53,7 +53,7 @@ async def load_yaml_async(
     path: Path,
     options: Dict[str, Any] = {},
 ) -> JsonValue:
-    """ Load a YAML file asynchronously. """
+    """Load a YAML file asynchronously."""
     loop = asyncio.get_running_loop()
     data = await loop.run_in_executor(None, load_yaml, path, options)
     return data
@@ -64,6 +64,6 @@ async def dump_yaml_async(
     path: Path,
     options: Dict[str, Any] = {},
 ):
-    """ Dump a YAML file asynchronously. """
+    """Dump a YAML file asynchronously."""
     loop = asyncio.get_running_loop()
     await loop.run_in_executor(None, dump_yaml, data, path, options)

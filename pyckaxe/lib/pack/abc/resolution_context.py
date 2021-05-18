@@ -10,7 +10,7 @@ ResourceType = TypeVar("ResourceType", bound=Resource)
 
 
 class ResolutionContext(Protocol):
-    """ Minimal interface supporting resource resolution. """
+    """Minimal interface supporting resource resolution."""
 
     def __getitem__(
         self, key: Union[ClassifiedResourceLocation[ResourceType], ResourceType]

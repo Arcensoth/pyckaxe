@@ -8,4 +8,4 @@ __all__ = ("ResourceLocationResolver",)
 
 class ResourceLocationResolver(Protocol):
     def __call__(self, location: ResourceLocation) -> PhysicalResourceLocation:
-        """ Resolve an absolute resource location from a relative one. """
+        """Resolve an absolute resource location from a relative one."""

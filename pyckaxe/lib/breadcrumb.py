@@ -4,7 +4,7 @@ from typing import Iterator, Tuple, Union
 
 
 class Breadcrumb:
-    """ Represents a simple pathway through nested data. """
+    """Represents a simple pathway through nested data."""
 
     def __init__(self, *parts: Union[str, int]):
         self._parts: Tuple[Union[str, int], ...] = tuple(parts)

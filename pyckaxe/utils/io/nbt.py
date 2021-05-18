@@ -18,7 +18,7 @@ def load_nbt(
     path: Path,
     options: Dict[str, Any] = {},
 ) -> NbtCompound:
-    """ Load a NBT file synchronously. """
+    """Load a NBT file synchronously."""
     return nbtlib.load(str(path), **options)
 
 
@@ -27,7 +27,7 @@ def dump_nbt(
     path: Path,
     options: Dict[str, Any] = {},
 ):
-    """ Dump a NBT file synchronously. """
+    """Dump a NBT file synchronously."""
     nbtfile = nbtlib.File({"": root})
     nbtfile.save(str(path), **options)
 
@@ -36,7 +36,7 @@ async def load_nbt_async(
     path: Path,
     options: Dict[str, Any] = {},
 ) -> NbtCompound:
-    """ Load a NBT file asynchronously. """
+    """Load a NBT file asynchronously."""
     loop = asyncio.get_running_loop()
     root = await loop.run_in_executor(None, load_nbt, path, options)
     return root
@@ -47,6 +47,6 @@ async def dump_nbt_async(
     path: Path,
     options: Dict[str, Any] = {},
 ):
-    """ Dump a NBT file asynchronously. """
+    """Dump a NBT file asynchronously."""
     loop = asyncio.get_running_loop()
     await loop.run_in_executor(None, dump_nbt, root, path, options)

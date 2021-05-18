@@ -11,4 +11,4 @@ RawType = TypeVar("RawType", contravariant=True)
 
 class ResourceDeserializer(Protocol[ResourceType, RawType]):
     def __call__(self, raw: RawType) -> ResourceType:
-        """ Return a `Resource` created from the given `raw` data. """
+        """Return a `Resource` created from the given `raw` data."""

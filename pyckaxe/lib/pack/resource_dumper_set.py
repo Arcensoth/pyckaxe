@@ -63,7 +63,7 @@ class ResourceDumperSet:
         return self.dump(resource, location)
 
     async def dump(self, resource: Resource, location: PhysicalResourceLocation):
-        """ Dump `resource` to `location`. """
+        """Dump `resource` to `location`."""
         resource_type = type(resource)
         try:
             dumper = self[resource_type]

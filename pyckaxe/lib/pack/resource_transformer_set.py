@@ -72,7 +72,7 @@ class ResourceTransformerSet:
         self,
         ctx: ResourceProcessingContext[ResourceType],
     ) -> AsyncIterable[Tuple[Resource, ResourceLocation]]:
-        """ Turn the input resource into any number of output resources. """
+        """Turn the input resource into any number of output resources."""
         resource_type = type(ctx.resource)
         try:
             transformer = self[resource_type]

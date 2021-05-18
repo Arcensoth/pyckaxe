@@ -11,7 +11,7 @@ SelfType = TypeVar("SelfType", bound="RegistryLocation")
 
 @dataclass(frozen=True)
 class RegistryLocation:
-    """ A relative registry location, independent of any physical location. """
+    """A relative registry location, independent of any physical location."""
 
     namespace: Namespace
     parts: Tuple[str, ...]
