@@ -1,0 +1,3 @@
+from nbtlib.tag import Compound
+
+class Root(Compound): ...
