@@ -1,15 +1,21 @@
 from dataclasses import dataclass, field
-from typing import Dict, MutableMapping, Union, cast
+from typing import Any, Dict, MutableMapping, Union, cast
 
 from pyckaxe.lib.nbt import NbtCompound, NbtString
 from pyckaxe.lib.types import JsonValue
 
 __all__ = (
-    "BlockState",
     "BlockStateValue",
+    "InvalidBlockStateValue",
+    "BlockState",
 )
 
 BlockStateValue = Union[bool, int, str]
+
+
+class InvalidBlockStateValue(Exception):
+    def __init__(self, value: Any):
+        super().__init__(f"Invalid block state value: {value}")
 
 
 @dataclass
@@ -17,7 +23,9 @@ class BlockState(MutableMapping[str, BlockStateValue]):
     _map: Dict[str, BlockStateValue] = field(init=False)
 
     def __init__(self, **state: BlockStateValue):
-        self._map = state.copy()
+        self._map = {}
+        for k, v in state.items():
+            self[k] = v
 
     def __str__(self) -> str:
         innards = ",".join(f"{k}={v}" for k, v in self._map.items())
@@ -25,6 +33,8 @@ class BlockState(MutableMapping[str, BlockStateValue]):
 
     # @implements MutableMapping
     def __setitem__(self, key: str, value: BlockStateValue):
+        if not isinstance(value, (bool, int, str)):
+            raise InvalidBlockStateValue(value)
         self._map.__setitem__(key, value)
 
     # @implements MutableMapping
