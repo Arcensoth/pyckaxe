@@ -1,7 +1,8 @@
 ![logo]
 
 # pyckaxe
-An expressive Minecraft utility library revolving around data manipulation and generation.
+
+> An expressive Minecraft utility library revolving around data manipulation and generation.
 
 [![build-badge-main]](https://travis-ci.org/Arcensoth/pyckaxe)
 [![coverage-badge-main]](https://codecov.io/gh/Arcensoth/pyckaxe)
