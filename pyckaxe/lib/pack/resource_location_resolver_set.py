@@ -23,7 +23,7 @@ class ResourceLocationResolverError(Exception):
 
 class FailedToResolveResourceLocationError(ResourceLocationResolverError):
     def __init__(self, location: ResourceLocation):
-        super().__init__(f"Failed to resolve resource at: {location}")
+        super().__init__(f"Failed to resolve resource location at: {location}")
 
 
 class NoLocationResolverAvailableError(ResourceLocationResolverError):
