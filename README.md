@@ -26,7 +26,7 @@ The goal of `pyckaxe` is to provide a flexible suite of development tools for te
 - Auto-completion, argument suggestion, and type validation for all representations.
 - Utilities for building datapacks and resources via custom-written generators.
 
-[logo]: https://i.imgur.com/FkxD7fJ.png
+[logo]: ./logo.png
 [build-badge-main]: https://img.shields.io/travis/Arcensoth/pyckaxe/main.svg?label=build
 [coverage-badge-main]: https://img.shields.io/codecov/c/github/Arcensoth/pyckaxe/main.svg?label=coverage
 [package-badge]: https://img.shields.io/pypi/v/pyckaxe.svg
