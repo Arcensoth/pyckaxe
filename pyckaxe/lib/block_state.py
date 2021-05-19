@@ -9,7 +9,7 @@ __all__ = (
     "BlockStateValue",
 )
 
-BlockStateValue = Union[bool, int, float, str]
+BlockStateValue = Union[bool, int, str]
 
 
 @dataclass
@@ -43,17 +43,20 @@ class BlockState(MutableMapping[str, BlockStateValue]):
     def __iter__(self):
         return self._map.__iter__()
 
+    def _stringify_value(self, value: BlockStateValue) -> str:
+        if isinstance(value, bool):
+            return "true" if value else "false"
+        return str(value)
+
     # @implements JsonSerializable
     def to_json(self) -> JsonValue:
         return cast(JsonValue, self._map)
 
     # @implements NbtSerializable
     def to_nbt(self) -> NbtCompound:
-        # NOTE All block state property values are encoded as strings in NBT.
         nbt_compound = NbtCompound()
         for key, value in self.items():
-            if isinstance(value, bool):
-                value = "true" if value else "false"
-            assert isinstance(value, (int, float, str))
-            nbt_compound[key] = NbtString(str(value))
+            # NOTE All block state property values are encoded as strings in NBT.
+            stringified_value = self._stringify_value(value)
+            nbt_compound[key] = NbtString(stringified_value)
         return nbt_compound
