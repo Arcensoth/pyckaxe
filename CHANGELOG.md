@@ -17,4 +17,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Initial alpha release, ported from [`pymcutil`](https://github.com/Arcensoth/pymcutil)
 
 [unreleased]: https://github.com/Arcensoth/pyckaxe/compare/v0.1.0...HEAD
+[0.2.0]: https://github.com/Arcensoth/pyckaxe/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/Arcensoth/pyckaxe/releases/tag/v0.1.0
