@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import AsyncIterable, Generic, Type, TypeVar
+from typing import AsyncIterable, Generic, Optional, Type, TypeVar
 
 from pyckaxe.lib.pack.abc.resource import Resource
 from pyckaxe.lib.pack.physical_namespace import PhysicalNamespace
@@ -33,7 +33,7 @@ class CommonResourceScanner(Generic[ResourceType]):
 
     # @implements ResourceScanner
     def __call__(
-        self, match: str = "*"
+        self, match: Optional[str] = None
     ) -> AsyncIterable[ClassifiedResourceLocation[ResourceType]]:
         return self.scan(match)
 
@@ -46,12 +46,11 @@ class CommonResourceScanner(Generic[ResourceType]):
         return self.registry_location.path
 
     async def scan(
-        self,
-        match: str = r"*",
+        self, match: Optional[str] = None
     ) -> AsyncIterable[ClassifiedResourceLocation[ResourceType]]:
         """Yield all matching locations in the registry."""
         # TODO Should glob be async (in batches)? #async-file-io
-        for path in self.path.rglob(match):
+        for path in self.path.rglob(match or "*"):
             if path.is_file():
                 rel_path = path.relative_to(self.path)
                 parts_without_ext = (*(rel_path.parts[:-1]), rel_path.stem)
