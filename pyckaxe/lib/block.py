@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict, Iterable, Optional, Union
+from typing import Dict, Iterable, List, Optional, Union
 
 from pyckaxe.lib.block_state import BlockState
 from pyckaxe.lib.nbt import NbtCompound
 from pyckaxe.lib.types import JsonValue
+from pyckaxe.utils.utils import is_submapping
 
 __all__ = (
     "BlockConvertible",
@@ -48,6 +49,28 @@ class Block:
             yield str(self.state)
         if self.data is not None:
             yield str(self.data.snbt())
+
+    def matches(self, other: Block) -> bool:
+        """Check whether this `Block` is a subset of another."""
+        if self.name != other.name:
+            return False
+        if other.state is not None:
+            if self.state is not None:
+                return self.state.matches(other.state)
+            return False
+        if other.data is not None:
+            if self.data is not None:
+                return is_submapping(self.data, other.data)
+            return False
+        return True
+
+    def matches_any_of(self, others: List[Block]) -> bool:
+        """Check whether this `Block` is a subset of any others."""
+        return any(self.matches(other) for other in others)
+
+    def matches_all_of(self, others: List[Block]) -> bool:
+        """Check whether this `Block` is a subset of all others."""
+        return all(self.matches(other) for other in others)
 
     # @implements JsonSerializable
     def to_json(self) -> JsonValue:

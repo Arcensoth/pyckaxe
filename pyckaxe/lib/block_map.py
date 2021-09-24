@@ -84,7 +84,7 @@ class BlockMap:
 
     def remove_blocks(self, blocks: List[Block]):
         for position, block in self:
-            if block in blocks:
+            if block.matches_any_of(blocks):
                 del self[position]
                 continue
 
@@ -92,7 +92,7 @@ class BlockMap:
         positions_to_remove: List[Position] = []
         # Collect positions to remove first because we can't mutate during iteration.
         for position, block in self:
-            if block in blocks:
+            if block.matches_any_of(blocks):
                 continue
             positions_to_remove.append(position)
         for position in positions_to_remove:
@@ -100,7 +100,7 @@ class BlockMap:
 
     def replace_blocks(self, blocks: List[Block], replacement: Block):
         for position, block in self:
-            if block in blocks:
+            if block.matches_any_of(blocks):
                 self[position] = replacement
                 continue
 

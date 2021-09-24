@@ -1,8 +1,11 @@
+from __future__ import annotations
+
 from dataclasses import dataclass, field
 from typing import Any, Dict, MutableMapping, Union, cast
 
 from pyckaxe.lib.nbt import NbtCompound, NbtString
 from pyckaxe.lib.types import JsonValue
+from pyckaxe.utils.utils import is_submapping
 
 __all__ = (
     "BlockStateValue",
@@ -57,6 +60,10 @@ class BlockState(MutableMapping[str, BlockStateValue]):
         if isinstance(value, bool):
             return "true" if value else "false"
         return str(value)
+
+    def matches(self, other: BlockState) -> bool:
+        """Check whether this `BlockState` is a subset of another."""
+        return is_submapping(self, other)
 
     # @implements JsonSerializable
     def to_json(self) -> JsonValue:
