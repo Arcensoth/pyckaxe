@@ -29,6 +29,11 @@ class LRUCache(MutableMapping[KT, VT]):
         self.size: int = size
         self._cache: Dict[KT, VT] = {}
 
+    def __str__(self) -> str:
+        return (
+            f"<{self.__class__.__name__} with {len(self._cache)} of {self.size} items>"
+        )
+
     # @implements MutableMapping
     def __setitem__(self, key: KT, value: VT):
         # If we've hit max size, remove the first (and least-recently used) item.

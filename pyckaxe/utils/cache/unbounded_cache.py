@@ -21,6 +21,9 @@ class UnboundedCache(MutableMapping[KT, VT]):
     def __init__(self):
         self._cache: Dict[KT, VT] = {}
 
+    def __str__(self) -> str:
+        return f"<{self.__class__.__name__} with {len(self._cache)} items>"
+
     # @implements MutableMapping
     def __setitem__(self, key: KT, value: VT):
         self._cache[key] = value

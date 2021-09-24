@@ -26,6 +26,9 @@ class StaticCache(MutableMapping[KT, VT]):
     def __init__(self, cache: Optional[Mapping[KT, VT]] = None):
         self._cache: Dict[KT, VT] = {k: v for k, v in cache.items()} if cache else {}
 
+    def __str__(self) -> str:
+        return f"<{self.__class__.__name__} with {len(self._cache)} items>"
+
     # @implements MutableMapping
     def __setitem__(self, key: KT, value: VT):
         pass
