@@ -4,8 +4,6 @@
 
 > An expressive Minecraft utility library revolving around data manipulation and generation.
 
-[![build-badge-main]](https://travis-ci.org/Arcensoth/pyckaxe)
-[![coverage-badge-main]](https://codecov.io/gh/Arcensoth/pyckaxe)
 [![package-badge]](https://pypi.python.org/pypi/pyckaxe/)
 [![version-badge]](https://pypi.python.org/pypi/pyckaxe/)
 [![style-badge]](https://github.com/ambv/black)
@@ -26,8 +24,6 @@ The goal of Pyckaxe is to provide a flexible suite of development tools for tech
 - Utilities for building datapacks and resources via custom-written generators.
 
 [logo]: ./logo.png
-[build-badge-main]: https://img.shields.io/travis/Arcensoth/pyckaxe/main.svg?label=build
-[coverage-badge-main]: https://img.shields.io/codecov/c/github/Arcensoth/pyckaxe/main.svg?label=coverage
 [package-badge]: https://img.shields.io/pypi/v/pyckaxe.svg
 [version-badge]: https://img.shields.io/pypi/pyversions/pyckaxe.svg
 [style-badge]: https://img.shields.io/badge/code%20style-black-000000.svg
