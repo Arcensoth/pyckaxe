@@ -1,3 +1,4 @@
+from collections.abc import MutableMapping
 from dataclasses import dataclass, field
 from typing import Dict, Iterator, Type
 
@@ -34,30 +35,38 @@ class NoLocationResolverAvailableError(ResourceLocationResolverError):
 
 
 @dataclass
-class ResourceLocationResolverSet:
+class ResourceLocationResolverSet(
+    MutableMapping[Type[Resource], ResourceLocationResolver]
+):
     """Resolves different types of absolute resource locations from relative ones."""
 
     _location_resolvers: Dict[Type[Resource], ResourceLocationResolver] = field(
         default_factory=dict
     )
 
+    # @implements MutableMapping
     def __setitem__(self, key: Type[Resource], value: ResourceLocationResolver):
-        self._location_resolvers.__setitem__(key, value)
+        self._location_resolvers[key] = value
 
+    # @implements MutableMapping
     def __getitem__(self, key: Type[Resource]) -> ResourceLocationResolver:
         for cls in key.mro():
-            if resolver := self._location_resolvers.get(cls):
-                return resolver
+            if issubclass(cls, Resource):
+                if (resolver := self._location_resolvers.get(cls)) is not None:
+                    return resolver
         raise NoLocationResolverAvailableError(key)
 
+    # @implements MutableMapping
     def __delitem__(self, key: Type[Resource]):
-        self._location_resolvers.__delitem__(key)
+        del self._location_resolvers[key]
 
+    # @implements MutableMapping
     def __len__(self):
-        return self._location_resolvers.__len__()
+        return len(self._location_resolvers)
 
-    def __iter__(self) -> Iterator[ResourceLocationResolver]:
-        return self._location_resolvers.values().__iter__()
+    # @implements MutableMapping
+    def __iter__(self) -> Iterator[Type[Resource]]:
+        return iter(self._location_resolvers)
 
     def __call__(
         self, location: ClassifiedResourceLocation[Resource]

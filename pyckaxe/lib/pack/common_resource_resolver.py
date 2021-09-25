@@ -2,9 +2,9 @@ from dataclasses import dataclass
 from typing import Coroutine, Generic, TypeVar
 
 from pyckaxe.lib.pack.abc.resource import Resource
+from pyckaxe.lib.pack.abc.resource_cache import ResourceCache
 from pyckaxe.lib.pack.abc.resource_location_resolver import ResourceLocationResolver
 from pyckaxe.lib.pack.physical_resource_location import PhysicalResourceLocation
-from pyckaxe.lib.pack.resource_cache import ResourceCache
 from pyckaxe.lib.pack.resource_loader.abc.resource_loader import ResourceLoader
 from pyckaxe.lib.pack.resource_location import ResourceLocation
 

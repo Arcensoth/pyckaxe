@@ -13,23 +13,23 @@ __all__ = (
 )
 
 
-ResourceType = TypeVar("ResourceType", bound=Resource)
+RT = TypeVar("RT", bound=Resource)
 
 
-class ResourceCache(Cache[ResourceLocation, ResourceType], Protocol[ResourceType]):
+class ResourceCache(Cache[ResourceLocation, RT], Protocol[RT]):
     """An in-memory cache of resources to reduce the number of loads."""
 
 
 # @implements ResourceCache
-class UnboundedResourceCache(UnboundedCache[ResourceLocation, ResourceType]):
+class UnboundedResourceCache(UnboundedCache[ResourceLocation, RT]):
     pass
 
 
 # @implements ResourceCache
-class StaticResourceCache(StaticCache[ResourceLocation, ResourceType]):
+class StaticResourceCache(StaticCache[ResourceLocation, RT]):
     pass
 
 
 # @implements ResourceCache
-class LRUResourceCache(LRUCache[ResourceLocation, ResourceType]):
+class LRUResourceCache(LRUCache[ResourceLocation, RT]):
     pass

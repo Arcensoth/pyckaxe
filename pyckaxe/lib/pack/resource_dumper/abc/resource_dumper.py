@@ -6,11 +6,11 @@ from pyckaxe.lib.pack.physical_resource_location import PhysicalResourceLocation
 __all__ = ("ResourceDumper",)
 
 
-ResourceType = TypeVar("ResourceType", bound=Resource, contravariant=True)
+RT = TypeVar("RT", bound=Resource, contravariant=True)
 
 
-class ResourceDumper(Protocol[ResourceType]):
+class ResourceDumper(Protocol[RT]):
     def __call__(
-        self, resource: ResourceType, location: PhysicalResourceLocation
+        self, resource: RT, location: PhysicalResourceLocation
     ) -> Coroutine[None, None, None]:
         """Dump `resource` to `location`."""

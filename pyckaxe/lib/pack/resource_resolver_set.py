@@ -1,5 +1,6 @@
+from collections.abc import MutableMapping
 from dataclasses import dataclass, field
-from typing import Coroutine, Dict, Iterator, Type, TypeVar, cast
+from typing import Coroutine, Dict, Iterator, Type, TypeVar
 
 from pyckaxe.lib.pack.abc.resource import Resource
 from pyckaxe.lib.pack.abc.resource_resolver import ResourceResolver
@@ -15,9 +16,6 @@ __all__ = (
     "WrongResourceResolvedError",
     "ResourceResolverSet",
 )
-
-
-ResourceType = TypeVar("ResourceType", bound=Resource)
 
 
 class ResourceResolverError(Exception):
@@ -48,8 +46,12 @@ class WrongResourceResolvedError(ResourceResolverError):
         )
 
 
+RT = TypeVar("RT", bound=Resource)
+RT_co = TypeVar("RT_co", bound=Resource, covariant=True)
+
+
 @dataclass
-class ResourceResolverSet:
+class ResourceResolverSet(MutableMapping[Type[Resource], ResourceResolver[RT_co]]):
     """
     Delegates a `ResourceResolver` based on the type of `ClassifiedResourceLocation`.
 
@@ -58,38 +60,40 @@ class ResourceResolverSet:
     configured set of `ResourceResolver`s.
     """
 
-    _resolvers: Dict[Type[Resource], ResourceResolver[Resource]] = field(
+    _resolvers: Dict[Type[Resource], ResourceResolver[RT_co]] = field(
         default_factory=dict
     )
 
-    def __setitem__(
-        self, key: Type[ResourceType], value: ResourceResolver[ResourceType]
-    ):
-        self._resolvers.__setitem__(key, value)
+    # @implements MutableMapping
+    def __setitem__(self, key: Type[RT], value: ResourceResolver[RT_co]):
+        self._resolvers[key] = value
 
-    def __getitem__(self, key: Type[ResourceType]) -> ResourceResolver[ResourceType]:
+    # @implements MutableMapping
+    def __getitem__(self, key: Type[RT]) -> ResourceResolver[RT_co]:
         for cls in key.mro():
-            if resolver := self._resolvers.get(cls):
-                return cast(ResourceResolver[ResourceType], resolver)
+            if issubclass(cls, Resource):
+                if (resolver := self._resolvers.get(cls)) is not None:
+                    return resolver
         raise NoResolverAvailableError(key)
 
-    def __delitem__(self, key: Type[ResourceType]):
-        self._resolvers.__delitem__(key)
+    # @implements MutableMapping
+    def __delitem__(self, key: Type[RT]):
+        del self._resolvers[key]
 
+    # @implements MutableMapping
     def __len__(self):
-        return self._resolvers.__len__()
+        return len(self._resolvers)
 
-    def __iter__(self) -> Iterator[ResourceResolver[Resource]]:
-        return self._resolvers.values().__iter__()
+    # @implements MutableMapping
+    def __iter__(self) -> Iterator[Type[Resource]]:
+        return iter(self._resolvers)
 
     def __call__(
-        self, location: ClassifiedResourceLocation[ResourceType]
-    ) -> Coroutine[None, None, ResourceType]:
+        self, location: ClassifiedResourceLocation[RT_co]
+    ) -> Coroutine[None, None, Resource]:
         return self.resolve(location)
 
-    async def resolve(
-        self, location: ClassifiedResourceLocation[ResourceType]
-    ) -> ResourceType:
+    async def resolve(self, location: ClassifiedResourceLocation[RT_co]) -> RT_co:
         """Resolve a `Resource` from a `ClassifiedResourceLocation`."""
         resource_type = location.resource_class
         try:

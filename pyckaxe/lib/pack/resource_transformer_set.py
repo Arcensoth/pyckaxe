@@ -1,5 +1,6 @@
+from collections.abc import MutableMapping
 from dataclasses import dataclass, field
-from typing import AsyncIterable, Dict, Iterator, Tuple, Type, TypeVar, cast
+from typing import AsyncIterable, Dict, Iterator, Tuple, Type, TypeVar
 
 from pyckaxe.lib.pack.abc.resource import Resource
 from pyckaxe.lib.pack.abc.resource_transformer import ResourceTransformer
@@ -12,9 +13,6 @@ __all__ = (
     "NoTransformerAvailableError",
     "ResourceTransformerSet",
 )
-
-
-ResourceType = TypeVar("ResourceType", bound=Resource)
 
 
 class ResourceTransformerError(Exception):
@@ -33,44 +31,54 @@ class NoTransformerAvailableError(ResourceTransformerError):
         )
 
 
+RT = TypeVar("RT", bound=Resource)
+RT_co = TypeVar("RT_co", bound=Resource, covariant=True)
+
+
 @dataclass
-class ResourceTransformerSet:
+class ResourceTransformerSet(
+    MutableMapping[Type[Resource], ResourceTransformer[RT_co]]
+):
     """
     Delegates a `ResourceTransformer` based on the type of `Resource`.
     """
 
-    _transformers: Dict[Type[Resource], ResourceTransformer[Resource]] = field(
+    _transformers: Dict[Type[Resource], ResourceTransformer[RT_co]] = field(
         default_factory=dict
     )
 
-    def __setitem__(
-        self, key: Type[ResourceType], value: ResourceTransformer[ResourceType]
-    ):
-        self._transformers[key] = cast(ResourceTransformer[Resource], value)
+    # @implements MutableMapping
+    def __setitem__(self, key: Type[RT], value: ResourceTransformer[RT_co]):
+        self._transformers[key] = value
 
-    def __getitem__(self, key: Type[ResourceType]) -> ResourceTransformer[ResourceType]:
+    # @implements MutableMapping
+    def __getitem__(self, key: Type[RT]) -> ResourceTransformer[RT_co]:
         for cls in key.mro():
-            if transformer := self._transformers.get(cls):
-                return transformer
+            if issubclass(cls, Resource):
+                if (transformer := self._transformers.get(cls)) is not None:
+                    return transformer
         raise NoTransformerAvailableError(key)
 
-    def __delitem__(self, key: Type[ResourceType]):
-        self._transformers.__delitem__(key)
+    # @implements MutableMapping
+    def __delitem__(self, key: Type[RT]):
+        del self._transformers[key]
 
+    # @implements MutableMapping
     def __len__(self):
-        return self._transformers.__len__()
+        return len(self._transformers)
 
-    def __iter__(self) -> Iterator[ResourceTransformer[Resource]]:
-        return self._transformers.values().__iter__()
+    # @implements MutableMapping
+    def __iter__(self) -> Iterator[Type[Resource]]:
+        return iter(self._transformers)
 
     def __call__(
-        self, ctx: ResourceProcessingContext[ResourceType]
+        self, ctx: ResourceProcessingContext[RT_co]
     ) -> AsyncIterable[Tuple[Resource, ResourceLocation]]:
         return self.transform(ctx)
 
     async def transform(
         self,
-        ctx: ResourceProcessingContext[ResourceType],
+        ctx: ResourceProcessingContext[RT_co],
     ) -> AsyncIterable[Tuple[Resource, ResourceLocation]]:
         """Turn the input resource into any number of output resources."""
         resource_type = type(ctx.resource)

@@ -7,11 +7,11 @@ from pyckaxe.lib.pack.resource_processing_context import ResourceProcessingConte
 __all__ = ("ResourceTransformer",)
 
 
-ResourceType = TypeVar("ResourceType", bound=Resource, contravariant=True)
+RT = TypeVar("RT", bound=Resource)
 
 
-class ResourceTransformer(Protocol[ResourceType]):
+class ResourceTransformer(Protocol[RT]):
     def __call__(
-        self, ctx: ResourceProcessingContext[ResourceType]
+        self, ctx: ResourceProcessingContext[RT]
     ) -> AsyncIterable[Tuple[Resource, ResourceLocation]]:
         """Turn the input resource into any number of output resources."""
