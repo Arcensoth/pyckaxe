@@ -13,6 +13,7 @@ from .registry_location import *
 from .resource_cache_set import *
 from .resource_dumper import *
 from .resource_dumper_set import *
+from .resource_link import *
 from .resource_loader import *
 from .resource_location import *
 from .resource_location_resolver_set import *

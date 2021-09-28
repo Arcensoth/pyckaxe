@@ -13,8 +13,8 @@ __all__ = (
 )
 
 
-SelfType = TypeVar("SelfType", bound="ResourceLocation")
-ResourceType = TypeVar("ResourceType", bound=Resource)
+ST = TypeVar("ST", bound="ResourceLocation")
+RT = TypeVar("RT", bound=Resource)
 
 
 class InvalidResourceLocation(Exception):
@@ -30,7 +30,7 @@ class ResourceLocation:
     parts: Tuple[str, ...]
 
     @classmethod
-    def from_string(cls: Type[SelfType], name: str) -> SelfType:
+    def from_string(cls: Type[ST], name: str) -> ST:
         try:
             namespace_str, _, parts_str = name.partition(":")
             namespace = Namespace(namespace_str)
@@ -51,12 +51,10 @@ class ResourceLocation:
     def __repr__(self) -> str:
         return str(self)
 
-    def __truediv__(self: SelfType, other: str) -> SelfType:
+    def __truediv__(self: ST, other: str) -> ST:
         return self.extend(other)
 
-    def __rmatmul__(
-        self, other: Type[ResourceType]
-    ) -> ClassifiedResourceLocation[ResourceType]:
+    def __rmatmul__(self, other: Type[RT]) -> ClassifiedResourceLocation[RT]:
         return self.classify(other)
 
     @property
@@ -67,19 +65,17 @@ class ResourceLocation:
     def name(self) -> str:
         return f"{self.namespace}:{self.trail}"
 
-    def extend(self: SelfType, *parts: str) -> SelfType:
+    def extend(self: ST, *parts: str) -> ST:
         return replace(self, parts=(*self.parts, *parts))
 
-    def classify(
-        self, resource_class: Type[ResourceType]
-    ) -> ClassifiedResourceLocation[ResourceType]:
+    def classify(self, resource_class: Type[RT]) -> ClassifiedResourceLocation[RT]:
         return ClassifiedResourceLocation(self.namespace, self.parts, resource_class)
 
 
 @dataclass(frozen=True)
-class ClassifiedResourceLocation(ResourceLocation, Generic[ResourceType]):
+class ClassifiedResourceLocation(ResourceLocation, Generic[RT]):
     """
     A resource location that is aware of the type of underlying resource.
     """
 
-    resource_class: Type[ResourceType]
+    resource_class: Type[RT]

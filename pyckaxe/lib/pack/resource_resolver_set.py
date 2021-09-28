@@ -51,7 +51,7 @@ RT_co = TypeVar("RT_co", bound=Resource, covariant=True)
 
 
 @dataclass
-class ResourceResolverSet(MutableMapping[Type[Resource], ResourceResolver[RT_co]]):
+class ResourceResolverSet(MutableMapping[Type[Resource], ResourceResolver[Resource]]):
     """
     Delegates a `ResourceResolver` based on the type of `ClassifiedResourceLocation`.
 
@@ -60,16 +60,16 @@ class ResourceResolverSet(MutableMapping[Type[Resource], ResourceResolver[RT_co]
     configured set of `ResourceResolver`s.
     """
 
-    _resolvers: Dict[Type[Resource], ResourceResolver[RT_co]] = field(
+    _resolvers: Dict[Type[Resource], ResourceResolver[Resource]] = field(
         default_factory=dict
     )
 
     # @implements MutableMapping
-    def __setitem__(self, key: Type[RT], value: ResourceResolver[RT_co]):
+    def __setitem__(self, key: Type[RT], value: ResourceResolver[RT]):
         self._resolvers[key] = value
 
     # @implements MutableMapping
-    def __getitem__(self, key: Type[RT]) -> ResourceResolver[RT_co]:
+    def __getitem__(self, key: Type[RT]) -> ResourceResolver[Resource]:
         for cls in key.mro():
             if issubclass(cls, Resource):
                 if (resolver := self._resolvers.get(cls)) is not None:
@@ -89,11 +89,11 @@ class ResourceResolverSet(MutableMapping[Type[Resource], ResourceResolver[RT_co]
         return iter(self._resolvers)
 
     def __call__(
-        self, location: ClassifiedResourceLocation[RT_co]
-    ) -> Coroutine[None, None, Resource]:
+        self, location: ClassifiedResourceLocation[RT]
+    ) -> Coroutine[None, None, RT]:
         return self.resolve(location)
 
-    async def resolve(self, location: ClassifiedResourceLocation[RT_co]) -> RT_co:
+    async def resolve(self, location: ClassifiedResourceLocation[RT]) -> RT:
         """Resolve a `Resource` from a `ClassifiedResourceLocation`."""
         resource_type = location.resource_class
         try:

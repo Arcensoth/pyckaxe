@@ -1,4 +1,4 @@
-from typing import Protocol, TypeVar
+from typing import Any, Protocol, TypeVar
 
 from pyckaxe.lib.pack.abc.resource import Resource
 
@@ -10,5 +10,5 @@ RawType = TypeVar("RawType", contravariant=True)
 
 
 class ResourceDeserializer(Protocol[ResourceType, RawType]):
-    def __call__(self, raw: RawType) -> ResourceType:
+    def __call__(self, raw: RawType, **kwargs: Any) -> ResourceType:
         """Return a `Resource` created from the given `raw` data."""

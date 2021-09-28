@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Coroutine, Generic, TypeVar, Union
+from typing import Coroutine, Generic, TypeVar
 
 from pyckaxe.lib.pack.abc.resource import Resource
 from pyckaxe.lib.pack.resource_location import (
@@ -11,51 +11,37 @@ from pyckaxe.lib.pack.resource_resolver_set import ResourceResolverSet
 __all__ = ("ResourceProcessingContext",)
 
 
-ResourceType = TypeVar("ResourceType", bound=Resource)
-ResolveResourceType = TypeVar("ResolveResourceType", bound=Resource)
+PT = TypeVar("PT", bound=Resource)
+RT = TypeVar("RT", bound=Resource)
 
 
+# @implements ResolutionContext
 @dataclass(frozen=True)
-class ResourceProcessingContext(Generic[ResourceType]):
+class ResourceProcessingContext(Generic[PT]):
     """
     Contains information that can be used to process a resource in different ways.
 
     This class pairs a `Resource` with a `ResourceLocation` while carrying a reference
     to a `ResourceResolverSet`, which keeps it grounded to an absolute context and
-    allows it to resolve and load other types of resources.
+    allows it to resolve other resources.
 
     Attributes
     ----------
     resolver_set
-        Resolves and loads other types of resources by reference.
+        Resolves and loads other resources.
     resource
-        The input resource that is being transformed.
+        The resource being processed.
     location
         The location of the resource being processed.
     """
 
     resolver_set: ResourceResolverSet
-    resource: ResourceType
+    resource: PT
     location: ResourceLocation
 
-    def __getitem__(
-        self,
-        key: Union[
-            ClassifiedResourceLocation[ResolveResourceType],
-            ResolveResourceType,
-        ],
-    ) -> Coroutine[None, None, ResolveResourceType]:
-        if isinstance(key, ClassifiedResourceLocation):
-            return self.resolve_resource(key)
-        assert isinstance(key, Resource)
-        return self.return_resource(key)
-
-    async def return_resource(
-        self, resource: ResolveResourceType
-    ) -> ResolveResourceType:
-        return resource
-
-    async def resolve_resource(
-        self, location: ClassifiedResourceLocation[ResolveResourceType]
-    ) -> ResolveResourceType:
-        return await self.resolver_set(location)
+    # @implements ResolutionContext
+    def __call__(
+        self, location: ClassifiedResourceLocation[RT]
+    ) -> Coroutine[None, None, RT]:
+        """Resolve and return a `Resource` from `location`."""
+        return self.resolver_set(location)
