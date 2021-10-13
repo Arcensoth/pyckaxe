@@ -11,6 +11,7 @@ from .physical_registry_location import *
 from .physical_resource_location import *
 from .registry_location import *
 from .resource_cache_set import *
+from .resource_collection import *
 from .resource_dumper import *
 from .resource_dumper_set import *
 from .resource_link import *

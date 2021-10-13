@@ -15,11 +15,11 @@ RT = TypeVar("RT", bound=Resource)
 @dataclass(frozen=True)
 class ResourceLink(Generic[RT]):
     """
-    A resolvable link to a `Resource`.
+    A reference to a resource that can be resolved on-demand.
 
     This is an abstraction that internally contains either:
-    1. a `ClassifiedResourceLocation` that can be used to resolve a `Resource`; or
-    2. a direct in-memory representation of a `Resource`.
+    1. a resource location that can be used to resolve the resource; or
+    2. a direct, in-memory representation of the resource.
     """
 
     _value: Union[ClassifiedResourceLocation[RT], RT]
@@ -27,10 +27,12 @@ class ResourceLink(Generic[RT]):
     # @implements ResourceResolvable
     def __call__(self, ctx: ResolutionContext) -> Coroutine[None, None, RT]:
         """
-        If `value` is a `ClassifiedResourceLocation`, it first needs to be resolved.
+        Resolve the underlying resource.
 
-        If `value` is itself a `Resource`, it can be immediately returned. Note that this
-        variation exists to support inline resources using the same interface.
+        If the value is a `ClassifiedResourceLocation`, it first needs to be resolved.
+
+        If the value is itself a `Resource`, it can be immediately returned. Note that
+        this variation exists to support inline resources using the same interface.
         """
         if isinstance(self._value, ClassifiedResourceLocation):
             return ctx(self._value)
