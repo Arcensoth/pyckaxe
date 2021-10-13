@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Coroutine, Generic, TypeVar
+from typing import Any, Coroutine, Generic, TypeVar
 
 from pyckaxe.lib.pack.abc.resource import Resource
 from pyckaxe.lib.pack.resource_location import (
@@ -33,11 +33,15 @@ class ResourceProcessingContext(Generic[PT]):
         The resource being processed.
     location
         The location of the resource being processed.
+    meta
+        Optional, arbitrary metadata attached to the context.
     """
 
     resolver_set: ResourceResolverSet
     resource: PT
     location: ResourceLocation
+
+    meta: Any = None
 
     # @implements ResolutionContext
     def __call__(

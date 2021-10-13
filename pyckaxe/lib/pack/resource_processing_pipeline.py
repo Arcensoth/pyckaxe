@@ -61,6 +61,7 @@ class ResourceProcessingPipeline:
     resolvers: ResourceResolverSet
     transformers: ResourceTransformerSet
     match_files: Optional[str] = None
+    meta: Any = None
 
     log: Logger = field(init=False, default=DEFAULT)
 
@@ -140,6 +141,7 @@ class ResourceProcessingPipeline:
                     resolver_set=self.resolvers,
                     resource=input_resource,
                     location=input_location,
+                    meta=self.meta,
                 )
                 async for output_resource, output_location in self.transformers(ctx):
                     self.log.debug(f"  -> {output_location} (#{id(output_resource)})")
