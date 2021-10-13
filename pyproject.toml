@@ -10,7 +10,7 @@ homepage = "https://github.com/Arcensoth/pyckaxe"
 keywords = ["minecraft", "commands", "generators", "datapacks"]
 
 [tool.poetry.dependencies]
-python = "^3.10.0rc1"
+python = "^3.10"
 pydantic = "^1.8.2"
 click = "^7.1.2"
 colorama = "^0.4.3"
